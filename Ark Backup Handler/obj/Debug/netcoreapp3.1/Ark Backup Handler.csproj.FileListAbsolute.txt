@@ -1,0 +1,16 @@
+D:\GitHub\Ark Backup Handler\Ark Backup Handler\bin\Debug\netcoreapp3.1\Ark Backup Handler.exe
+D:\GitHub\Ark Backup Handler\Ark Backup Handler\bin\Debug\netcoreapp3.1\Ark Backup Handler.deps.json
+D:\GitHub\Ark Backup Handler\Ark Backup Handler\bin\Debug\netcoreapp3.1\Ark Backup Handler.runtimeconfig.json
+D:\GitHub\Ark Backup Handler\Ark Backup Handler\bin\Debug\netcoreapp3.1\Ark Backup Handler.runtimeconfig.dev.json
+D:\GitHub\Ark Backup Handler\Ark Backup Handler\bin\Debug\netcoreapp3.1\Ark Backup Handler.dll
+D:\GitHub\Ark Backup Handler\Ark Backup Handler\bin\Debug\netcoreapp3.1\Ark Backup Handler.pdb
+D:\GitHub\Ark Backup Handler\Ark Backup Handler\obj\Debug\netcoreapp3.1\Ark Backup Handler.csprojAssemblyReference.cache
+D:\GitHub\Ark Backup Handler\Ark Backup Handler\obj\Debug\netcoreapp3.1\Ark Backup Handler.csproj.GenerateResource.cache
+D:\GitHub\Ark Backup Handler\Ark Backup Handler\obj\Debug\netcoreapp3.1\Ark Backup Handler.AssemblyInfoInputs.cache
+D:\GitHub\Ark Backup Handler\Ark Backup Handler\obj\Debug\netcoreapp3.1\Ark Backup Handler.AssemblyInfo.cs
+D:\GitHub\Ark Backup Handler\Ark Backup Handler\obj\Debug\netcoreapp3.1\Ark Backup Handler.csproj.CoreCompileInputs.cache
+D:\GitHub\Ark Backup Handler\Ark Backup Handler\obj\Debug\netcoreapp3.1\Ark Backup Handler.dll
+D:\GitHub\Ark Backup Handler\Ark Backup Handler\obj\Debug\netcoreapp3.1\Ark Backup Handler.pdb
+D:\GitHub\Ark Backup Handler\Ark Backup Handler\obj\Debug\netcoreapp3.1\Ark Backup Handler.genruntimeconfig.cache
+D:\GitHub\Ark Backup Handler\Ark Backup Handler\obj\Debug\netcoreapp3.1\Ark_Backup_Handler.UIProcess.resources
+D:\GitHub\Ark Backup Handler\Ark Backup Handler\obj\Debug\netcoreapp3.1\Ark_Backup_Handler.Properties.Resources.resources
