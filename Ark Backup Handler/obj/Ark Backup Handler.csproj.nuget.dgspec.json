@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "D:\\GitHub\\Ark Backup Handler\\Ark Backup Handler\\Ark Backup Handler.csproj": {}
+    "C:\\Users\\Crabby90\\Documents\\GitHub\\Ark-Backup-Handler\\Ark Backup Handler\\Ark Backup Handler.csproj": {}
   },
   "projects": {
-    "D:\\GitHub\\Ark Backup Handler\\Ark Backup Handler\\Ark Backup Handler.csproj": {
+    "C:\\Users\\Crabby90\\Documents\\GitHub\\Ark-Backup-Handler\\Ark Backup Handler\\Ark Backup Handler.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\GitHub\\Ark Backup Handler\\Ark Backup Handler\\Ark Backup Handler.csproj",
+        "projectUniqueName": "C:\\Users\\Crabby90\\Documents\\GitHub\\Ark-Backup-Handler\\Ark Backup Handler\\Ark Backup Handler.csproj",
         "projectName": "Ark Backup Handler",
-        "projectPath": "D:\\GitHub\\Ark Backup Handler\\Ark Backup Handler\\Ark Backup Handler.csproj",
-        "packagesPath": "C:\\Users\\OwenS\\.nuget\\packages\\",
-        "outputPath": "D:\\GitHub\\Ark Backup Handler\\Ark Backup Handler\\obj\\",
+        "projectPath": "C:\\Users\\Crabby90\\Documents\\GitHub\\Ark-Backup-Handler\\Ark Backup Handler\\Ark Backup Handler.csproj",
+        "packagesPath": "C:\\Users\\Crabby90\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Crabby90\\Documents\\GitHub\\Ark-Backup-Handler\\Ark Backup Handler\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\OwenS\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Crabby90\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -26,6 +26,7 @@
         },
         "frameworks": {
           "netcoreapp3.1": {
+            "targetAlias": "netcoreapp3.1",
             "projectReferences": {}
           }
         },
@@ -37,6 +38,7 @@
       },
       "frameworks": {
         "netcoreapp3.1": {
+          "targetAlias": "netcoreapp3.1",
           "imports": [
             "net461",
             "net462",
@@ -55,7 +57,7 @@
               "privateAssets": "none"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.405\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.102\\RuntimeIdentifierGraph.json"
         }
       }
     }

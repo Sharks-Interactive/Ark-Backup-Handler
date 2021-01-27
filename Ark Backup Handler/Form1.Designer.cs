@@ -40,7 +40,7 @@
             this.backupSaveLocationLabel = new System.Windows.Forms.Label();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.saveLocationDialog = new System.Windows.Forms.FolderBrowserDialog();
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.mainTimerLoop = new System.Windows.Forms.Timer(this.components);
             this.arkSaveLocationLabel = new System.Windows.Forms.Label();
             this.arkSaveLocationFilePathDisplay = new System.Windows.Forms.TextBox();
             this.changeArkSaveLocationButton = new System.Windows.Forms.Button();
@@ -50,6 +50,8 @@
             this.saveIntervalLabel = new System.Windows.Forms.Label();
             this.numDisplay = new System.Windows.Forms.TextBox();
             this.manualBackupButton = new System.Windows.Forms.Button();
+            this.errorDisplay = new System.Windows.Forms.Label();
+            this.garbageCollectionTimer = new System.Windows.Forms.Timer(this.components);
             this.TabBackgroundPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.saveInterval)).BeginInit();
             this.SuspendLayout();
@@ -84,7 +86,7 @@
             this.backupLabel.ForeColor = System.Drawing.Color.White;
             this.backupLabel.Location = new System.Drawing.Point(0, 83);
             this.backupLabel.Name = "backupLabel";
-            this.backupLabel.Size = new System.Drawing.Size(169, 40);
+            this.backupLabel.Size = new System.Drawing.Size(134, 32);
             this.backupLabel.TabIndex = 8;
             this.backupLabel.Text = "Backups:";
             // 
@@ -97,7 +99,7 @@
             this.backupFileLocation.Location = new System.Drawing.Point(12, 153);
             this.backupFileLocation.Name = "backupFileLocation";
             this.backupFileLocation.ReadOnly = true;
-            this.backupFileLocation.Size = new System.Drawing.Size(409, 27);
+            this.backupFileLocation.Size = new System.Drawing.Size(409, 23);
             this.backupFileLocation.TabIndex = 9;
             // 
             // changeBackupLocationButton
@@ -121,7 +123,7 @@
             this.backupSaveLocationLabel.AutoSize = true;
             this.backupSaveLocationLabel.Location = new System.Drawing.Point(12, 127);
             this.backupSaveLocationLabel.Name = "backupSaveLocationLabel";
-            this.backupSaveLocationLabel.Size = new System.Drawing.Size(230, 23);
+            this.backupSaveLocationLabel.Size = new System.Drawing.Size(189, 19);
             this.backupSaveLocationLabel.TabIndex = 11;
             this.backupSaveLocationLabel.Text = "Backup Save Location";
             // 
@@ -129,17 +131,17 @@
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
-            // timer1
+            // mainTimerLoop
             // 
-            this.timer1.Interval = 500;
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            this.mainTimerLoop.Interval = 500;
+            this.mainTimerLoop.Tick += new System.EventHandler(this.mainTimerLoopRun);
             // 
             // arkSaveLocationLabel
             // 
             this.arkSaveLocationLabel.AutoSize = true;
             this.arkSaveLocationLabel.Location = new System.Drawing.Point(12, 198);
             this.arkSaveLocationLabel.Name = "arkSaveLocationLabel";
-            this.arkSaveLocationLabel.Size = new System.Drawing.Size(197, 23);
+            this.arkSaveLocationLabel.Size = new System.Drawing.Size(162, 19);
             this.arkSaveLocationLabel.TabIndex = 11;
             this.arkSaveLocationLabel.Text = "Ark Save Location";
             // 
@@ -152,7 +154,7 @@
             this.arkSaveLocationFilePathDisplay.Location = new System.Drawing.Point(12, 224);
             this.arkSaveLocationFilePathDisplay.Name = "arkSaveLocationFilePathDisplay";
             this.arkSaveLocationFilePathDisplay.ReadOnly = true;
-            this.arkSaveLocationFilePathDisplay.Size = new System.Drawing.Size(409, 27);
+            this.arkSaveLocationFilePathDisplay.Size = new System.Drawing.Size(409, 23);
             this.arkSaveLocationFilePathDisplay.TabIndex = 9;
             // 
             // changeArkSaveLocationButton
@@ -191,7 +193,7 @@
             0,
             65536});
             this.saveInterval.Name = "saveInterval";
-            this.saveInterval.Size = new System.Drawing.Size(19, 31);
+            this.saveInterval.Size = new System.Drawing.Size(19, 26);
             this.saveInterval.TabIndex = 12;
             this.saveInterval.Value = new decimal(new int[] {
             2,
@@ -205,7 +207,7 @@
             this.saveIntervalLabel.AutoSize = true;
             this.saveIntervalLabel.Location = new System.Drawing.Point(543, 156);
             this.saveIntervalLabel.Name = "saveIntervalLabel";
-            this.saveIntervalLabel.Size = new System.Drawing.Size(274, 23);
+            this.saveIntervalLabel.Size = new System.Drawing.Size(225, 19);
             this.saveIntervalLabel.TabIndex = 11;
             this.saveIntervalLabel.Text = "AutoSave interval (mins)";
             // 
@@ -218,7 +220,7 @@
             this.numDisplay.Location = new System.Drawing.Point(823, 156);
             this.numDisplay.Name = "numDisplay";
             this.numDisplay.ReadOnly = true;
-            this.numDisplay.Size = new System.Drawing.Size(44, 27);
+            this.numDisplay.Size = new System.Drawing.Size(44, 23);
             this.numDisplay.TabIndex = 9;
             this.numDisplay.Text = "0.2";
             // 
@@ -237,11 +239,31 @@
             this.manualBackupButton.UseVisualStyleBackColor = false;
             this.manualBackupButton.MouseClick += new System.Windows.Forms.MouseEventHandler(this.manualBackupLocationButton_MouseClick);
             // 
+            // errorDisplay
+            // 
+            this.errorDisplay.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.errorDisplay.AutoSize = true;
+            this.errorDisplay.ForeColor = System.Drawing.Color.Red;
+            this.errorDisplay.Location = new System.Drawing.Point(10, 498);
+            this.errorDisplay.Name = "errorDisplay";
+            this.errorDisplay.Size = new System.Drawing.Size(189, 19);
+            this.errorDisplay.TabIndex = 13;
+            this.errorDisplay.Text = "No errors to display";
+            this.errorDisplay.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
+            this.mainToolTip.SetToolTip(this.errorDisplay, "Test");
+            this.errorDisplay.TextChanged += new System.EventHandler(this.errorDisplay_TextChanged);
+            // 
+            // garbageCollectionTimer
+            // 
+            this.garbageCollectionTimer.Interval = 120000;
+            this.garbageCollectionTimer.Tick += new System.EventHandler(this.garbageCollectionTimer_Tick);
+            // 
             // UIProcess
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(44)))), ((int)(((byte)(51)))));
             this.ClientSize = new System.Drawing.Size(891, 525);
+            this.Controls.Add(this.errorDisplay);
             this.Controls.Add(this.manualBackupButton);
             this.Controls.Add(this.numDisplay);
             this.Controls.Add(this.saveIntervalLabel);
@@ -260,6 +282,7 @@
             this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.Name = "UIProcess";
             this.Text = "Ark Backup Handler";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.UIProcess_FormClosing);
             this.TabBackgroundPanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.saveInterval)).EndInit();
             this.ResumeLayout(false);
@@ -279,7 +302,7 @@
         private System.Windows.Forms.Label backupSaveLocationLabel;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.FolderBrowserDialog saveLocationDialog;
-        private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.Timer mainTimerLoop;
         private System.Windows.Forms.Label arkSaveLocationLabel;
         private System.Windows.Forms.TextBox arkSaveLocationFilePathDisplay;
         private System.Windows.Forms.Button changeArkSaveLocationButton;
@@ -289,6 +312,8 @@
         private System.Windows.Forms.Label saveIntervalLabel;
         private System.Windows.Forms.TextBox numDisplay;
         private System.Windows.Forms.Button manualBackupButton;
+        private System.Windows.Forms.Label errorDisplay;
+        private System.Windows.Forms.Timer garbageCollectionTimer;
     }
 }
 

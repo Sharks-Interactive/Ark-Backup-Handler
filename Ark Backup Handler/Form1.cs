@@ -1,4 +1,5 @@
-﻿using System;
+﻿#region Imports
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -9,25 +10,61 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+#endregion
 
 namespace Ark_Backup_Handler
 {
     public partial class UIProcess : Form
     {
+        #region Variables
+
+        #region Data
         public string backupLocation = "Init";
         public string saveLocation = "Init";
+        public decimal autoSaveInterval = 0.1M;
+        #endregion
+
+        #region Cache
+        string fileName;
+        string destFile;
+        string path;
+        #endregion
+
+        #endregion
+
+        #region Initialization Functions
 
         public UIProcess()
         {
+            //Win Forms init
             InitializeComponent();
-            SaveTimer.Start();
-            timer1.Start();
+
+            #region Variable Initialization
+
+            #endregion
+
+            #region Apperance
             saveInterval.BringToFront();
+            #endregion
+
+            #region Logical Initialization
             LoadSettings();
+            mainTimerLoop.Start();
+            #endregion
         }
 
         private void LoadSettings ()
         {
+            autoSaveInterval = Properties.Settings.Default.autoSaveInterval;
+            if (autoSaveInterval <= 0)
+                autoSaveInterval = 0.1M;
+            saveInterval.Value = autoSaveInterval;
+            numDisplay.Text = autoSaveInterval.ToString();
+                
+            //Setting saveTimer to autosave interval
+            SaveTimer.Interval = (int)(autoSaveInterval * 1000);
+            SaveTimer.Start();
+
             arkSaveLocationDialog.SelectedPath = Properties.Settings.Default.saveLocation;
             arkSaveLocationFilePathDisplay.Text = arkSaveLocationDialog.SelectedPath;
             saveLocation = arkSaveLocationFilePathDisplay.Text;
@@ -37,12 +74,24 @@ namespace Ark_Backup_Handler
             backupLocation = backupFileLocation.Text;
         }
 
-        private void changeBackupLocationButton_MouseClick(object sender, MouseEventArgs e)
+        #endregion
+
+        #region Main Loops
+
+        //When the autoSaveTimer ticks
+        private void SaveTimer_Tick(object sender, EventArgs e)
         {
-            saveLocationDialog.ShowDialog();
+            BackupFiles(true);
         }
 
-        private void timer1_Tick(object sender, EventArgs e)
+        //GC
+        private void garbageCollectionTimer_Tick(object sender, EventArgs e)
+        {
+            GC.Collect();
+        }
+
+        //When the logic or main loop timer ticks
+        private void mainTimerLoopRun(object sender, EventArgs e)
         {
             if (saveLocationDialog.SelectedPath != backupLocation)
             {
@@ -51,6 +100,7 @@ namespace Ark_Backup_Handler
                 backupFileLocation.Text = backupLocation;
                 Properties.Settings.Default.Save();
             }
+            //Else give warning and set a bool to not give error again
 
             if (arkSaveLocationDialog.SelectedPath != saveLocation)
             {
@@ -61,21 +111,30 @@ namespace Ark_Backup_Handler
             }
         }
 
+        #endregion
+
+        #region Button Presses
+
+        #region FileLocationChangeButtons
+        private void changeBackupLocationButton_MouseClick(object sender, MouseEventArgs e)
+        {
+            saveLocationDialog.ShowDialog();
+        }
+
         private void changeArkSaveLocationButton_MouseClick(object sender, MouseEventArgs e)
         {
             arkSaveLocationDialog.ShowDialog();
         }
+        #endregion
 
-        private void SaveTimer_Tick(object sender, EventArgs e)
-        {
-            BackupFiles(true);
-        }
-
+        //When the autosaveinterval chooser is changed
         private void numericUpDown1_ValueChanged(object sender, EventArgs e)
         {
             SaveTimer.Stop();
             SaveTimer.Interval = (int)(saveInterval.Value * 1000);
             numDisplay.Text = saveInterval.Value.ToString();
+            autoSaveInterval = saveInterval.Value;
+            Properties.Settings.Default.autoSaveInterval = autoSaveInterval;
             SaveTimer.Start();
         }
 
@@ -84,30 +143,91 @@ namespace Ark_Backup_Handler
             BackupFiles(false);
         }
 
+        #endregion
+
+        #region Functions
+
+        #region File Handling
+
         private void BackupFiles (bool automatic)
         {
+            if (!Directory.Exists(backupLocation))
+            {
+                errorDisplay.ForeColor = Color.Red;
+                errorDisplay.Text = "Error: Backup Location directory does not exist or other read error! Please validate file path.";
+                return;
+            }
+
             if (automatic)
             {
                 if (!Directory.Exists(backupLocation + @"\Automatic Saves"))
                 {
                     Directory.CreateDirectory(backupLocation + @"\Automatic Saves");
+                    errorDisplay.ForeColor = Color.Yellow;
+                    errorDisplay.Text = "Warning: No Sharks Folders detected in dir. New folders created. No action required.";
                 }
-                string Time = DateTime.Now.ToString();
-                Time = Time.Replace("\\\"", "");
+
+                string Time = DateTime.Now.ToString("yyyy-MM-dd");
                 Directory.CreateDirectory(backupLocation + @"\Automatic Saves\" + Time);
 
-                File.Copy(saveLocation, backupLocation + @"\Automatic Saves\" + Time, true);
+                try
+                {
+                    path = backupLocation + @"\Automatic Saves\" + Time;
+                    string[] files = System.IO.Directory.GetFiles(saveLocation);
+
+                    // Copy the files and overwrite destination files if they already exist.
+                    foreach (string s in files)
+                    {
+                        // Use static Path methods to extract only the file name from the path.
+                        fileName = System.IO.Path.GetFileName(s);
+                        destFile = System.IO.Path.Combine(path + @"\", fileName);
+                        System.IO.File.Copy(s, destFile, true);
+                    }
+                } catch (Exception E)
+                {
+                    errorDisplay.ForeColor = Color.Red;
+                    errorDisplay.Text = "Error: Problem occured while copying files to backup path. Error: " + E.Message;
+                }
             }
             else
             {
                 if (!Directory.Exists(backupLocation + @"\Manual Saves"))
                 {
                     Directory.CreateDirectory(backupLocation + @"\Manual Saves");
+                    errorDisplay.ForeColor = Color.Yellow;
+                    errorDisplay.Text = "Warning: No Sharks Folders detected in dir. New folders created. No action required.";
                 }
+                
                 Directory.CreateDirectory(backupLocation + @"\Manual Saves\" + DateTime.Now.ToString());
 
                 //File.Copy(sourceFile, destFile, true);
             }
         }
+
+        #endregion
+
+        #region Application Events
+
+        private void UIProcess_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            //Unregister event handlers and save settings
+            Properties.Settings.Default.Save();
+            mainTimerLoop.Dispose();
+            SaveTimer.Dispose();
+            GC.Collect();
+        }
+
+        #endregion
+
+        #region Updating UI on events
+
+        private void errorDisplay_TextChanged(object sender, EventArgs e)
+        {
+            mainToolTip.SetToolTip(errorDisplay, errorDisplay.Text);
+        }
+
+        #endregion
+
+        #endregion
     }
 }
