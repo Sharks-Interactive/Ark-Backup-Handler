@@ -184,6 +184,8 @@ namespace Ark_Backup_Handler
         private void maxSavesSetter_ValueChanged(object sender, EventArgs e)
         {
             maxSaves = (int)maxSavesSetter.Value;
+            Properties.Settings.Default.maxSaves = maxSaves;
+            Properties.Settings.Default.Save();
         }
 
         #endregion
