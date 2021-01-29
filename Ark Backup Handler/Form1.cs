@@ -98,6 +98,12 @@ namespace Ark_Backup_Handler
             Directory.CreateDirectory(backupLocation + @"\Automatic Saves\");
             string[] autoSaves = Directory.GetFiles(backupLocation + @"\Automatic Saves\");
             saveNumber = autoSaves.Count();
+
+            Directory.CreateDirectory(backupLocation + @"\Automatic Saves\[TRANSFERDATA]\");
+            string[] saves = Directory.GetFiles(backupLocation + @"\Automatic Saves\[TRANSFERDATA]\");
+            transferSaveNumber = saves.Count();
+
+            Debug.WriteLine(transferSaveNumber + " " + saveNumber);
         }
 
         #endregion
@@ -344,14 +350,14 @@ namespace Ark_Backup_Handler
                 return;
             }
 
-            string Path = @"\Automatic Saves\[TRANSFERDATA]\" + "(Save " + saveNumber + ")";
+            string Path = @"\Automatic Saves\[TRANSFERDATA]\" + "(Save " + transferSaveNumber + ")";
             Directory.CreateDirectory(backupLocation + Path);
 
             errorDisplay.ForeColor = Color.White;
             errorDisplay.Text = "Info: Transfer data copied succesfully! (Automatic) " + GetCurrentTime(false);
             transferSaveNumber++;
 
-            Copy(saveLocation, backupLocation + Time + @"\");
+            Copy(saveLocation + @"\clusters", backupLocation + Path + @"\");
 
             if (transferSaveNumber >= maxSaves)
                 transferSaveNumber = 0;
@@ -386,7 +392,7 @@ namespace Ark_Backup_Handler
                     Time = backupName.Text + " " + DateTime.Now.ToString("yyyy-MM-dd") + GetCurrentTime(false);
             }
 
-            Directory.CreateDirectory(backupLocation + autoManual + Time);
+            Directory.CreateDirectory(backupLocation + autoManual + Time + @"\");
             errorDisplay.ForeColor = Color.White;
             errorDisplay.Text = "Info: Items copied succesfully! Manual: " + !automatic + GetCurrentTime(false);
             Copy(saveLocation, backupLocation + autoManual + Time + @"\");
@@ -399,6 +405,7 @@ namespace Ark_Backup_Handler
         {
             var diSource = new DirectoryInfo(sourceDirectory);
             var diTarget = new DirectoryInfo(targetDirectory);
+            Debug.WriteLine(targetDirectory);
 
             CopyAll(diSource, diTarget);
         }
