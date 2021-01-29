@@ -22,6 +22,7 @@ namespace Ark_Backup_Handler
         public string backupLocation = "Init";
         public string saveLocation = "Init";
         public decimal autoSaveInterval = 0.1M;
+        public decimal transferDataSaveInterval = 0.1M;
         #endregion
 
         #region Cache
@@ -30,6 +31,7 @@ namespace Ark_Backup_Handler
         string tempTime;
         int saveNumber;
         int maxSaves = 30;
+        int transferSaveNumber;
         #endregion
 
         #endregion
@@ -47,6 +49,7 @@ namespace Ark_Backup_Handler
 
             #region Apperance
             saveInterval.BringToFront();
+            manualSaveBox.BringToFront();
             #endregion
 
             #region Logical Initialization
@@ -58,6 +61,13 @@ namespace Ark_Backup_Handler
 
         private void LoadSettings ()
         {
+            transferDataSaveInterval = Properties.Settings.Default.transferDataSaveInterval;
+            if (transferDataSaveInterval <= 0)
+                transferDataSaveInterval = 0.1M;
+            transferDataSaveIntervalChooser.Value = transferDataSaveInterval;
+            transferDataSaveTimer.Interval = (int)(transferDataSaveInterval * 60000);
+            transferDataSaveTimer.Start();
+
             autoSaveInterval = Properties.Settings.Default.autoSaveInterval;
             if (autoSaveInterval <= 0)
                 autoSaveInterval = 0.1M;
@@ -85,6 +95,7 @@ namespace Ark_Backup_Handler
         public void LoadFiles ()
         {
             //Find out how many autosave files their already are
+            Directory.CreateDirectory(backupLocation + @"\Automatic Saves\");
             string[] autoSaves = Directory.GetFiles(backupLocation + @"\Automatic Saves\");
             saveNumber = autoSaves.Count();
         }
@@ -126,6 +137,11 @@ namespace Ark_Backup_Handler
             }
         }
 
+        private void transferDataSaveTimer_Tick(object sender, EventArgs e)
+        {
+            BackupTransferData();
+        }
+
         #endregion
 
         #region Button Presses
@@ -142,6 +158,15 @@ namespace Ark_Backup_Handler
         }
         #endregion
 
+        private void transferDataSaveIntervalChooser_ValueChanged(object sender, EventArgs e)
+        {
+            transferDataSaveTimer.Stop();
+            transferDataSaveTimer.Interval = (int)(transferDataSaveIntervalChooser.Value * 60000);
+            transferDataSaveInterval = transferDataSaveIntervalChooser.Value;
+            Properties.Settings.Default.transferDataSaveInterval = transferDataSaveInterval;
+            transferDataSaveTimer.Start();
+        }
+
         //When the autosaveinterval chooser is changed
         private void numericUpDown1_ValueChanged(object sender, EventArgs e)
         {
@@ -153,6 +178,13 @@ namespace Ark_Backup_Handler
             SaveTimer.Start();
         }
 
+        private void updateMoDButton_MouseClick(object sender, MouseEventArgs e)
+        {
+            errorDisplay.ForeColor = Color.White;
+            errorDisplay.Text = "Info: Beginning MoD update.";
+            UpdateMessegeOfTheDay();
+        }
+
         private void errorDisplay_Click(object sender, EventArgs e)
         {
             Clipboard.SetData(DataFormats.StringFormat, errorDisplay.Text);
@@ -161,7 +193,7 @@ namespace Ark_Backup_Handler
 
         private void manualBackupLocationButton_MouseClick(object sender, MouseEventArgs e)
         {
-            manualSaveBox.Visible = true;
+            manualSaveBox.Visible = !manualSaveBox.Visible;
         }
 
         private void minimizeButton_MouseClick(object sender, MouseEventArgs e)
@@ -198,7 +230,16 @@ namespace Ark_Backup_Handler
         public void UpdateMessegeOfTheDay ()
         {
             string[] ini = new string[1];
-            ini = File.ReadAllLines(saveLocation + @"\UWPConfig\UWP\GameUserSettings.ini");
+            try
+            {
+                ini = File.ReadAllLines(saveLocation + @"\UWPConfig\UWP\GameUserSettings.ini");
+            }
+            catch (Exception E)
+            {
+                errorDisplay.ForeColor = Color.Red;
+                errorDisplay.Text = "Error: Problem while reading GameUserSettings.ini, problem: " + E.Message;
+            }
+
             int line = 0;
 
             for (line = 0; line < ini.Count(); ++line)
@@ -212,14 +253,28 @@ namespace Ark_Backup_Handler
                 UnstableOrStable = "Stable";
 
             string date = DateTime.Now.ToString("D");
-            ini[line + 1] = $"Message=Welcome to the Toasty Bros Server Network. Today is {date}. Server network: {UnstableOrStable}. Save backups occur every {autoSaveInterval} minutes and transfer data backs-up every {autoSaveInterval / 3}. Last backup is {DateTime.Now.ToString("dd/M")}";
-            File.Delete(saveLocation + @"\UWPConfig\UWP\GameUserSettings.ini");
-
-            using (StreamWriter writer = new StreamWriter(saveLocation + @"\UWPConfig\UWP\GameUserSettings.ini"))
-            {
-                for (int i = 0; i < ini.Count(); i++)
-                    writer.WriteLine(ini[i]);
+            Debug.WriteLine(UnstableOrStable + date);
+            ini[line + 1] = $"Message=Welcome to the Toasty Bros Server Network. Today is {date}. Server network: {UnstableOrStable}. Toast quote of the year: \"Toast!\". Save backups occur every {autoSaveInterval} minutes and transfer data backs-up every {transferDataSaveInterval} minutes. Last backup is {DateTime.Now.ToString("dd/M")}. Stay Toasty!";
+            try { File.Delete(saveLocation + @"\UWPConfig\UWP\GameUserSettings.ini"); } catch (Exception E) { errorDisplay.ForeColor = Color.Red; errorDisplay.Text = "Error: Problem while deleting old GameUserSettings.ini problem: " + E.Message; }
+            using (FileStream stream = new FileStream(saveLocation + @"\UWPConfig\UWP\GameUserSettings.ini", FileMode.OpenOrCreate)) {
+                using (StreamWriter writer = new StreamWriter(stream, Encoding.UTF8))
+                {
+                    for (int i = 0; i < ini.Count(); i++)
+                    {
+                        try
+                        {
+                            writer.WriteLine(ini[i]);
+                        }
+                        catch (Exception E)
+                        {
+                            errorDisplay.ForeColor = Color.Red;
+                            errorDisplay.Text = "Errors: Problem while writing to GameUserSettings.ini file. Problem: " + E.Message;
+                        }
+                    }
+                }
             }
+
+            errorDisplay.Text += " MoD Update Complete.";
         }
 
         #endregion
@@ -278,6 +333,29 @@ namespace Ark_Backup_Handler
         #endregion
 
         #region File Handling
+
+        private void BackupTransferData ()
+        {
+            //Check if the directory exists
+            if (!Directory.Exists(backupLocation))
+            {
+                errorDisplay.ForeColor = Color.Red;
+                errorDisplay.Text = "Error: Backup Location directory does not exist or other read error! Please validate file path.";
+                return;
+            }
+
+            string Path = @"\Automatic Saves\[TRANSFERDATA]\" + "(Save " + saveNumber + ")";
+            Directory.CreateDirectory(backupLocation + Path);
+
+            errorDisplay.ForeColor = Color.White;
+            errorDisplay.Text = "Info: Transfer data copied succesfully! (Automatic) " + GetCurrentTime(false);
+            transferSaveNumber++;
+
+            Copy(saveLocation, backupLocation + Time + @"\");
+
+            if (transferSaveNumber >= maxSaves)
+                transferSaveNumber = 0;
+        }
 
         private void BackupFiles (bool automatic)
         {

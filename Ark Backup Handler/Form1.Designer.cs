@@ -61,10 +61,15 @@
             this.manualBackupPanelLabel = new System.Windows.Forms.Label();
             this.maxSavesLabel = new System.Windows.Forms.Label();
             this.maxSavesSetter = new System.Windows.Forms.NumericUpDown();
+            this.updateMoDButton = new System.Windows.Forms.Button();
+            this.transferDataSaveIntervalChooser = new System.Windows.Forms.NumericUpDown();
+            this.transferDataSaveIntLabel = new System.Windows.Forms.Label();
+            this.transferDataSaveTimer = new System.Windows.Forms.Timer(this.components);
             this.TabBackgroundPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.saveInterval)).BeginInit();
             this.manualSaveBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.maxSavesSetter)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.transferDataSaveIntervalChooser)).BeginInit();
             this.SuspendLayout();
             // 
             // LogoBlock
@@ -86,7 +91,7 @@
             this.errorDisplay.ForeColor = System.Drawing.Color.Red;
             this.errorDisplay.Location = new System.Drawing.Point(10, 498);
             this.errorDisplay.Name = "errorDisplay";
-            this.errorDisplay.Size = new System.Drawing.Size(230, 23);
+            this.errorDisplay.Size = new System.Drawing.Size(189, 19);
             this.errorDisplay.TabIndex = 13;
             this.errorDisplay.Text = "No errors to display";
             this.errorDisplay.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -112,7 +117,7 @@
             this.backupLabel.ForeColor = System.Drawing.Color.White;
             this.backupLabel.Location = new System.Drawing.Point(0, 83);
             this.backupLabel.Name = "backupLabel";
-            this.backupLabel.Size = new System.Drawing.Size(169, 40);
+            this.backupLabel.Size = new System.Drawing.Size(134, 32);
             this.backupLabel.TabIndex = 8;
             this.backupLabel.Text = "Backups:";
             // 
@@ -125,7 +130,7 @@
             this.backupFileLocation.Location = new System.Drawing.Point(12, 153);
             this.backupFileLocation.Name = "backupFileLocation";
             this.backupFileLocation.ReadOnly = true;
-            this.backupFileLocation.Size = new System.Drawing.Size(409, 27);
+            this.backupFileLocation.Size = new System.Drawing.Size(409, 23);
             this.backupFileLocation.TabIndex = 9;
             // 
             // changeBackupLocationButton
@@ -149,7 +154,7 @@
             this.backupSaveLocationLabel.AutoSize = true;
             this.backupSaveLocationLabel.Location = new System.Drawing.Point(12, 127);
             this.backupSaveLocationLabel.Name = "backupSaveLocationLabel";
-            this.backupSaveLocationLabel.Size = new System.Drawing.Size(230, 23);
+            this.backupSaveLocationLabel.Size = new System.Drawing.Size(189, 19);
             this.backupSaveLocationLabel.TabIndex = 11;
             this.backupSaveLocationLabel.Text = "Backup Save Location";
             // 
@@ -167,7 +172,7 @@
             this.arkSaveLocationLabel.AutoSize = true;
             this.arkSaveLocationLabel.Location = new System.Drawing.Point(12, 198);
             this.arkSaveLocationLabel.Name = "arkSaveLocationLabel";
-            this.arkSaveLocationLabel.Size = new System.Drawing.Size(197, 23);
+            this.arkSaveLocationLabel.Size = new System.Drawing.Size(162, 19);
             this.arkSaveLocationLabel.TabIndex = 11;
             this.arkSaveLocationLabel.Text = "Ark Save Location";
             // 
@@ -180,7 +185,7 @@
             this.arkSaveLocationFilePathDisplay.Location = new System.Drawing.Point(12, 224);
             this.arkSaveLocationFilePathDisplay.Name = "arkSaveLocationFilePathDisplay";
             this.arkSaveLocationFilePathDisplay.ReadOnly = true;
-            this.arkSaveLocationFilePathDisplay.Size = new System.Drawing.Size(409, 27);
+            this.arkSaveLocationFilePathDisplay.Size = new System.Drawing.Size(409, 23);
             this.arkSaveLocationFilePathDisplay.TabIndex = 9;
             // 
             // changeArkSaveLocationButton
@@ -219,7 +224,7 @@
             0,
             65536});
             this.saveInterval.Name = "saveInterval";
-            this.saveInterval.Size = new System.Drawing.Size(19, 31);
+            this.saveInterval.Size = new System.Drawing.Size(19, 26);
             this.saveInterval.TabIndex = 12;
             this.saveInterval.Value = new decimal(new int[] {
             2,
@@ -231,9 +236,9 @@
             // saveIntervalLabel
             // 
             this.saveIntervalLabel.AutoSize = true;
-            this.saveIntervalLabel.Location = new System.Drawing.Point(543, 156);
+            this.saveIntervalLabel.Location = new System.Drawing.Point(543, 155);
             this.saveIntervalLabel.Name = "saveIntervalLabel";
-            this.saveIntervalLabel.Size = new System.Drawing.Size(274, 23);
+            this.saveIntervalLabel.Size = new System.Drawing.Size(225, 19);
             this.saveIntervalLabel.TabIndex = 11;
             this.saveIntervalLabel.Text = "AutoSave interval (mins)";
             // 
@@ -246,7 +251,7 @@
             this.numDisplay.Location = new System.Drawing.Point(823, 156);
             this.numDisplay.Name = "numDisplay";
             this.numDisplay.ReadOnly = true;
-            this.numDisplay.Size = new System.Drawing.Size(44, 27);
+            this.numDisplay.Size = new System.Drawing.Size(44, 23);
             this.numDisplay.TabIndex = 9;
             this.numDisplay.Text = "0.2";
             // 
@@ -326,7 +331,7 @@
             this.milestoneCheckbox.AutoSize = true;
             this.milestoneCheckbox.Location = new System.Drawing.Point(21, 64);
             this.milestoneCheckbox.Name = "milestoneCheckbox";
-            this.milestoneCheckbox.Size = new System.Drawing.Size(142, 27);
+            this.milestoneCheckbox.Size = new System.Drawing.Size(118, 23);
             this.milestoneCheckbox.TabIndex = 2;
             this.milestoneCheckbox.Text = "Milestone?";
             this.milestoneCheckbox.UseVisualStyleBackColor = true;
@@ -338,7 +343,7 @@
             this.backupName.Margin = new System.Windows.Forms.Padding(30, 3, 30, 3);
             this.backupName.Name = "backupName";
             this.backupName.PlaceholderText = "Indy Forge built";
-            this.backupName.Size = new System.Drawing.Size(227, 31);
+            this.backupName.Size = new System.Drawing.Size(227, 26);
             this.backupName.TabIndex = 1;
             // 
             // manualBackupPanelLabel
@@ -346,7 +351,7 @@
             this.manualBackupPanelLabel.AutoSize = true;
             this.manualBackupPanelLabel.Location = new System.Drawing.Point(21, 0);
             this.manualBackupPanelLabel.Name = "manualBackupPanelLabel";
-            this.manualBackupPanelLabel.Size = new System.Drawing.Size(186, 23);
+            this.manualBackupPanelLabel.Size = new System.Drawing.Size(153, 19);
             this.manualBackupPanelLabel.TabIndex = 0;
             this.manualBackupPanelLabel.Text = "Name this Backup";
             // 
@@ -355,7 +360,7 @@
             this.maxSavesLabel.AutoSize = true;
             this.maxSavesLabel.Location = new System.Drawing.Point(653, 275);
             this.maxSavesLabel.Name = "maxSavesLabel";
-            this.maxSavesLabel.Size = new System.Drawing.Size(164, 23);
+            this.maxSavesLabel.Size = new System.Drawing.Size(135, 19);
             this.maxSavesLabel.TabIndex = 15;
             this.maxSavesLabel.Text = "Max Auto Saves";
             // 
@@ -371,7 +376,7 @@
             0,
             0});
             this.maxSavesSetter.Name = "maxSavesSetter";
-            this.maxSavesSetter.Size = new System.Drawing.Size(56, 31);
+            this.maxSavesSetter.Size = new System.Drawing.Size(56, 26);
             this.maxSavesSetter.TabIndex = 16;
             this.maxSavesSetter.Value = new decimal(new int[] {
             1,
@@ -380,11 +385,69 @@
             0});
             this.maxSavesSetter.ValueChanged += new System.EventHandler(this.maxSavesSetter_ValueChanged);
             // 
+            // updateMoDButton
+            // 
+            this.updateMoDButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.updateMoDButton.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.updateMoDButton.FlatAppearance.BorderSize = 15;
+            this.updateMoDButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Gray;
+            this.updateMoDButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Silver;
+            this.updateMoDButton.Location = new System.Drawing.Point(695, 484);
+            this.updateMoDButton.Name = "updateMoDButton";
+            this.updateMoDButton.Size = new System.Drawing.Size(184, 29);
+            this.updateMoDButton.TabIndex = 17;
+            this.updateMoDButton.Text = "Update MoD";
+            this.updateMoDButton.UseVisualStyleBackColor = false;
+            this.updateMoDButton.MouseClick += new System.Windows.Forms.MouseEventHandler(this.updateMoDButton_MouseClick);
+            // 
+            // transferDataSaveIntervalChooser
+            // 
+            this.transferDataSaveIntervalChooser.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.transferDataSaveIntervalChooser.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.transferDataSaveIntervalChooser.DecimalPlaces = 1;
+            this.transferDataSaveIntervalChooser.ForeColor = System.Drawing.Color.White;
+            this.transferDataSaveIntervalChooser.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.transferDataSaveIntervalChooser.Location = new System.Drawing.Point(823, 320);
+            this.transferDataSaveIntervalChooser.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.transferDataSaveIntervalChooser.Name = "transferDataSaveIntervalChooser";
+            this.transferDataSaveIntervalChooser.Size = new System.Drawing.Size(56, 26);
+            this.transferDataSaveIntervalChooser.TabIndex = 18;
+            this.transferDataSaveIntervalChooser.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.transferDataSaveIntervalChooser.ValueChanged += new System.EventHandler(this.transferDataSaveIntervalChooser_ValueChanged);
+            // 
+            // transferDataSaveIntLabel
+            // 
+            this.transferDataSaveIntLabel.AutoSize = true;
+            this.transferDataSaveIntLabel.Location = new System.Drawing.Point(536, 327);
+            this.transferDataSaveIntLabel.Name = "transferDataSaveIntLabel";
+            this.transferDataSaveIntLabel.Size = new System.Drawing.Size(252, 19);
+            this.transferDataSaveIntLabel.TabIndex = 19;
+            this.transferDataSaveIntLabel.Text = "Transfer Data Save Interval";
+            // 
+            // transferDataSaveTimer
+            // 
+            this.transferDataSaveTimer.Tick += new System.EventHandler(this.transferDataSaveTimer_Tick);
+            // 
             // UIProcess
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(44)))), ((int)(((byte)(51)))));
             this.ClientSize = new System.Drawing.Size(891, 525);
+            this.Controls.Add(this.transferDataSaveIntLabel);
+            this.Controls.Add(this.transferDataSaveIntervalChooser);
+            this.Controls.Add(this.updateMoDButton);
             this.Controls.Add(this.maxSavesSetter);
             this.Controls.Add(this.maxSavesLabel);
             this.Controls.Add(this.manualSaveBox);
@@ -414,6 +477,7 @@
             this.manualSaveBox.ResumeLayout(false);
             this.manualSaveBox.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.maxSavesSetter)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.transferDataSaveIntervalChooser)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -452,6 +516,10 @@
         private System.Windows.Forms.CheckBox milestoneCheckbox;
         private System.Windows.Forms.Label maxSavesLabel;
         private System.Windows.Forms.NumericUpDown maxSavesSetter;
+        private System.Windows.Forms.Button updateMoDButton;
+        private System.Windows.Forms.NumericUpDown transferDataSaveIntervalChooser;
+        private System.Windows.Forms.Label transferDataSaveIntLabel;
+        private System.Windows.Forms.Timer transferDataSaveTimer;
     }
 }
 

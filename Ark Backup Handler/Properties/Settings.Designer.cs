@@ -70,5 +70,17 @@ namespace Ark_Backup_Handler.Properties {
                 this["maxSaves"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public decimal transferDataSaveInterval {
+            get {
+                return ((decimal)(this["transferDataSaveInterval"]));
+            }
+            set {
+                this["transferDataSaveInterval"] = value;
+            }
+        }
     }
 }
