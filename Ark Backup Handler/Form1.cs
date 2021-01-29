@@ -50,6 +50,7 @@ namespace Ark_Backup_Handler
             #region Logical Initialization
             LoadSettings();
             mainTimerLoop.Start();
+            UpdateMessegeOfTheDay();
             #endregion
         }
 
@@ -146,6 +147,37 @@ namespace Ark_Backup_Handler
         #endregion
 
         #region Functions
+
+        #region Misc Processors
+
+        public void UpdateMessegeOfTheDay ()
+        {
+            string[] ini = new string[1];
+            ini = File.ReadAllLines(saveLocation + @"\UWPConfig\UWP\GameUserSettings.ini");
+            int line = 0;
+
+            for (line = 0; line < ini.Count(); ++line)
+                if (ini[line].Contains("[MessageOfTheDay]"))
+                    break;
+
+            string UnstableOrStable;
+            if (DateTime.Now.Day - File.GetLastWriteTime(saveLocation + @"\UWPConfig\UWP\Game.ini").Day < 5)
+                UnstableOrStable = "Unstable";
+            else
+                UnstableOrStable = "Stable";
+
+            string date = DateTime.Now.ToString("D");
+            ini[line + 1] = $"Message=Welcome to the Toasty Bros Server Network. Today is {date}. Server network: {UnstableOrStable}. Save backups occur every {autoSaveInterval} minutes and transfer data backs-up every {autoSaveInterval / 3}. Last backup is {DateTime.Now.ToString("dd/M")}";
+            File.Delete(saveLocation + @"\UWPConfig\UWP\GameUserSettings.ini");
+
+            using (StreamWriter writer = new StreamWriter(saveLocation + @"\UWPConfig\UWP\GameUserSettings.ini"))
+            {
+                for (int i = 0; i < ini.Count(); i++)
+                    writer.WriteLine(ini[i]);
+            }
+        }
+
+        #endregion
 
         #region File Handling
 
