@@ -58,5 +58,17 @@ namespace Ark_Backup_Handler.Properties {
                 this["autoSaveInterval"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public int maxSaves {
+            get {
+                return ((int)(this["maxSaves"]));
+            }
+            set {
+                this["maxSaves"] = value;
+            }
+        }
     }
 }

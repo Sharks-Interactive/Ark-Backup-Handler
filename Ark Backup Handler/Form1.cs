@@ -25,9 +25,11 @@ namespace Ark_Backup_Handler
         #endregion
 
         #region Cache
-        string fileName;
-        string destFile;
-        string path;
+        string Time;
+        string autoManual;
+        string tempTime;
+        int saveNumber;
+        int maxSaves = 30;
         #endregion
 
         #endregion
@@ -61,9 +63,12 @@ namespace Ark_Backup_Handler
                 autoSaveInterval = 0.1M;
             saveInterval.Value = autoSaveInterval;
             numDisplay.Text = autoSaveInterval.ToString();
-                
+
+            maxSaves = Properties.Settings.Default.maxSaves;
+            maxSavesSetter.Value = maxSaves;
+
             //Setting saveTimer to autosave interval
-            SaveTimer.Interval = (int)(autoSaveInterval * 1000);
+            SaveTimer.Interval = (int)(autoSaveInterval * 60000);
             SaveTimer.Start();
 
             arkSaveLocationDialog.SelectedPath = Properties.Settings.Default.saveLocation;
@@ -73,6 +78,15 @@ namespace Ark_Backup_Handler
             saveLocationDialog.SelectedPath = Properties.Settings.Default.backupLocation;
             backupFileLocation.Text = saveLocationDialog.SelectedPath;
             backupLocation = backupFileLocation.Text;
+
+            LoadFiles();
+        }
+
+        public void LoadFiles ()
+        {
+            //Find out how many autosave files their already are
+            string[] autoSaves = Directory.GetFiles(backupLocation + @"\Automatic Saves\");
+            saveNumber = autoSaves.Count();
         }
 
         #endregion
@@ -132,16 +146,47 @@ namespace Ark_Backup_Handler
         private void numericUpDown1_ValueChanged(object sender, EventArgs e)
         {
             SaveTimer.Stop();
-            SaveTimer.Interval = (int)(saveInterval.Value * 1000);
+            SaveTimer.Interval = (int)(saveInterval.Value * 60000);
             numDisplay.Text = saveInterval.Value.ToString();
             autoSaveInterval = saveInterval.Value;
             Properties.Settings.Default.autoSaveInterval = autoSaveInterval;
             SaveTimer.Start();
         }
 
+        private void errorDisplay_Click(object sender, EventArgs e)
+        {
+            Clipboard.SetData(DataFormats.StringFormat, errorDisplay.Text);
+            errorDisplay.Text = "No errors to display.";
+        }
+
         private void manualBackupLocationButton_MouseClick(object sender, MouseEventArgs e)
         {
+            manualSaveBox.Visible = true;
+        }
+
+        private void minimizeButton_MouseClick(object sender, MouseEventArgs e)
+        {
+            minimizeToTray();
+        }
+
+        private void notifyIcon1_MouseClick(object sender, MouseEventArgs e)
+        {
+            Open();
+        }
+
+        private void submitButton_MouseClick(object sender, MouseEventArgs e)
+        {
             BackupFiles(false);
+            manualSaveBox.Visible = false;
+            milestoneCheckbox.Checked = false;
+            backupName.ResetText();
+        }
+
+        private void maxSavesSetter_ValueChanged(object sender, EventArgs e)
+        {
+            maxSaves = (int)maxSavesSetter.Value;
+            Properties.Settings.Default.maxSaves = maxSaves;
+            Properties.Settings.Default.Save();
         }
 
         #endregion
@@ -179,10 +224,64 @@ namespace Ark_Backup_Handler
 
         #endregion
 
+        #region Form Visibility Control
+
+        private void Open()
+        {
+            Show();
+            this.WindowState = FormWindowState.Normal;
+            notifyIcon1.Visible = false;
+        }
+
+        private void minimizeToTray()
+        {
+            this.WindowState = FormWindowState.Minimized;
+            Hide();
+            notifyIcon1.Visible = true;
+            GC.Collect();
+        }
+
+        #endregion
+
+        #region Utility
+        public string GetCurrentTime (bool appendZeroAKAClean)
+        {
+            tempTime = " @";
+            if (appendZeroAKAClean)
+            {
+                if (DateTime.Now.Hour >= 10)
+                    tempTime += DateTime.Now.Hour.ToString();
+                else
+                    tempTime += "0" + DateTime.Now.Hour.ToString();
+
+                if (DateTime.Now.Minute <= 9)
+                    tempTime += "0" + DateTime.Now.Minute.ToString();
+                else
+                    tempTime += DateTime.Now.Minute.ToString();
+            }
+            else
+            {
+                tempTime += DateTime.Now.Hour.ToString() + "_";
+                if (DateTime.Now.Minute <= 9)
+                    tempTime += "0" + DateTime.Now.Minute.ToString() + "_";
+                else
+                    tempTime += DateTime.Now.Minute.ToString() + "_";
+
+                if (DateTime.Now.Millisecond <= 9)
+                    tempTime += "0" + DateTime.Now.Millisecond.ToString();
+                else
+                    tempTime += DateTime.Now.Millisecond.ToString();
+            }
+
+            return tempTime;
+        }
+        #endregion
+
         #region File Handling
 
         private void BackupFiles (bool automatic)
         {
+            //Check if the directory exists
             if (!Directory.Exists(backupLocation))
             {
                 errorDisplay.ForeColor = Color.Red;
@@ -190,52 +289,70 @@ namespace Ark_Backup_Handler
                 return;
             }
 
+            //Choose which folders to copy into
             if (automatic)
-            {
-                if (!Directory.Exists(backupLocation + @"\Automatic Saves"))
-                {
-                    Directory.CreateDirectory(backupLocation + @"\Automatic Saves");
-                    errorDisplay.ForeColor = Color.Yellow;
-                    errorDisplay.Text = "Warning: No Sharks Folders detected in dir. New folders created. No action required.";
-                }
+                autoManual = @"\Automatic Saves\";
+            else
+                autoManual = @"\Manual Saves\";
+            if (automatic) saveNumber++;
 
-                string Time = DateTime.Now.ToString("yyyy-MM-dd");
-                Directory.CreateDirectory(backupLocation + @"\Automatic Saves\" + Time);
-
-                try
-                {
-                    path = backupLocation + @"\Automatic Saves\" + Time;
-                    string[] files = System.IO.Directory.GetFiles(saveLocation);
-
-                    // Copy the files and overwrite destination files if they already exist.
-                    foreach (string s in files)
-                    {
-                        // Use static Path methods to extract only the file name from the path.
-                        fileName = System.IO.Path.GetFileName(s);
-                        destFile = System.IO.Path.Combine(path + @"\", fileName);
-                        System.IO.File.Copy(s, destFile, true);
-                    }
-                } catch (Exception E)
-                {
-                    errorDisplay.ForeColor = Color.Red;
-                    errorDisplay.Text = "Error: Problem occured while copying files to backup path. Error: " + E.Message;
-                }
-            }
+            Directory.CreateDirectory(backupLocation + autoManual);
+            if (automatic)
+                Time = "(Save " + saveNumber + ")";
+            //Time = DateTime.Now.ToString("yyyy-MM-dd") + GetCurrentTime(false) + " (Save " + saveNumber + ")";
             else
             {
-                if (!Directory.Exists(backupLocation + @"\Manual Saves"))
-                {
-                    Directory.CreateDirectory(backupLocation + @"\Manual Saves");
-                    errorDisplay.ForeColor = Color.Yellow;
-                    errorDisplay.Text = "Warning: No Sharks Folders detected in dir. New folders created. No action required.";
-                }
-                
-                Directory.CreateDirectory(backupLocation + @"\Manual Saves\" + DateTime.Now.ToString());
-
-                //File.Copy(sourceFile, destFile, true);
+                if (milestoneCheckbox.Checked)
+                    Time = @"\[MILESTONES]\" + backupName.Text + " " + DateTime.Now.ToString("yyyy-MM-dd") + GetCurrentTime(false);
+                else
+                    Time = backupName.Text + " " + DateTime.Now.ToString("yyyy-MM-dd") + GetCurrentTime(false);
             }
+
+            Directory.CreateDirectory(backupLocation + autoManual + Time);
+            errorDisplay.ForeColor = Color.White;
+            errorDisplay.Text = "Info: Items copied succesfully! Manual: " + !automatic + GetCurrentTime(false);
+            Copy(saveLocation, backupLocation + autoManual + Time + @"\");
+
+            if (saveNumber >= maxSaves)
+                saveNumber = 0;
         }
 
+        public static void Copy(string sourceDirectory, string targetDirectory)
+        {
+            var diSource = new DirectoryInfo(sourceDirectory);
+            var diTarget = new DirectoryInfo(targetDirectory);
+
+            CopyAll(diSource, diTarget);
+        }
+
+        public static void CopyAll(DirectoryInfo source, DirectoryInfo target)
+        {
+            if (Directory.Exists(target.FullName))
+                Directory.Delete(target.FullName, true);
+
+            Directory.CreateDirectory(target.FullName);
+
+            // Copy each file into the new directory.
+            foreach (FileInfo fi in source.GetFiles())
+            {
+                try
+                {
+                    fi.CopyTo(Path.Combine(target.FullName, fi.Name), true);
+                }
+                catch (Exception E)
+                {
+                    Debug.WriteLine("Error copying files " + E.Message);
+                }
+            }
+
+            // Copy each subdirectory using recursion.
+            foreach (DirectoryInfo diSourceSubDir in source.GetDirectories())
+            {
+                DirectoryInfo nextTargetSubDir =
+                    target.CreateSubdirectory(diSourceSubDir.Name);
+                CopyAll(diSourceSubDir, nextTargetSubDir);
+            }
+        }
         #endregion
 
         #region Application Events
