@@ -5,7 +5,33 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <RootNamespace>Ark_Backup_Handler</RootNamespace>
     <UseWindowsForms>true</UseWindowsForms>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>BackupHandlerKey.pfx</AssemblyOriginatorKeyFile>
+    <DelaySign>false</DelaySign>
+    <Version>0.3.0</Version>
+    <Authors>Sharks Interactive</Authors>
+    <Company>Sharks Interactive</Company>
+    <Description>Automatically backs up dedicated server info for Ark Survival Evolved Windows 10 and Steam editions.</Description>
+    <Copyright></Copyright>
+    <PackageProjectUrl>sharksinteractive.net</PackageProjectUrl>
+    <PackageReleaseNotes>Adds in the initial release with backup functionality as a stable build. Implements pretty much any and all backup functionality you could want. 'Revert' tab coming soon.</PackageReleaseNotes>
+    <PackageTags></PackageTags>
+    <RepositoryType></RepositoryType>
+    <RepositoryUrl>https://github.com/Sharks-Interactive</RepositoryUrl>
+    <PackageIcon></PackageIcon>
+    <StartupObject>Ark_Backup_Handler.Program</StartupObject>
+    <ApplicationIcon>Resources\network_storage_icon_14_1qA_icon.ico</ApplicationIcon>
     <ApplicationManifest>app.manifest</ApplicationManifest>
+    <PackageId>ArkBackupHandler</PackageId>
+    <Platforms>AnyCPU;x64</Platforms>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <OutputPath>D:\Apps\Ark Backup Handler Release v0.3.0 Stable\</OutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutputPath>D:\Apps\Ark Backup Handler Release v0.3.0 Stable\</OutputPath>
   </PropertyGroup>
 
   <ItemGroup>
@@ -32,6 +58,10 @@
     <None Update="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Resources\network_storage_icon_14_1qA_icon.ico">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
     </None>
   </ItemGroup>
 

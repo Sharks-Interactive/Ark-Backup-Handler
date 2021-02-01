@@ -63,9 +63,59 @@ namespace Ark_Backup_Handler.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Company_Logo_choice_2_1__1_ {
+        internal static System.Drawing.Bitmap AddTimeBlock {
             get {
-                object obj = ResourceManager.GetObject("Company Logo choice 2-1 (1)", resourceCulture);
+                object obj = ResourceManager.GetObject("AddTimeBlock", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap AddTimeBlockBetter {
+            get {
+                object obj = ResourceManager.GetObject("AddTimeBlockBetter", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap AddtimeBlockOutline {
+            get {
+                object obj = ResourceManager.GetObject("AddtimeBlockOutline", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
+        internal static System.Drawing.Icon network_storage_icon_14_1qA_icon {
+            get {
+                object obj = ResourceManager.GetObject("network_storage_icon_14_1qA_icon", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap network_storage_icon_14_1qA_icon_ico {
+            get {
+                object obj = ResourceManager.GetObject("network_storage_icon_14_1qA_icon_ico", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap SettingsIcontest__1_ {
+            get {
+                object obj = ResourceManager.GetObject("SettingsIcontest__1_", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

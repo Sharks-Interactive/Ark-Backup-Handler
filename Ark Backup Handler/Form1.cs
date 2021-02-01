@@ -103,7 +103,7 @@ namespace Ark_Backup_Handler
             string[] saves = Directory.GetFiles(backupLocation + @"\Automatic Saves\[TRANSFERDATA]\");
             transferSaveNumber = saves.Count();
 
-            Debug.WriteLine(transferSaveNumber + " " + saveNumber);
+            //Debug.WriteLine(transferSaveNumber + " " + saveNumber);
         }
 
         #endregion
@@ -244,13 +244,22 @@ namespace Ark_Backup_Handler
             {
                 errorDisplay.ForeColor = Color.Red;
                 errorDisplay.Text = "Error: Problem while reading GameUserSettings.ini, problem: " + E.Message;
+                return;
             }
 
             int line = 0;
+            
+            //If the ini is less than 3 lines then there was probably a read error
+            if (ini.Count() > 3)
+                for (line = 0; line < ini.Count(); ++line)
+                    if (ini[line].Contains("[MessageOfTheDay]"))
+                        break;
 
-            for (line = 0; line < ini.Count(); ++line)
-                if (ini[line].Contains("[MessageOfTheDay]"))
-                    break;
+            if (ini.Count() < 4)
+            {
+                Log("Unspecified error reading ini.", ErrorLevel.Error, true);
+                return;
+            }
 
             string UnstableOrStable;
             if (DateTime.Now.Day - File.GetLastWriteTime(saveLocation + @"\UWPConfig\UWP\Game.ini").Day < 5)
@@ -335,6 +344,50 @@ namespace Ark_Backup_Handler
             }
 
             return tempTime;
+        }
+
+        private void Log (string Messege, ErrorLevel LogLevel, bool Append)
+        {
+            if (Append)
+            {
+                switch ((int)LogLevel)
+                {
+                    case 0:
+                        errorDisplay.ForeColor = Color.White;
+                        errorDisplay.Text += "Info: " + Messege;
+                        break;
+
+                    case 1:
+                        errorDisplay.ForeColor = Color.Yellow;
+                        errorDisplay.Text += "Warning: " + Messege;
+                        break;
+
+                    case 2:
+                        errorDisplay.ForeColor = Color.Red;
+                        errorDisplay.Text += "Error: " + Messege;
+                        break;
+                }
+            }
+            else
+            {
+                switch ((int)LogLevel)
+                {
+                    case 0:
+                        errorDisplay.ForeColor = Color.White;
+                        errorDisplay.Text = "Info: " + Messege;
+                        break;
+
+                    case 1:
+                        errorDisplay.ForeColor = Color.Yellow;
+                        errorDisplay.Text = "Warning: " + Messege;
+                        break;
+
+                    case 2:
+                        errorDisplay.ForeColor = Color.Red;
+                        errorDisplay.Text = "Error: " + Messege;
+                        break;
+                }
+            }
         }
         #endregion
 
@@ -445,10 +498,19 @@ namespace Ark_Backup_Handler
         private void UIProcess_FormClosing(object sender, FormClosingEventArgs e)
         {
             //Unregister event handlers and save settings
-            Properties.Settings.Default.Save();
-            mainTimerLoop.Dispose();
-            SaveTimer.Dispose();
-            GC.Collect();
+            var closeMsg = MessageBox.Show("Do you really want to quit?", "Are you sure?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            if (closeMsg == DialogResult.Yes)
+            {
+                Properties.Settings.Default.Save();
+                mainTimerLoop.Dispose();
+                SaveTimer.Dispose();
+                GC.Collect();
+            }
+            else
+            {
+                e.Cancel = true;
+            }
         }
 
         #endregion
@@ -461,7 +523,14 @@ namespace Ark_Backup_Handler
         }
 
         #endregion
-
+        
         #endregion
+    }
+
+    public enum ErrorLevel
+    {
+        Info,
+        Warning,
+        Error
     }
 }

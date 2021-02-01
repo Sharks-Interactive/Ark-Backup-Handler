@@ -8,19 +8,19 @@
     ".NETCoreApp,Version=v3.1": []
   },
   "packageFolders": {
-    "C:\\Users\\Crabby90\\.nuget\\packages\\": {}
+    "C:\\Users\\OwenS\\.nuget\\packages\\": {}
   },
   "project": {
-    "version": "1.0.0",
+    "version": "0.3.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Crabby90\\Documents\\GitHub\\Ark-Backup-Handler\\Ark Backup Handler\\Ark Backup Handler.csproj",
-      "projectName": "Ark Backup Handler",
-      "projectPath": "C:\\Users\\Crabby90\\Documents\\GitHub\\Ark-Backup-Handler\\Ark Backup Handler\\Ark Backup Handler.csproj",
-      "packagesPath": "C:\\Users\\Crabby90\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Crabby90\\Documents\\GitHub\\Ark-Backup-Handler\\Ark Backup Handler\\obj\\",
+      "projectUniqueName": "D:\\Documents\\GitHub\\Ark Backup Handler\\Ark Backup Handler\\Ark Backup Handler.csproj",
+      "projectName": "ArkBackupHandler",
+      "projectPath": "D:\\Documents\\GitHub\\Ark Backup Handler\\Ark Backup Handler\\Ark Backup Handler.csproj",
+      "packagesPath": "C:\\Users\\OwenS\\.nuget\\packages\\",
+      "outputPath": "D:\\Documents\\GitHub\\Ark Backup Handler\\Ark Backup Handler\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Crabby90\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\OwenS\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
