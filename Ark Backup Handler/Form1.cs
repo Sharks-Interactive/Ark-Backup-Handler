@@ -99,16 +99,16 @@ namespace Ark_Backup_Handler
 
         public void LoadFiles ()
         {
-            //Find out how many autosave files their already are
-            Directory.CreateDirectory(backupLocation + @"\Automatic Saves\");
-            string[] autoSaves = Directory.GetFiles(backupLocation + @"\Automatic Saves\");
-            saveNumber = autoSaves.Count();
-
             Directory.CreateDirectory(backupLocation + @"\Automatic Saves\[TRANSFERDATA]\");
-            string[] saves = Directory.GetFiles(backupLocation + @"\Automatic Saves\[TRANSFERDATA]\");
+            string[] saves = Directory.GetDirectories(backupLocation + @"\Automatic Saves\[TRANSFERDATA]\");
             transferSaveNumber = saves.Count();
 
-            //Debug.WriteLine(transferSaveNumber + " " + saveNumber);
+            //Find out how many autosave files their already are
+            Directory.CreateDirectory(backupLocation + @"\Automatic Saves\");
+            string[] autoSaves = Directory.GetDirectories(backupLocation + @"\Automatic Saves\");
+            saveNumber = autoSaves.Count() - 1;
+
+            Debug.WriteLine(transferSaveNumber + " " + saveNumber);
         }
 
         #endregion
@@ -542,7 +542,16 @@ namespace Ark_Backup_Handler
         }
 
         #endregion
-        
+
+        #region Revert
+
+        private void LoadBackups ()
+        {
+            
+        }
+
+        #endregion
+
         #endregion
     }
 

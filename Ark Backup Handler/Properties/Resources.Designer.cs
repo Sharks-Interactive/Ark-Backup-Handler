@@ -113,6 +113,26 @@ namespace Ark_Backup_Handler.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap RevertIcon {
+            get {
+                object obj = ResourceManager.GetObject("RevertIcon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap RevertIconv2 {
+            get {
+                object obj = ResourceManager.GetObject("RevertIconv2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap SettingsIcontest__1_ {
             get {
                 object obj = ResourceManager.GetObject("SettingsIcontest__1_", resourceCulture);
