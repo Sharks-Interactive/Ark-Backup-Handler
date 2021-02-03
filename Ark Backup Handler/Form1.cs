@@ -32,6 +32,7 @@ namespace Ark_Backup_Handler
         int saveNumber;
         int maxSaves = 30;
         int transferSaveNumber;
+        bool isDebug;
         #endregion
 
         #endregion
@@ -42,6 +43,10 @@ namespace Ark_Backup_Handler
         {
             //Win Forms init
             InitializeComponent();
+
+#if DEBUG
+            isDebug = true;
+#endif
 
             #region Variable Initialization
 
@@ -456,6 +461,11 @@ namespace Ark_Backup_Handler
 
         public static void Copy(string sourceDirectory, string targetDirectory)
         {
+            if (!Directory.Exists(sourceDirectory) && Directory.Exists(targetDirectory))
+            {
+                Debug.WriteLine("Error: One copy dir was not valid!");
+                return;
+            }
             var diSource = new DirectoryInfo(sourceDirectory);
             var diTarget = new DirectoryInfo(targetDirectory);
             Debug.WriteLine(targetDirectory);
@@ -498,6 +508,15 @@ namespace Ark_Backup_Handler
         private void UIProcess_FormClosing(object sender, FormClosingEventArgs e)
         {
             //Unregister event handlers and save settings
+            if (isDebug)
+            {
+                Properties.Settings.Default.Save();
+                mainTimerLoop.Dispose();
+                SaveTimer.Dispose();
+                GC.Collect();
+                return;
+            }
+
             var closeMsg = MessageBox.Show("Do you really want to quit?", "Are you sure?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
             if (closeMsg == DialogResult.Yes)
