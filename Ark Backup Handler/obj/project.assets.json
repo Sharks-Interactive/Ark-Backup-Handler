@@ -13,11 +13,11 @@
   "project": {
     "version": "0.3.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Crabby90\\Documents\\GitHub\\Ark-Backup-Handler\\Ark Backup Handler\\Ark Backup Handler.csproj",
+      "projectUniqueName": "C:\\Users\\Crabby90\\Documents\\Visual Studio Projects\\Ark-Backup-Handler\\Ark Backup Handler\\Ark Backup Handler.csproj",
       "projectName": "ArkBackupHandler",
-      "projectPath": "C:\\Users\\Crabby90\\Documents\\GitHub\\Ark-Backup-Handler\\Ark Backup Handler\\Ark Backup Handler.csproj",
+      "projectPath": "C:\\Users\\Crabby90\\Documents\\Visual Studio Projects\\Ark-Backup-Handler\\Ark Backup Handler\\Ark Backup Handler.csproj",
       "packagesPath": "C:\\Users\\Crabby90\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Crabby90\\Documents\\GitHub\\Ark-Backup-Handler\\Ark Backup Handler\\obj\\",
+      "outputPath": "C:\\Users\\Crabby90\\Documents\\Visual Studio Projects\\Ark-Backup-Handler\\Ark Backup Handler\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Crabby90\\AppData\\Roaming\\NuGet\\NuGet.Config",

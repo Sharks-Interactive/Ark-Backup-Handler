@@ -82,6 +82,9 @@ namespace Ark_Backup_Handler
             maxSaves = Properties.Settings.Default.maxSaves;
             maxSavesSetter.Value = maxSaves;
 
+            saveNumber = Properties.Settings.Default.lastAutoSave;
+            transferSaveNumber = Properties.Settings.Default.lastTransferAuto;
+
             //Setting saveTimer to autosave interval
             SaveTimer.Interval = (int)(autoSaveInterval * 60000);
             SaveTimer.Start();
@@ -415,6 +418,9 @@ namespace Ark_Backup_Handler
             errorDisplay.Text = "Info: Transfer data copied succesfully! (Automatic) " + GetCurrentTime(false);
             transferSaveNumber++;
 
+            Properties.Settings.Default.lastAutoSave = saveNumber;
+            Properties.Settings.Default.lastTransferAuto = transferSaveNumber;
+
             Copy(saveLocation + @"\clusters", backupLocation + Path + @"\");
 
             if (transferSaveNumber >= maxSaves)
@@ -454,6 +460,9 @@ namespace Ark_Backup_Handler
             errorDisplay.ForeColor = Color.White;
             errorDisplay.Text = "Info: Items copied succesfully! Manual: " + !automatic + GetCurrentTime(false);
             Copy(saveLocation, backupLocation + autoManual + Time + @"\");
+
+            Properties.Settings.Default.lastAutoSave = saveNumber;
+            Properties.Settings.Default.lastTransferAuto = transferSaveNumber;
 
             if (saveNumber >= maxSaves)
                 saveNumber = 0;
@@ -507,6 +516,11 @@ namespace Ark_Backup_Handler
 
         private void UIProcess_FormClosing(object sender, FormClosingEventArgs e)
         {
+            Properties.Settings.Default.lastAutoSave = saveNumber;
+            Properties.Settings.Default.lastTransferAuto = transferSaveNumber;
+            Properties.Settings.Default.Save();
+            GC.Collect();
+
             //Unregister event handlers and save settings
             if (isDebug)
             {

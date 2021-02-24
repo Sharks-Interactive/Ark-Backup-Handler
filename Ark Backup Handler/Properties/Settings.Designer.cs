@@ -82,5 +82,29 @@ namespace Ark_Backup_Handler.Properties {
                 this["transferDataSaveInterval"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int lastAutoSave {
+            get {
+                return ((int)(this["lastAutoSave"]));
+            }
+            set {
+                this["lastAutoSave"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int lastTransferAuto {
+            get {
+                return ((int)(this["lastTransferAuto"]));
+            }
+            set {
+                this["lastTransferAuto"] = value;
+            }
+        }
     }
 }
