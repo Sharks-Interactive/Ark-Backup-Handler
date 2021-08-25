@@ -10,9 +10,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static ABH.Files.FileHandler;
+using ABH.Files.Backup;
 #endregion
 
-namespace Ark_Backup_Handler
+namespace ABH
 {
     public partial class UIProcess : Form
     {
@@ -121,7 +123,15 @@ namespace Ark_Backup_Handler
         //When the autoSaveTimer ticks
         private void SaveTimer_Tick(object sender, EventArgs e)
         {
-            BackupFiles(true);
+            if (BackupManager.BackupMapAndConfigFiles(true))
+                saveNumber++;
+
+            Properties.Settings.Default.lastAutoSave = saveNumber;
+            Properties.Settings.Default.lastTransferAuto = transferSaveNumber;
+
+            
+            if (saveNumber >= maxSaves)
+                saveNumber = 0;
         }
 
         //GC
@@ -322,194 +332,7 @@ namespace Ark_Backup_Handler
         #endregion
 
         #region Utility
-        public string GetCurrentTime (bool appendZeroAKAClean)
-        {
-            tempTime = " @";
-            if (appendZeroAKAClean)
-            {
-                if (DateTime.Now.Hour >= 10)
-                    tempTime += DateTime.Now.Hour.ToString();
-                else
-                    tempTime += "0" + DateTime.Now.Hour.ToString();
-
-                if (DateTime.Now.Minute <= 9)
-                    tempTime += "0" + DateTime.Now.Minute.ToString();
-                else
-                    tempTime += DateTime.Now.Minute.ToString();
-            }
-            else
-            {
-                tempTime += DateTime.Now.Hour.ToString() + "_";
-                if (DateTime.Now.Minute <= 9)
-                    tempTime += "0" + DateTime.Now.Minute.ToString() + "_";
-                else
-                    tempTime += DateTime.Now.Minute.ToString() + "_";
-
-                if (DateTime.Now.Millisecond <= 9)
-                    tempTime += "0" + DateTime.Now.Millisecond.ToString();
-                else
-                    tempTime += DateTime.Now.Millisecond.ToString();
-            }
-
-            return tempTime;
-        }
-
-        private void Log (string Messege, ErrorLevel LogLevel, bool Append)
-        {
-            if (Append)
-            {
-                switch ((int)LogLevel)
-                {
-                    case 0:
-                        errorDisplay.ForeColor = Color.White;
-                        errorDisplay.Text += "Info: " + Messege;
-                        break;
-
-                    case 1:
-                        errorDisplay.ForeColor = Color.Yellow;
-                        errorDisplay.Text += "Warning: " + Messege;
-                        break;
-
-                    case 2:
-                        errorDisplay.ForeColor = Color.Red;
-                        errorDisplay.Text += "Error: " + Messege;
-                        break;
-                }
-            }
-            else
-            {
-                switch ((int)LogLevel)
-                {
-                    case 0:
-                        errorDisplay.ForeColor = Color.White;
-                        errorDisplay.Text = "Info: " + Messege;
-                        break;
-
-                    case 1:
-                        errorDisplay.ForeColor = Color.Yellow;
-                        errorDisplay.Text = "Warning: " + Messege;
-                        break;
-
-                    case 2:
-                        errorDisplay.ForeColor = Color.Red;
-                        errorDisplay.Text = "Error: " + Messege;
-                        break;
-                }
-            }
-        }
-        #endregion
-
-        #region File Handling
-
-        private void BackupTransferData ()
-        {
-            //Check if the directory exists
-            if (!Directory.Exists(backupLocation))
-            {
-                errorDisplay.ForeColor = Color.Red;
-                errorDisplay.Text = "Error: Backup Location directory does not exist or other read error! Please validate file path.";
-                return;
-            }
-
-            string Path = @"\Automatic Saves\[TRANSFERDATA]\" + "(Save " + transferSaveNumber + ")";
-            Directory.CreateDirectory(backupLocation + Path);
-
-            errorDisplay.ForeColor = Color.White;
-            errorDisplay.Text = "Info: Transfer data copied succesfully! (Automatic) " + GetCurrentTime(false);
-            transferSaveNumber++;
-
-            Properties.Settings.Default.lastAutoSave = saveNumber;
-            Properties.Settings.Default.lastTransferAuto = transferSaveNumber;
-
-            Copy(saveLocation + @"\clusters", backupLocation + Path + @"\");
-
-            if (transferSaveNumber >= maxSaves)
-                transferSaveNumber = 0;
-        }
-
-        private void BackupFiles (bool automatic)
-        {
-            //Check if the directory exists
-            if (!Directory.Exists(backupLocation))
-            {
-                errorDisplay.ForeColor = Color.Red;
-                errorDisplay.Text = "Error: Backup Location directory does not exist or other read error! Please validate file path.";
-                return;
-            }
-
-            //Choose which folders to copy into
-            if (automatic)
-                autoManual = @"\Automatic Saves\";
-            else
-                autoManual = @"\Manual Saves\";
-            if (automatic) saveNumber++;
-
-            Directory.CreateDirectory(backupLocation + autoManual);
-            if (automatic)
-                Time = "(Save " + saveNumber + ")";
-            //Time = DateTime.Now.ToString("yyyy-MM-dd") + GetCurrentTime(false) + " (Save " + saveNumber + ")";
-            else
-            {
-                if (milestoneCheckbox.Checked)
-                    Time = @"\[MILESTONES]\" + backupName.Text + " " + DateTime.Now.ToString("yyyy-MM-dd") + GetCurrentTime(false);
-                else
-                    Time = backupName.Text + " " + DateTime.Now.ToString("yyyy-MM-dd") + GetCurrentTime(false);
-            }
-
-            Directory.CreateDirectory(backupLocation + autoManual + Time + @"\");
-            errorDisplay.ForeColor = Color.White;
-            errorDisplay.Text = "Info: Items copied succesfully! Manual: " + !automatic + GetCurrentTime(false);
-            Copy(saveLocation, backupLocation + autoManual + Time + @"\");
-
-            Properties.Settings.Default.lastAutoSave = saveNumber;
-            Properties.Settings.Default.lastTransferAuto = transferSaveNumber;
-
-            if (saveNumber >= maxSaves)
-                saveNumber = 0;
-        }
-
-        public static void Copy(string sourceDirectory, string targetDirectory)
-        {
-            if (!Directory.Exists(sourceDirectory) && Directory.Exists(targetDirectory))
-            {
-                Debug.WriteLine("Error: One copy dir was not valid!");
-                return;
-            }
-            var diSource = new DirectoryInfo(sourceDirectory);
-            var diTarget = new DirectoryInfo(targetDirectory);
-            Debug.WriteLine(targetDirectory);
-
-            CopyAll(diSource, diTarget);
-        }
-
-        public static void CopyAll(DirectoryInfo source, DirectoryInfo target)
-        {
-            if (Directory.Exists(target.FullName))
-                Directory.Delete(target.FullName, true);
-
-            Directory.CreateDirectory(target.FullName);
-
-            // Copy each file into the new directory.
-            foreach (FileInfo fi in source.GetFiles())
-            {
-                try
-                {
-                    fi.CopyTo(Path.Combine(target.FullName, fi.Name), true);
-                }
-                catch (Exception E)
-                {
-                    Debug.WriteLine("Error copying files " + E.Message);
-                }
-            }
-
-            // Copy each subdirectory using recursion.
-            foreach (DirectoryInfo diSourceSubDir in source.GetDirectories())
-            {
-                DirectoryInfo nextTargetSubDir =
-                    target.CreateSubdirectory(diSourceSubDir.Name);
-                CopyAll(diSourceSubDir, nextTargetSubDir);
-            }
-        }
+        
         #endregion
 
         #region Application Events
@@ -567,12 +390,10 @@ namespace Ark_Backup_Handler
         #endregion
 
         #endregion
-    }
 
-    public enum ErrorLevel
-    {
-        Info,
-        Warning,
-        Error
+        private void UIProcess_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

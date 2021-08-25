@@ -1,4 +1,4 @@
-﻿namespace Ark_Backup_Handler
+﻿namespace ABH
 {
     partial class UIProcess
     {
@@ -35,6 +35,7 @@
             this.errorDisplay = new System.Windows.Forms.Label();
             this.TabBackgroundPanel = new System.Windows.Forms.FlowLayoutPanel();
             this.backupsButton = new System.Windows.Forms.Button();
+            this.revertButton = new System.Windows.Forms.Button();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.backupLabel = new System.Windows.Forms.Label();
             this.backupFileLocation = new System.Windows.Forms.TextBox();
@@ -66,7 +67,7 @@
             this.transferDataSaveIntervalChooser = new System.Windows.Forms.NumericUpDown();
             this.transferDataSaveIntLabel = new System.Windows.Forms.Label();
             this.transferDataSaveTimer = new System.Windows.Forms.Timer(this.components);
-            this.revertButton = new System.Windows.Forms.Button();
+            this.ReportError = new System.Windows.Forms.Button();
             this.TabBackgroundPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.saveInterval)).BeginInit();
             this.manualSaveBox.SuspendLayout();
@@ -107,6 +108,7 @@
             this.TabBackgroundPanel.Controls.Add(this.LogoBlock);
             this.TabBackgroundPanel.Controls.Add(this.backupsButton);
             this.TabBackgroundPanel.Controls.Add(this.revertButton);
+            this.TabBackgroundPanel.Controls.Add(this.ReportError);
             this.TabBackgroundPanel.Dock = System.Windows.Forms.DockStyle.Top;
             this.TabBackgroundPanel.Location = new System.Drawing.Point(0, 0);
             this.TabBackgroundPanel.Margin = new System.Windows.Forms.Padding(3, 3, 0, 3);
@@ -131,6 +133,25 @@
             this.backupsButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.backupsButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.backupsButton.UseVisualStyleBackColor = false;
+            // 
+            // revertButton
+            // 
+            this.revertButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(34)))), ((int)(((byte)(40)))));
+            this.revertButton.Dock = System.Windows.Forms.DockStyle.Left;
+            this.revertButton.FlatAppearance.BorderSize = 0;
+            this.revertButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.revertButton.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.revertButton.ForeColor = System.Drawing.Color.White;
+            this.revertButton.Image = ((System.Drawing.Image)(resources.GetObject("revertButton.Image")));
+            this.revertButton.Location = new System.Drawing.Point(277, 0);
+            this.revertButton.Margin = new System.Windows.Forms.Padding(0);
+            this.revertButton.Name = "revertButton";
+            this.revertButton.Size = new System.Drawing.Size(104, 83);
+            this.revertButton.TabIndex = 2;
+            this.revertButton.Text = "Revert";
+            this.revertButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.revertButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.revertButton.UseVisualStyleBackColor = false;
             // 
             // backupLabel
             // 
@@ -462,24 +483,15 @@
             // 
             this.transferDataSaveTimer.Tick += new System.EventHandler(this.transferDataSaveTimer_Tick);
             // 
-            // revertButton
+            // ReportError
             // 
-            this.revertButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(34)))), ((int)(((byte)(40)))));
-            this.revertButton.Dock = System.Windows.Forms.DockStyle.Left;
-            this.revertButton.FlatAppearance.BorderSize = 0;
-            this.revertButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.revertButton.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.revertButton.ForeColor = System.Drawing.Color.White;
-            this.revertButton.Image = ((System.Drawing.Image)(resources.GetObject("revertButton.Image")));
-            this.revertButton.Location = new System.Drawing.Point(277, 0);
-            this.revertButton.Margin = new System.Windows.Forms.Padding(0);
-            this.revertButton.Name = "revertButton";
-            this.revertButton.Size = new System.Drawing.Size(104, 83);
-            this.revertButton.TabIndex = 2;
-            this.revertButton.Text = "Revert";
-            this.revertButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.revertButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.revertButton.UseVisualStyleBackColor = false;
+            this.ReportError.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.ReportError.Location = new System.Drawing.Point(384, 3);
+            this.ReportError.Name = "ReportError";
+            this.ReportError.Size = new System.Drawing.Size(75, 23);
+            this.ReportError.TabIndex = 3;
+            this.ReportError.Text = "button1";
+            this.ReportError.UseVisualStyleBackColor = true;
             // 
             // UIProcess
             // 
@@ -563,6 +575,7 @@
         private System.Windows.Forms.Timer transferDataSaveTimer;
         private System.Windows.Forms.Button backupsButton;
         private System.Windows.Forms.Button revertButton;
+        private System.Windows.Forms.Button ReportError;
     }
 }
 

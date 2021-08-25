@@ -3,9 +3,9 @@
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <RootNamespace>Ark_Backup_Handler</RootNamespace>
+    <RootNamespace>ABH</RootNamespace>
     <UseWindowsForms>true</UseWindowsForms>
-    <SignAssembly>true</SignAssembly>
+    <SignAssembly>false</SignAssembly>
     <AssemblyOriginatorKeyFile>BackupHandlerKey.pfx</AssemblyOriginatorKeyFile>
     <DelaySign>false</DelaySign>
     <Version>0.3.0</Version>
@@ -19,7 +19,7 @@
     <RepositoryType></RepositoryType>
     <RepositoryUrl>https://github.com/Sharks-Interactive</RepositoryUrl>
     <PackageIcon></PackageIcon>
-    <StartupObject>Ark_Backup_Handler.Program</StartupObject>
+    <StartupObject>ABH.Program</StartupObject>
     <ApplicationIcon>Resources\network_storage_icon_14_1qA_icon.ico</ApplicationIcon>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <PackageId>ArkBackupHandler</PackageId>
@@ -63,6 +63,10 @@
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Octokit" Version="0.50.0" />
   </ItemGroup>
 
 </Project>

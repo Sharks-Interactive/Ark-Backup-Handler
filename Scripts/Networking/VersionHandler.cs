@@ -1,23 +1,69 @@
-﻿using System;
+﻿using Octokit;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Reflection;
 using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace ABH.Net
 {
-    class VersionHandler
+    static class VersionHandler
     {
-        public void GetLatestVersion()
+        /// <summary>
+        /// Retrieves the number of the latest release from the GitHub page
+        /// </summary>
+        /// <returns> Octokit.Release object of the latest release </returns>
+        public static async Task<Release> GetLatestVersion()
         {
+            GitHubClient _client = new GitHubClient(new ProductHeaderValue("Ark-Backup-Handler"));
+            var releases = await _client.Repository.Release.GetAll("Sharks-Interactive", "octokit.net");
+            Release latest = releases[0];
+            Debug.WriteLine(
+                "The latest release is tagged at {0} and is named {1}",
+                latest.TagName,
+                latest.Name);
 
+            LatestVersion = latest.TagName;
+
+            return latest;
         }
 
-        public void ReadCurrentVersion()
-        {
+        /// <summary>
+        /// A string containing the current version of Ark Backup Handler
+        /// </summary>
+        public static string CurrentVersion { get => typeof(Program).GetTypeInfo().Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion; set => CurrentVersion = value; }
 
-        }
+        public static string LatestVersion = "";
 
-        public bool CheckCurrentVersion()
+        /// <summary>
+        /// Checks whether the application is up to date. Please run GetLatestVersion first.
+        /// </summary>
+        /// <returns></returns>
+        public static bool CheckUpToDate() => CurrentVersion == LatestVersion;
+
+        /// <summary>
+        /// Informs the user if there is an update
+        /// </summary>
+        /// <returns> Whether the user has heeded the notification </returns>
+        public static async Task<bool> InformAboutUpdate()
         {
+            await GetLatestVersion();
+
+            if (!CheckUpToDate())
+            {
+                DialogResult _result = MessageBox.Show(
+                    "Update Availible",
+                    $"Your Backup Handler is out of date. The current version is v{VersionHandler.CurrentVersion} and the latest is v{VersionHandler.LatestVersion}. You can download it at https://github.com/Sharks-Interactive/Ark-Backup-Handler/releases/tag/v{VersionHandler.LatestVersion}.",
+                    MessageBoxButtons.AbortRetryIgnore,
+                    MessageBoxIcon.Exclamation
+                );
+
+                // Return true if the user hits either of these buttons
+                return _result == DialogResult.Abort || _result == DialogResult.Retry;
+            }
+
             return false;
         }
     }
