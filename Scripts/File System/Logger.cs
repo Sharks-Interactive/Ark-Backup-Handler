@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Windows.Forms;
 
 namespace ABH.Files.Logging
 {
@@ -19,8 +20,17 @@ namespace ABH.Files.Logging
             switch (LogLevel)
             {
                 case ErrorLevel.Info:
-                    new StreamWriter(@"") // Write to log files
-                        // Log to console
+                    // Read old log file first if it exists
+                    WriteToFile(
+                        Application.LocalUserAppDataPath + @"/Sharks Interactive/Ark Backup Handler/",
+                        Message + "_" + LogLevel.ToString()
+                        );
+
+                    FileStream _stream = new FileStream(Application.LocalUserAppDataPath + @"/Sharks Interactive/Ark Backup Handler/Log.sid", FileMode.OpenOrCreate);
+                    StreamWriter _writer = new StreamWriter();
+                    _writer.WriteLine(Message + "\n"); // Write to log files
+                    
+                    // Log to console
                     //errorDisplay.ForeColor = Color.White;
                     //errorDisplay.Text = "Info: " + Messege;
                     // Update in app error display
@@ -36,6 +46,11 @@ namespace ABH.Files.Logging
                     //errorDisplay.Text = "Error: " + Messege;
                     break;
             }
+        }
+
+        private static bool WriteToFile(string _path, string _data)
+        {
+            Directory.CreateDirectory(_path);
         }
     }
 }
