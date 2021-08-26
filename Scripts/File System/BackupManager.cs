@@ -1,69 +1,54 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
-using ABH.Files;
 using ABH.Utility;
 
 namespace ABH.Files.Backup
 {
     public static class BackupManager
     {
-        public static void BackupTransferData()
+        private const string c_transferBackupFolder = @"[TRANSFERDATA]\";
+        private const string c_milestoneBackupFolder = @"[MILESTONES]\";
+
+        private const string c_clusterDataFolder = @"\clusters";
+
+        private const string c_manualBackupFolder = @"\Manual Saves\";
+        private const string c_automaticBackupFolder = @"\Automatic Saves\";
+
+        private static readonly string r_backupLocation = Properties.Settings.Default.backupLocation;
+        private static readonly string r_saveLocation = Properties.Settings.Default.saveLocation;
+
+        /// <summary>
+        /// Backs up transfer data
+        /// </summary>
+        /// <param name="SaveNumber"> Which save folder to backup to </param>
+        /// <returns> Was the operation a success? </returns>
+        public static bool BackupTransferData(int SaveNumber)
         {
-            //Check if the directory exists
-            if (!Directory.Exists(backupLocation))
-            {
-                errorDisplay.ForeColor = Color.Red;
-                errorDisplay.Text = "Error: Backup Location directory does not exist or other read error! Please validate file path.";
-                return;
-            }
+            string _source = r_saveLocation + c_clusterDataFolder;
+            string _target = r_backupLocation + c_automaticBackupFolder + 
+                c_transferBackupFolder + "(Save " + SaveNumber + @") \";
 
-            string Path = @"\Automatic Saves\[TRANSFERDATA]\" + "(Save " + transferSaveNumber + ")";
-            Directory.CreateDirectory(backupLocation + Path);
-
-            errorDisplay.ForeColor = Color.White;
-            errorDisplay.Text = "Info: Transfer data copied succesfully! (Automatic) " + GetCurrentTime(false);
-            transferSaveNumber++;
-
-            Properties.Settings.Default.lastAutoSave = saveNumber;
-            Properties.Settings.Default.lastTransferAuto = transferSaveNumber;
-
-            Copy(saveLocation + @"\clusters", backupLocation + Path + @"\");
-
-            if (transferSaveNumber >= maxSaves)
-                transferSaveNumber = 0;
+            return FileHandler.CopyIntoFolder(_source, _target);
         }
 
-        public static bool BackupMapAndConfigFiles(bool automatic)
+        /// <summary>
+        /// Backs up all map save data and server configs
+        /// </summary>
+        /// <param name="Automatic"> Is this backup being performed automatically? </param>
+        /// <param name="Milestone"> If this backup is manual, is it a milestone? </param>
+        /// <param name="Data"> Additional information, if this is automatic supply
+        /// the save number here, if it's manual supply the backup name here. </param>
+        /// <returns> Whether or not the operation concluded successfully </returns>
+        public static bool BackupMapAndConfigFiles(bool Automatic, bool Milestone, string Data)
         {
-            //Check if the directory exists
-            if (!Directory.Exists(backupLocation))
-            {
-                return false;
-            }
+            string _parentFolder = Automatic ? c_automaticBackupFolder : c_manualBackupFolder;
+            _parentFolder = Milestone ? _parentFolder +  : _parentFolder;
+            Directory.CreateDirectory(r_backupLocation + _parentFolder);
 
-            //Choose which folders to copy into
-            string _autoManual;
-            if (automatic)
-                _autoManual = @"\Automatic Saves\";
-            else
-                _autoManual = @"\Manual Saves\";
+            string _folder = Automatic ? "(Save " + Data + ")" : Data + " " + DateTime.Now.ToString("yyyy-MM-dd") + TimeHelper.ExactTimeString;
+            string _target = r_backupLocation + _parentFolder + _folder + @"\";
 
-            Directory.CreateDirectory(backupLocation + _autoManual);
-            
-            if (automatic)
-                Time = "(Save " + saveNumber + ")";
-            else
-            {
-                if (milestoneCheckbox.Checked)
-                    Time = @"\[MILESTONES]\" + backupName.Text + " " + DateTime.Now.ToString("yyyy-MM-dd") + GetCurrentTime(false);
-                else
-                    Time = backupName.Text + " " + DateTime.Now.ToString("yyyy-MM-dd") + TimeHelper.ExactTimeString;
-            }
-
-            Directory.CreateDirectory(backupLocation + _autoManual + Time + @"\");
-            return FileHandler.Copy(saveLocation, backupLocation + _autoManual + Time + @"\");
+            return FileHandler.CopyIntoFolder(r_saveLocation, _target);
         }
     }
 }

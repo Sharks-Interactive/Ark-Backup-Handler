@@ -1,13 +1,10 @@
 ﻿using Octokit;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace ABH.Net
+namespace ABH.Properties
 {
     static class VersionHandler
     {
@@ -55,7 +52,7 @@ namespace ABH.Net
             {
                 DialogResult _result = MessageBox.Show(
                     "Update Availible",
-                    $"Your Backup Handler is out of date. The current version is v{VersionHandler.CurrentVersion} and the latest is v{VersionHandler.LatestVersion}. You can download it at https://github.com/Sharks-Interactive/Ark-Backup-Handler/releases/tag/v{VersionHandler.LatestVersion}.",
+                    $"Your Backup Handler is out of date. The current version is v{CurrentVersion} and the latest is v{LatestVersion}. You can download it at https://github.com/Sharks-Interactive/Ark-Backup-Handler/releases/tag/v{LatestVersion}.",
                     MessageBoxButtons.AbortRetryIgnore,
                     MessageBoxIcon.Exclamation
                 );

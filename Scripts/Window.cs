@@ -14,7 +14,7 @@ using static ABH.Files.FileHandler;
 using ABH.Files.Backup;
 #endregion
 
-namespace ABH
+namespace ABH.UI
 {
     public partial class UIProcess : Form
     {
@@ -50,20 +50,12 @@ namespace ABH
             isDebug = true;
 #endif
 
-            #region Variable Initialization
-
-            #endregion
-
-            #region Apperance
             saveInterval.BringToFront();
             manualSaveBox.BringToFront();
-            #endregion
 
-            #region Logical Initialization
             LoadSettings();
             mainTimerLoop.Start();
             UpdateMessegeOfTheDay();
-            #endregion
         }
 
         private void LoadSettings ()

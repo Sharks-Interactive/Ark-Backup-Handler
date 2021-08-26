@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace ABH.Utility
 {
     public static class TimeHelper
     {
         /// <summary>
-        /// A string representation of the current time formatted as
-        /// '@HR_MN_MS'
+        /// A string representation of the current time formatted as '@HR_MN_MS'
         /// </summary>
         public static string ExactTimeString
         {

@@ -1,21 +1,14 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using ABH.Net;
 using System.Windows.Forms;
-using System.Diagnostics;
+using ABH.UI;
 
 namespace ABH
 {
     static class Program
     {
-        #region Globals
-
-        public static string Owner   = "Sharks-Interactive";
-        public static string AppName = "Ark-Backup-Handler";
-
-        #endregion
+        public static readonly string Owner   = "Sharks-Interactive";
+        public static readonly string AppName = "Ark-Backup-Handler";
 
         /// <summary>
         ///  The main entry point for the application.

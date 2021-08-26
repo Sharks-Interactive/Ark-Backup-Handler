@@ -1,4 +1,4 @@
-﻿namespace ABH
+﻿namespace ABH.UI
 {
     partial class UIProcess
     {
