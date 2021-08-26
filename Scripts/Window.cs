@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using static ABH.Files.FileHandler;
 using ABH.Files.Backup;
+using ABH.Logging;
 #endregion
 
 namespace ABH.UI
@@ -115,7 +116,7 @@ namespace ABH.UI
         //When the autoSaveTimer ticks
         private void SaveTimer_Tick(object sender, EventArgs e)
         {
-            if (BackupManager.BackupMapAndConfigFiles(true))
+            if (BackupManager.BackupMapAndConfigFiles(true, false, saveNumber.ToString()))
                 saveNumber++;
 
             Properties.Settings.Default.lastAutoSave = saveNumber;
@@ -155,7 +156,7 @@ namespace ABH.UI
 
         private void transferDataSaveTimer_Tick(object sender, EventArgs e)
         {
-            BackupTransferData();
+            BackupManager.BackupTransferData(transferSaveNumber);
         }
 
         #endregion
@@ -224,7 +225,7 @@ namespace ABH.UI
 
         private void submitButton_MouseClick(object sender, MouseEventArgs e)
         {
-            BackupFiles(false);
+            BackupManager.BackupMapAndConfigFiles(false, milestoneCheckbox.Checked, backupName.Text);
             manualSaveBox.Visible = false;
             milestoneCheckbox.Checked = false;
             backupName.ResetText();
@@ -267,7 +268,7 @@ namespace ABH.UI
 
             if (ini.Count() < 4)
             {
-                Log("Unspecified error reading ini.", ErrorLevel.Error, true);
+                Logger.Log("Unspecified error reading ini.", Logger.ErrorLevel.Error);
                 return;
             }
 
@@ -368,15 +369,6 @@ namespace ABH.UI
         private void errorDisplay_TextChanged(object sender, EventArgs e)
         {
             mainToolTip.SetToolTip(errorDisplay, errorDisplay.Text);
-        }
-
-        #endregion
-
-        #region Revert
-
-        private void LoadBackups ()
-        {
-            
         }
 
         #endregion

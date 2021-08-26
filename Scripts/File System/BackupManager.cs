@@ -42,7 +42,7 @@ namespace ABH.Files.Backup
         public static bool BackupMapAndConfigFiles(bool Automatic, bool Milestone, string Data)
         {
             string _parentFolder = Automatic ? c_automaticBackupFolder : c_manualBackupFolder;
-            _parentFolder = Milestone ? _parentFolder +  : _parentFolder;
+            _parentFolder = Milestone ? _parentFolder + c_milestoneBackupFolder : _parentFolder;
             Directory.CreateDirectory(r_backupLocation + _parentFolder);
 
             string _folder = Automatic ? "(Save " + Data + ")" : Data + " " + DateTime.Now.ToString("yyyy-MM-dd") + TimeHelper.ExactTimeString;
