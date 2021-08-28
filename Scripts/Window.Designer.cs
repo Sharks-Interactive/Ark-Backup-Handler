@@ -36,6 +36,7 @@
             this.TabBackgroundPanel = new System.Windows.Forms.FlowLayoutPanel();
             this.backupsButton = new System.Windows.Forms.Button();
             this.revertButton = new System.Windows.Forms.Button();
+            this.ReportError = new System.Windows.Forms.Button();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.backupLabel = new System.Windows.Forms.Label();
             this.backupFileLocation = new System.Windows.Forms.TextBox();
@@ -54,8 +55,8 @@
             this.numDisplay = new System.Windows.Forms.TextBox();
             this.manualBackupButton = new System.Windows.Forms.Button();
             this.garbageCollectionTimer = new System.Windows.Forms.Timer(this.components);
-            this.minimizeButton = new System.Windows.Forms.Button();
-            this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
+            this.g_MinimizeButton = new System.Windows.Forms.Button();
+            this.g_TrayIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.manualSaveBox = new System.Windows.Forms.Panel();
             this.submitButton = new System.Windows.Forms.Button();
             this.milestoneCheckbox = new System.Windows.Forms.CheckBox();
@@ -67,7 +68,6 @@
             this.transferDataSaveIntervalChooser = new System.Windows.Forms.NumericUpDown();
             this.transferDataSaveIntLabel = new System.Windows.Forms.Label();
             this.transferDataSaveTimer = new System.Windows.Forms.Timer(this.components);
-            this.ReportError = new System.Windows.Forms.Button();
             this.TabBackgroundPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.saveInterval)).BeginInit();
             this.manualSaveBox.SuspendLayout();
@@ -94,7 +94,7 @@
             this.errorDisplay.ForeColor = System.Drawing.Color.Red;
             this.errorDisplay.Location = new System.Drawing.Point(10, 498);
             this.errorDisplay.Name = "errorDisplay";
-            this.errorDisplay.Size = new System.Drawing.Size(189, 19);
+            this.errorDisplay.Size = new System.Drawing.Size(230, 23);
             this.errorDisplay.TabIndex = 13;
             this.errorDisplay.Text = "No errors to display";
             this.errorDisplay.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -153,6 +153,16 @@
             this.revertButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.revertButton.UseVisualStyleBackColor = false;
             // 
+            // ReportError
+            // 
+            this.ReportError.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.ReportError.Location = new System.Drawing.Point(384, 3);
+            this.ReportError.Name = "ReportError";
+            this.ReportError.Size = new System.Drawing.Size(75, 23);
+            this.ReportError.TabIndex = 3;
+            this.ReportError.Text = "button1";
+            this.ReportError.UseVisualStyleBackColor = true;
+            // 
             // backupLabel
             // 
             this.backupLabel.AutoSize = true;
@@ -160,7 +170,7 @@
             this.backupLabel.ForeColor = System.Drawing.Color.White;
             this.backupLabel.Location = new System.Drawing.Point(0, 83);
             this.backupLabel.Name = "backupLabel";
-            this.backupLabel.Size = new System.Drawing.Size(134, 32);
+            this.backupLabel.Size = new System.Drawing.Size(169, 40);
             this.backupLabel.TabIndex = 8;
             this.backupLabel.Text = "Backups:";
             // 
@@ -173,7 +183,7 @@
             this.backupFileLocation.Location = new System.Drawing.Point(12, 153);
             this.backupFileLocation.Name = "backupFileLocation";
             this.backupFileLocation.ReadOnly = true;
-            this.backupFileLocation.Size = new System.Drawing.Size(409, 23);
+            this.backupFileLocation.Size = new System.Drawing.Size(409, 27);
             this.backupFileLocation.TabIndex = 9;
             // 
             // changeBackupLocationButton
@@ -197,7 +207,7 @@
             this.backupSaveLocationLabel.AutoSize = true;
             this.backupSaveLocationLabel.Location = new System.Drawing.Point(12, 127);
             this.backupSaveLocationLabel.Name = "backupSaveLocationLabel";
-            this.backupSaveLocationLabel.Size = new System.Drawing.Size(189, 19);
+            this.backupSaveLocationLabel.Size = new System.Drawing.Size(230, 23);
             this.backupSaveLocationLabel.TabIndex = 11;
             this.backupSaveLocationLabel.Text = "Backup Save Location";
             // 
@@ -215,7 +225,7 @@
             this.arkSaveLocationLabel.AutoSize = true;
             this.arkSaveLocationLabel.Location = new System.Drawing.Point(12, 198);
             this.arkSaveLocationLabel.Name = "arkSaveLocationLabel";
-            this.arkSaveLocationLabel.Size = new System.Drawing.Size(162, 19);
+            this.arkSaveLocationLabel.Size = new System.Drawing.Size(197, 23);
             this.arkSaveLocationLabel.TabIndex = 11;
             this.arkSaveLocationLabel.Text = "Ark Save Location";
             // 
@@ -228,7 +238,7 @@
             this.arkSaveLocationFilePathDisplay.Location = new System.Drawing.Point(12, 224);
             this.arkSaveLocationFilePathDisplay.Name = "arkSaveLocationFilePathDisplay";
             this.arkSaveLocationFilePathDisplay.ReadOnly = true;
-            this.arkSaveLocationFilePathDisplay.Size = new System.Drawing.Size(409, 23);
+            this.arkSaveLocationFilePathDisplay.Size = new System.Drawing.Size(409, 27);
             this.arkSaveLocationFilePathDisplay.TabIndex = 9;
             // 
             // changeArkSaveLocationButton
@@ -267,7 +277,7 @@
             0,
             65536});
             this.saveInterval.Name = "saveInterval";
-            this.saveInterval.Size = new System.Drawing.Size(19, 26);
+            this.saveInterval.Size = new System.Drawing.Size(19, 31);
             this.saveInterval.TabIndex = 12;
             this.saveInterval.Value = new decimal(new int[] {
             2,
@@ -281,7 +291,7 @@
             this.saveIntervalLabel.AutoSize = true;
             this.saveIntervalLabel.Location = new System.Drawing.Point(543, 155);
             this.saveIntervalLabel.Name = "saveIntervalLabel";
-            this.saveIntervalLabel.Size = new System.Drawing.Size(225, 19);
+            this.saveIntervalLabel.Size = new System.Drawing.Size(274, 23);
             this.saveIntervalLabel.TabIndex = 11;
             this.saveIntervalLabel.Text = "AutoSave interval (mins)";
             // 
@@ -294,7 +304,7 @@
             this.numDisplay.Location = new System.Drawing.Point(823, 156);
             this.numDisplay.Name = "numDisplay";
             this.numDisplay.ReadOnly = true;
-            this.numDisplay.Size = new System.Drawing.Size(44, 23);
+            this.numDisplay.Size = new System.Drawing.Size(44, 27);
             this.numDisplay.TabIndex = 9;
             this.numDisplay.Text = "0.2";
             // 
@@ -318,30 +328,30 @@
             this.garbageCollectionTimer.Interval = 120000;
             this.garbageCollectionTimer.Tick += new System.EventHandler(this.garbageCollectionTimer_Tick);
             // 
-            // minimizeButton
+            // g_MinimizeButton
             // 
-            this.minimizeButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.minimizeButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.minimizeButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.minimizeButton.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.minimizeButton.Location = new System.Drawing.Point(860, 0);
-            this.minimizeButton.Name = "minimizeButton";
-            this.minimizeButton.Size = new System.Drawing.Size(31, 33);
-            this.minimizeButton.TabIndex = 1;
-            this.minimizeButton.Text = "-";
-            this.minimizeButton.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.minimizeButton.UseVisualStyleBackColor = false;
-            this.minimizeButton.MouseClick += new System.Windows.Forms.MouseEventHandler(this.minimizeButton_MouseClick);
+            this.g_MinimizeButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.g_MinimizeButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.g_MinimizeButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.g_MinimizeButton.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.g_MinimizeButton.Location = new System.Drawing.Point(860, 0);
+            this.g_MinimizeButton.Name = "g_MinimizeButton";
+            this.g_MinimizeButton.Size = new System.Drawing.Size(31, 33);
+            this.g_MinimizeButton.TabIndex = 1;
+            this.g_MinimizeButton.Text = "-";
+            this.g_MinimizeButton.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.g_MinimizeButton.UseVisualStyleBackColor = false;
+            this.g_MinimizeButton.MouseClick += new System.Windows.Forms.MouseEventHandler(this.g_MinimizeButton_MouseClick);
             // 
-            // notifyIcon1
+            // g_TrayIcon
             // 
-            this.notifyIcon1.BalloonTipIcon = System.Windows.Forms.ToolTipIcon.Info;
-            this.notifyIcon1.BalloonTipText = "Open the backup Handler";
-            this.notifyIcon1.BalloonTipTitle = "Ark Backup Handler";
-            this.notifyIcon1.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon1.Icon")));
-            this.notifyIcon1.Text = "Open Ark Backup Handler (Stable)";
-            this.notifyIcon1.Visible = true;
-            this.notifyIcon1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon1_MouseClick);
+            this.g_TrayIcon.BalloonTipIcon = System.Windows.Forms.ToolTipIcon.Info;
+            this.g_TrayIcon.BalloonTipText = "Open Ark Backup Handler";
+            this.g_TrayIcon.BalloonTipTitle = "Ark Backup Handler";
+            this.g_TrayIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("g_TrayIcon.Icon")));
+            this.g_TrayIcon.Text = "Open Ark Backup Handler (Stable)";
+            this.g_TrayIcon.Visible = true;
+            this.g_TrayIcon.MouseClick += new System.Windows.Forms.MouseEventHandler(this.g_TrayIcon_MouseClick);
             // 
             // manualSaveBox
             // 
@@ -374,7 +384,7 @@
             this.milestoneCheckbox.AutoSize = true;
             this.milestoneCheckbox.Location = new System.Drawing.Point(21, 64);
             this.milestoneCheckbox.Name = "milestoneCheckbox";
-            this.milestoneCheckbox.Size = new System.Drawing.Size(118, 23);
+            this.milestoneCheckbox.Size = new System.Drawing.Size(142, 27);
             this.milestoneCheckbox.TabIndex = 2;
             this.milestoneCheckbox.Text = "Milestone?";
             this.milestoneCheckbox.UseVisualStyleBackColor = true;
@@ -386,7 +396,7 @@
             this.backupName.Margin = new System.Windows.Forms.Padding(30, 3, 30, 3);
             this.backupName.Name = "backupName";
             this.backupName.PlaceholderText = "Indy Forge built";
-            this.backupName.Size = new System.Drawing.Size(227, 26);
+            this.backupName.Size = new System.Drawing.Size(227, 31);
             this.backupName.TabIndex = 1;
             // 
             // manualBackupPanelLabel
@@ -394,7 +404,7 @@
             this.manualBackupPanelLabel.AutoSize = true;
             this.manualBackupPanelLabel.Location = new System.Drawing.Point(21, 0);
             this.manualBackupPanelLabel.Name = "manualBackupPanelLabel";
-            this.manualBackupPanelLabel.Size = new System.Drawing.Size(153, 19);
+            this.manualBackupPanelLabel.Size = new System.Drawing.Size(186, 23);
             this.manualBackupPanelLabel.TabIndex = 0;
             this.manualBackupPanelLabel.Text = "Name this Backup";
             // 
@@ -403,7 +413,7 @@
             this.maxSavesLabel.AutoSize = true;
             this.maxSavesLabel.Location = new System.Drawing.Point(653, 275);
             this.maxSavesLabel.Name = "maxSavesLabel";
-            this.maxSavesLabel.Size = new System.Drawing.Size(135, 19);
+            this.maxSavesLabel.Size = new System.Drawing.Size(164, 23);
             this.maxSavesLabel.TabIndex = 15;
             this.maxSavesLabel.Text = "Max Auto Saves";
             // 
@@ -419,7 +429,7 @@
             0,
             0});
             this.maxSavesSetter.Name = "maxSavesSetter";
-            this.maxSavesSetter.Size = new System.Drawing.Size(56, 26);
+            this.maxSavesSetter.Size = new System.Drawing.Size(56, 31);
             this.maxSavesSetter.TabIndex = 16;
             this.maxSavesSetter.Value = new decimal(new int[] {
             1,
@@ -461,7 +471,7 @@
             0,
             65536});
             this.transferDataSaveIntervalChooser.Name = "transferDataSaveIntervalChooser";
-            this.transferDataSaveIntervalChooser.Size = new System.Drawing.Size(56, 26);
+            this.transferDataSaveIntervalChooser.Size = new System.Drawing.Size(56, 31);
             this.transferDataSaveIntervalChooser.TabIndex = 18;
             this.transferDataSaveIntervalChooser.Value = new decimal(new int[] {
             1,
@@ -475,23 +485,13 @@
             this.transferDataSaveIntLabel.AutoSize = true;
             this.transferDataSaveIntLabel.Location = new System.Drawing.Point(510, 322);
             this.transferDataSaveIntLabel.Name = "transferDataSaveIntLabel";
-            this.transferDataSaveIntLabel.Size = new System.Drawing.Size(252, 19);
+            this.transferDataSaveIntLabel.Size = new System.Drawing.Size(307, 23);
             this.transferDataSaveIntLabel.TabIndex = 19;
             this.transferDataSaveIntLabel.Text = "Transfer Data Save Interval";
             // 
             // transferDataSaveTimer
             // 
             this.transferDataSaveTimer.Tick += new System.EventHandler(this.transferDataSaveTimer_Tick);
-            // 
-            // ReportError
-            // 
-            this.ReportError.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.ReportError.Location = new System.Drawing.Point(384, 3);
-            this.ReportError.Name = "ReportError";
-            this.ReportError.Size = new System.Drawing.Size(75, 23);
-            this.ReportError.TabIndex = 3;
-            this.ReportError.Text = "button1";
-            this.ReportError.UseVisualStyleBackColor = true;
             // 
             // UIProcess
             // 
@@ -505,7 +505,7 @@
             this.Controls.Add(this.maxSavesLabel);
             this.Controls.Add(this.manualSaveBox);
             this.Controls.Add(this.errorDisplay);
-            this.Controls.Add(this.minimizeButton);
+            this.Controls.Add(this.g_MinimizeButton);
             this.Controls.Add(this.manualBackupButton);
             this.Controls.Add(this.numDisplay);
             this.Controls.Add(this.saveIntervalLabel);
@@ -560,8 +560,8 @@
         private System.Windows.Forms.Button manualBackupButton;
         private System.Windows.Forms.Label errorDisplay;
         private System.Windows.Forms.Timer garbageCollectionTimer;
-        private System.Windows.Forms.Button minimizeButton;
-        private System.Windows.Forms.NotifyIcon notifyIcon1;
+        private System.Windows.Forms.Button g_MinimizeButton;
+        private System.Windows.Forms.NotifyIcon g_TrayIcon;
         private System.Windows.Forms.Panel manualSaveBox;
         private System.Windows.Forms.Label manualBackupPanelLabel;
         private System.Windows.Forms.TextBox backupName;

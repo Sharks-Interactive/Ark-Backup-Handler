@@ -130,7 +130,7 @@
   <data name="backupsButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAL
-        DwAACw8BkvkDpQAAA91JREFUaEPtmctvTFEcx/skURKEppGoWHfRVaUl0Q0Jf0EREUssPMKCdOuxEgsW
+        DQAACw0B7QfALAAAA91JREFUaEPtmctvTFEcx/skURKEppGoWHfRVaUl0Q0Jf0EREUssPMKCdOuxEgsW
         SJBaEFI2Ei1BiIQFCV14LCr1iEXbjfdb6vOd+U1Nr3Pnvk4zk5hP8ol25nd+95zec+8556emSpUqVVIz
         MTGxFLfjfjxQ5D7ssLDKh86exjCGLKzyobNX8312MmphlQ+dHcz32cm4hZUPOlGLq/AK9qNzvvN54oHw
         eSuewBu4DuvtK7+QWK7ET1jgFbZZSA5+12Dv6ssQ3uEMC8/B7/Pxtr40fuAWrLMQP5BQndMgRjDIG2zH
@@ -153,7 +153,7 @@
   <data name="revertButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAFMAAABJCAYAAABB/xr9AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAL
-        EAAACxABrSO9dQAAApJJREFUeF7tmr9rFFEUhfc/EIKdRUCb9DYKQRAES3vBIgTE0traTkiTxiaNlYVY
+        DgAACw4BQL7hQQAAApJJREFUeF7tmr9rFFEUhfc/EIKdRUCb9DYKQRAES3vBIgTE0traTkiTxiaNlYVY
         CAbSCZYiWCgIr7QQrQSxlPU7s3fDzO57Ozu7IvjmfHBml8m9D87N+zVvdmKMMcYYY4wxxhhjjDHGGGOM
         McYYY8bGdDrdQ8/Qy9DbvNIZn4pD6SmfO9GEaUNhrqI36B360q/0gc/dSDeLUJxr6DOC9EuX2fcc6TuX
         y5G6FsQfoVP0fGjufw+Gn6ACw4pJrArYRv+ocRQUo3cby0XWLyZxD5uUJZqp4mKE1QkGd9FX2S0zqJg7
@@ -188,10 +188,10 @@
   <metadata name="garbageCollectionTimer.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>989, 17</value>
   </metadata>
-  <metadata name="notifyIcon1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+  <metadata name="g_TrayIcon.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>1171, 17</value>
   </metadata>
-  <data name="notifyIcon1.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="g_TrayIcon.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         AAABAAUAEBAAAAEAIABoBAAAVgAAABgYAAABACAAiAkAAL4EAAAgIAAAAQAgAKgQAABGDgAAMDAAAAEA
         IACoJQAA7h4AAAAAAAABACAA82QBAJZEAAAoAAAAEAAAACAAAAABACAAAAAAAAAEAAAAAAAAAAAAAAAA

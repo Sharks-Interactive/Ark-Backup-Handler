@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using ABH.Utility;
+using ABH.Properties;
 
 namespace ABH.Files.Backup
 {
@@ -14,8 +15,8 @@ namespace ABH.Files.Backup
         private const string c_manualBackupFolder = @"\Manual Saves\";
         private const string c_automaticBackupFolder = @"\Automatic Saves\";
 
-        private static readonly string r_backupLocation = Properties.Settings.Default.backupLocation;
-        private static readonly string r_saveLocation = Properties.Settings.Default.saveLocation;
+        private static readonly string r_backupLocation = Settings.Default.backupLocation;
+        private static readonly string r_saveLocation = Settings.Default.saveLocation;
 
         /// <summary>
         /// Backs up transfer data

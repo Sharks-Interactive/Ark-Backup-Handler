@@ -1,9 +1,9 @@
 ﻿using ABH.Logging;
 using System;
-using System.Collections.Generic;
+using ABH.Utility;
 using System.IO;
 using System.Linq;
-using System.Text;
+using ABH.Properties;
 
 namespace ABH.Files.MoD
 {
@@ -17,10 +17,14 @@ namespace ABH.Files.MoD
         private const string c_unstableMessage = "Unstable";
         private const string c_stableMessage = "Stable";
 
-        private static readonly string r_saveLocation = Properties.Settings.Default.saveLocation;
+        private static readonly string r_saveLocation = Settings.Default.saveLocation;
+        private static readonly string r_modTemplate = Settings.Default.modTemplate;
 
-        private static readonly decimal r_mapSaveInterval = Properties.Settings.Default.autoSaveInterval;
-        private static readonly decimal r_transferSaveInterval = Properties.Settings.Default.transferDataSaveInterval;
+        private static readonly decimal r_mapSaveInterval = Settings.Default.autoSaveInterval;
+        private static readonly decimal r_transferSaveInterval = Settings.Default.transferDataSaveInterval;
+
+
+        private static object _formatModel;
 
         /// <summary>
         /// Updates the message of the day
@@ -28,10 +32,9 @@ namespace ABH.Files.MoD
         public static void UpdateMessegeOfTheDay()
         {
             string[] _ini = new string[1];
-            if (!ReadFromIni(ref _ini)) return;
+            if (!FileHandler.ReadFromFile(ref _ini, r_saveLocation + c_gusIniPath, 3)) return;
 
-            int _line = 0;
-
+            int _line;
             for (_line = 0; _line < _ini.Count(); ++_line)
                 if (_ini[_line].Contains(c_modHeader))
                     break;
@@ -46,63 +49,12 @@ namespace ABH.Files.MoD
                 c_unstableMessage : c_stableMessage;
             string _date = DateTime.Now.ToString("D");
 
-            // DYNAMIC STRING INTERPOLATION HERE READ FROM SETTINGS
-            _ini[_line + 1] = $"Message=Welcome to the Toasty Bros Server Network. Today is {_date}. Server network: {_unstableOrStable}. Toast quote of the year: \"Toast!\". Save backups occur every {r_mapSaveInterval} minutes and transfer data backs-up every {r_transferSaveInterval} minutes. Last backup is {DateTime.Now.ToString("dd/M")}. Stay Toasty!";
-            
-            if (WriteToIni(_ini))
+            _formatModel = new { Date = _date, UnstableOrStable = _unstableOrStable, 
+                MapSaveInterval = r_mapSaveInterval, TransferSaveInterval = r_transferSaveInterval };
+            _ini[_line + 1] = Format.FormatTemplate(r_modTemplate, _formatModel);
+
+            if (FileHandler.WriteFile(_ini, r_saveLocation + c_gusIniPath))
                 Logger.Log("MoD update complete.", Logger.ErrorLevel.Info);
-        }
-
-        // MOVE THESE TO FILEHANDLER
-
-        /// <summary>
-        /// Reads and verifies the INI file.
-        /// </summary>
-        /// <param name="Ini"> The array to store the read file in </param>
-        /// <returns> Was the operation a success </returns>
-        private static bool ReadFromIni(ref string[] Ini)
-        {
-            try
-            {
-                Ini = File.ReadAllLines(r_saveLocation + c_gusIniPath);
-            }
-            catch (Exception _ex)
-            {
-                Logger.Log($"Problem while reading GameUserSettings.ini, problem: {_ex.Message}", Logger.ErrorLevel.Error);
-                return false;
-            }
-
-            // If the ini is less than 3 lines we can assume there was a read error
-            if (Ini.Count() < 4)
-            {
-                Logger.Log("Unspecified error reading ini.", Logger.ErrorLevel.Error);
-                return false;
-            }
-            return true;
-        }
-
-        /// <summary>
-        /// Writes the array to the INI file
-        /// </summary>
-        /// <param name="Ini"> The array to write to the file </param>
-        /// <returns> Was the operation a success </returns>
-        private static bool WriteToIni(string[] Ini)
-        {
-            try { File.Delete(r_saveLocation + c_gusIniPath); } catch (Exception _ex) { Logger.Log($"Problem while deleting old GameUserSettings.ini problem: {_ex.Message}", Logger.ErrorLevel.Error); }
-            using (FileStream _stream = new FileStream(r_saveLocation + c_gusIniPath, FileMode.OpenOrCreate))
-            using (StreamWriter _writer = new StreamWriter(_stream, Encoding.UTF8))
-                for (int i = 0; i < Ini.Count(); i++)
-                    try
-                    {
-                        _writer.WriteLine(Ini[i]);
-                    }
-                    catch (Exception _exc)
-                    {
-                        Logger.Log($"Problem while writing to GameUserSettings.ini file. Problem: {_exc.Message}", Logger.ErrorLevel.Error);
-                        return false;
-                    }
-
-            return true;
         }
     }
 }

@@ -1,18 +1,13 @@
 ﻿#region Imports
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using static ABH.Files.FileHandler;
 using ABH.Files.Backup;
-using ABH.Logging;
+using ABH.Files.MoD;
+using ABH.Properties;
 #endregion
 
 namespace ABH.UI
@@ -20,6 +15,9 @@ namespace ABH.UI
     public partial class UIProcess : Form
     {
         #region Variables
+
+        private const string c_closeConfirmationTitle = "Are you sure?";
+        private const string c_closeConfirmationDesc = "Do you really want to quit?";
 
         #region Data
         public string backupLocation = "Init";
@@ -29,9 +27,6 @@ namespace ABH.UI
         #endregion
 
         #region Cache
-        string Time;
-        string autoManual;
-        string tempTime;
         int saveNumber;
         int maxSaves = 30;
         int transferSaveNumber;
@@ -56,7 +51,7 @@ namespace ABH.UI
 
             LoadSettings();
             mainTimerLoop.Start();
-            UpdateMessegeOfTheDay();
+            ModManager.UpdateMessegeOfTheDay();
         }
 
         private void LoadSettings ()
@@ -161,151 +156,47 @@ namespace ABH.UI
 
         #endregion
 
-        #region Button Presses
-
-        #region FileLocationChangeButtons
-        private void changeBackupLocationButton_MouseClick(object sender, MouseEventArgs e)
-        {
-            saveLocationDialog.ShowDialog();
-        }
-
-        private void changeArkSaveLocationButton_MouseClick(object sender, MouseEventArgs e)
-        {
-            arkSaveLocationDialog.ShowDialog();
-        }
-        #endregion
-
-        private void transferDataSaveIntervalChooser_ValueChanged(object sender, EventArgs e)
-        {
-            transferDataSaveTimer.Stop();
-            transferDataSaveTimer.Interval = (int)(transferDataSaveIntervalChooser.Value * 60000);
-            transferDataSaveInterval = transferDataSaveIntervalChooser.Value;
-            Properties.Settings.Default.transferDataSaveInterval = transferDataSaveInterval;
-            transferDataSaveTimer.Start();
-        }
-
-        //When the autosaveinterval chooser is changed
-        private void numericUpDown1_ValueChanged(object sender, EventArgs e)
-        {
-            SaveTimer.Stop();
-            SaveTimer.Interval = (int)(saveInterval.Value * 60000);
-            numDisplay.Text = saveInterval.Value.ToString();
-            autoSaveInterval = saveInterval.Value;
-            Properties.Settings.Default.autoSaveInterval = autoSaveInterval;
-            SaveTimer.Start();
-        }
-
-        private void updateMoDButton_MouseClick(object sender, MouseEventArgs e)
-        {
-            errorDisplay.ForeColor = Color.White;
-            errorDisplay.Text = "Info: Beginning MoD update.";
-            UpdateMessegeOfTheDay();
-        }
-
-        private void errorDisplay_Click(object sender, EventArgs e)
-        {
-            Clipboard.SetData(DataFormats.StringFormat, errorDisplay.Text);
-            errorDisplay.Text = "No errors to display.";
-        }
-
-        private void manualBackupLocationButton_MouseClick(object sender, MouseEventArgs e)
-        {
-            manualSaveBox.Visible = !manualSaveBox.Visible;
-        }
-
-        private void minimizeButton_MouseClick(object sender, MouseEventArgs e)
-        {
-            minimizeToTray();
-        }
-
-        private void notifyIcon1_MouseClick(object sender, MouseEventArgs e)
-        {
-            Open();
-        }
-
-        private void submitButton_MouseClick(object sender, MouseEventArgs e)
-        {
-            BackupManager.BackupMapAndConfigFiles(false, milestoneCheckbox.Checked, backupName.Text);
-            manualSaveBox.Visible = false;
-            milestoneCheckbox.Checked = false;
-            backupName.ResetText();
-        }
-
-        private void maxSavesSetter_ValueChanged(object sender, EventArgs e)
-        {
-            maxSaves = (int)maxSavesSetter.Value;
-            Properties.Settings.Default.maxSaves = maxSaves;
-            Properties.Settings.Default.Save();
-        }
-
-        #endregion
-
         #region Functions
-
-        #region Misc Processors
-
-        
-
-        #endregion
 
         #region Form Visibility Control
 
-        private void Open()
+        private void OpenFromTray()
         {
             Show();
-            this.WindowState = FormWindowState.Normal;
-            notifyIcon1.Visible = false;
+            WindowState = FormWindowState.Normal;
+            g_TrayIcon.Visible = false;
         }
 
-        private void minimizeToTray()
+        private void MinimizeToTray()
         {
-            this.WindowState = FormWindowState.Minimized;
+            WindowState = FormWindowState.Minimized;
             Hide();
-            notifyIcon1.Visible = true;
+            g_TrayIcon.Visible = true;
             GC.Collect();
         }
 
         #endregion
 
-        #region Utility
-        
-        #endregion
-
-        #region Application Events
-
-        private void UIProcess_FormClosing(object sender, FormClosingEventArgs e)
+        private void UIProcess_FormClosing(object Sender, FormClosingEventArgs Event)
         {
-            Properties.Settings.Default.lastAutoSave = saveNumber;
-            Properties.Settings.Default.lastTransferAuto = transferSaveNumber;
-            Properties.Settings.Default.Save();
-            GC.Collect();
+            Settings.Default.lastAutoSave = saveNumber;
+            Settings.Default.lastTransferAuto = transferSaveNumber;
 
-            //Unregister event handlers and save settings
-            if (isDebug)
+            if (isDebug) return;
+
+            DialogResult _result = MessageBox.Show(c_closeConfirmationDesc, 
+                c_closeConfirmationTitle, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            if (_result == DialogResult.Yes)
             {
-                Properties.Settings.Default.Save();
-                mainTimerLoop.Dispose();
-                SaveTimer.Dispose();
-                GC.Collect();
-                return;
-            }
-
-            var closeMsg = MessageBox.Show("Do you really want to quit?", "Are you sure?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-            if (closeMsg == DialogResult.Yes)
-            {
-                Properties.Settings.Default.Save();
+                Settings.Default.Save();
                 mainTimerLoop.Dispose();
                 SaveTimer.Dispose();
                 GC.Collect();
             }
             else
-            {
-                e.Cancel = true;
-            }
+                Event.Cancel = true;
         }
-
-        #endregion
 
         #region Updating UI on events
 
@@ -317,10 +208,5 @@ namespace ABH.UI
         #endregion
 
         #endregion
-
-        private void UIProcess_Load(object sender, EventArgs e)
-        {
-
-        }
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using ABH.Logging;
 
 namespace ABH.Files
@@ -9,13 +10,72 @@ namespace ABH.Files
     public static class FileHandler
     {
         /// <summary>
+        /// Reads a file to an array
+        /// </summary>
+        /// <param name="Data"> The array to store the read file in </param>
+        /// <param name="Path"> The full path to the file including filename and ext </param>
+        /// <param name="ExpectedLength"> How long you expect the file to be for verification purposes
+        /// set to -1 to disable </param>
+        /// <returns> Was the operation a success </returns>
+        public static bool ReadFromFile(ref string[] Data, string Path, int ExpectedLength)
+        {
+            try
+            {
+                Data = File.ReadAllLines(Path);
+            }
+            catch (Exception _ex)
+            {
+                Logger.Log($"Problem while reading {Path}, problem: {_ex.Message}", Logger.ErrorLevel.Error);
+                return false;
+            }
+
+            if (Data.Count() < ExpectedLength)
+            {
+                Logger.Log($"Unspecified error reading {Path}.", Logger.ErrorLevel.Error);
+                return false;
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// Writes an array to a file
+        /// </summary>
+        /// <param name="Data"> The array to write to the file </param>
+        /// <param name="Path"> The path to the file, including it's filename and ext </param>
+        /// <returns> Was the operation a success </returns>
+        public static bool WriteFile(string[] Data, string Path)
+        {
+            try { File.Delete(Path); }
+            catch (Exception _ex)
+            {
+                Logger.Log($"Problem while deleting old {Path} file problem: {_ex.Message}",
+                  Logger.ErrorLevel.Error);
+            }
+
+            using (FileStream _stream = new FileStream(Path, FileMode.OpenOrCreate))
+            using (StreamWriter _writer = new StreamWriter(_stream, Encoding.UTF8))
+                for (int i = 0; i < Data.Count(); i++)
+                    try
+                    {
+                        _writer.WriteLine(Data[i]);
+                    }
+                    catch (Exception _exc)
+                    {
+                        Logger.Log($"Problem while writing to {Path} file. Problem: {_exc.Message}", Logger.ErrorLevel.Error);
+                        return false;
+                    }
+
+            return true;
+        }
+
+        /// <summary>
         /// Writes a message to a file on the hard drive
         /// </summary>
         /// <param name="Path"> The Directory the file should be created/written to in. </param>
         /// <param name="FileName"> The name of the file to be created/written to. </param>
         /// <param name="Data"> The data that should be written to the file. </param>
         /// <returns> Was the operation successfull? </returns>
-        public static bool WriteToFile(string Path, string FileName, string Data)
+        public static bool WriteToFileSingle(string Path, string FileName, string Data)
         {
             try
             {
@@ -24,10 +84,10 @@ namespace ABH.Files
                 using (StreamWriter _writer = new StreamWriter(_stream))
                     _writer.WriteLine(Data + "\n");
             }
-            catch 
-            { 
-                Logger.Log($"Failed to create or write {Data} to file: {FileName} in {Path}!", Logger.ErrorLevel.Error); 
-                return false; 
+            catch
+            {
+                Logger.Log($"Failed to create or write {Data} to file: {FileName} in {Path}!", Logger.ErrorLevel.Error);
+                return false;
             }
             return true;
         }
@@ -95,7 +155,7 @@ namespace ABH.Files
             {
                 Logger.Log($"Failed to copy files, one or more directories does not exist!" +
                     $" Please validate the following directories: Source (What we're trying to copy from)" +
-                    $" {SourceDirectory} Target (Where we're trying to copy to) {TargetDirectory}", 
+                    $" {SourceDirectory} Target (Where we're trying to copy to) {TargetDirectory}",
                     Logger.ErrorLevel.Error);
                 return false;
             }
@@ -128,7 +188,7 @@ namespace ABH.Files
                 catch (Exception E)
                 {
                     Logger.Log($"Failed to copy file {t_file.Name} in {t_file.FullName} to " +
-                        $"{TargetDirectory.FullName} the following error occured: {E.Message}", 
+                        $"{TargetDirectory.FullName} the following error occured: {E.Message}",
                         Logger.ErrorLevel.Error);
                     return false;
                 }
