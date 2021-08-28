@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using ABH.Logging;
 
 namespace ABH.Files
@@ -26,6 +28,45 @@ namespace ABH.Files
             { 
                 Logger.Log($"Failed to create or write {Data} to file: {FileName} in {Path}!", Logger.ErrorLevel.Error); 
                 return false; 
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// Adds data on to a file on the hard drive, creating one if it does not exist
+        /// </summary>
+        /// <param name="Path"> The Directory the file should be created/written to in. </param>
+        /// <param name="FileName"> The name of the file to be created/written to. </param>
+        /// <param name="Data"> The data that should be written to the file. </param>
+        /// <returns> Was the operation successfull? </returns>
+        public static bool AddToFile(string Path, string FileName, string Data)
+        {
+            List<string> _file;
+            try
+            {
+                string[] _unmodifiedFile = File.ReadAllLines(Path + FileName);
+
+                _file = _unmodifiedFile.ToList();
+                _file.Add(Data);
+            }
+            catch
+            {
+                // Careful! Can lock into recursion provided logger calls this method...
+                Logger.Log($"Failed to read file {FileName} at {Path}", Logger.ErrorLevel.Warning);
+                return false;
+            }
+            try
+            {
+                Directory.CreateDirectory(Path);
+                using (FileStream _stream = new FileStream(Path + FileName, FileMode.OpenOrCreate))
+                using (StreamWriter _writer = new StreamWriter(_stream))
+                    for (int x = 0; x < _file.Count; x++)
+                        _writer.WriteLine(_file[x]);
+            }
+            catch
+            {
+                Logger.Log($"Failed to create or write {Data} to file: {FileName} in {Path}!", Logger.ErrorLevel.Error);
+                return false;
             }
             return true;
         }

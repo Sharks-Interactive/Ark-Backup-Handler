@@ -244,64 +244,7 @@ namespace ABH.UI
 
         #region Misc Processors
 
-        public void UpdateMessegeOfTheDay ()
-        {
-            string[] ini = new string[1];
-            try
-            {
-                ini = File.ReadAllLines(saveLocation + @"\UWPConfig\UWP\GameUserSettings.ini");
-            }
-            catch (Exception E)
-            {
-                errorDisplay.ForeColor = Color.Red;
-                errorDisplay.Text = "Error: Problem while reading GameUserSettings.ini, problem: " + E.Message;
-                return;
-            }
-
-            int line = 0;
-            
-            //If the ini is less than 3 lines then there was probably a read error
-            if (ini.Count() > 3)
-                for (line = 0; line < ini.Count(); ++line)
-                    if (ini[line].Contains("[MessageOfTheDay]"))
-                        break;
-
-            if (ini.Count() < 4)
-            {
-                Logger.Log("Unspecified error reading ini.", Logger.ErrorLevel.Error);
-                return;
-            }
-
-            string UnstableOrStable;
-            if (DateTime.Now.Day - File.GetLastWriteTime(saveLocation + @"\UWPConfig\UWP\Game.ini").Day < 5)
-                UnstableOrStable = "Unstable";
-            else
-                UnstableOrStable = "Stable";
-
-            string date = DateTime.Now.ToString("D");
-            Debug.WriteLine(UnstableOrStable + date);
-            ini[line + 1] = $"Message=Welcome to the Toasty Bros Server Network. Today is {date}. Server network: {UnstableOrStable}. Toast quote of the year: \"Toast!\". Save backups occur every {autoSaveInterval} minutes and transfer data backs-up every {transferDataSaveInterval} minutes. Last backup is {DateTime.Now.ToString("dd/M")}. Stay Toasty!";
-            try { File.Delete(saveLocation + @"\UWPConfig\UWP\GameUserSettings.ini"); } catch (Exception E) { errorDisplay.ForeColor = Color.Red; errorDisplay.Text = "Error: Problem while deleting old GameUserSettings.ini problem: " + E.Message; }
-            using (FileStream stream = new FileStream(saveLocation + @"\UWPConfig\UWP\GameUserSettings.ini", FileMode.OpenOrCreate)) {
-                using (StreamWriter writer = new StreamWriter(stream, Encoding.UTF8))
-                {
-                    for (int i = 0; i < ini.Count(); i++)
-                    {
-                        try
-                        {
-                            writer.WriteLine(ini[i]);
-                        }
-                        catch (Exception E)
-                        {
-                            errorDisplay.ForeColor = Color.Red;
-                            errorDisplay.Text = "Errors: Problem while writing to GameUserSettings.ini file. Problem: " + E.Message;
-                        }
-                    }
-                }
-            }
-
-            errorDisplay.Text += " MoD Update Complete.";
-        }
+        
 
         #endregion
 

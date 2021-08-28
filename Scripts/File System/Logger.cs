@@ -7,7 +7,7 @@ namespace ABH.Logging
 {
     public static class Logger
     {
-        private static readonly string r_logDirectory = Application.LocalUserAppDataPath + @"/Sharks Interactive/Ark Backup Handler/";
+        private static readonly string r_logDirectory = Application.LocalUserAppDataPath + @"/Logs/";
         private const string c_logFileName = "Log.sid";
 
         /// <summary>
@@ -40,7 +40,7 @@ namespace ABH.Logging
             Message = TimeHelper.ExactTimeString + " - " + LogLevel.ToString()
                 + ": " + Message;
 
-            FileHandler.WriteToFile(r_logDirectory, c_logFileName, Message);
+            FileHandler.AddToFile(r_logDirectory, c_logFileName, Message);
             Debug.WriteLine(Message);
 
             switch (LogLevel)
