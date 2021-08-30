@@ -7,16 +7,16 @@ namespace ABH.Files.Backup
 {
     public static class BackupManager
     {
-        private const string c_transferBackupFolder = @"[TRANSFERDATA]\";
+        private const string c_transferBackupFolder  = @"[TRANSFERDATA]\";
         private const string c_milestoneBackupFolder = @"[MILESTONES]\";
 
         private const string c_clusterDataFolder = @"\clusters";
 
-        private const string c_manualBackupFolder = @"\Manual Saves\";
+        private const string c_manualBackupFolder    = @"\Manual Saves\";
         private const string c_automaticBackupFolder = @"\Automatic Saves\";
 
         private static readonly string r_backupLocation = Settings.Default.backupLocation;
-        private static readonly string r_saveLocation = Settings.Default.saveLocation;
+        private static readonly string r_saveLocation   = Settings.Default.saveLocation;
 
         /// <summary>
         /// Backs up transfer data

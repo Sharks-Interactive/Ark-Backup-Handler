@@ -10,17 +10,17 @@ namespace ABH.Files.MoD
     public static class ModManager
     {
         private const string c_gameIniPath = @"\UWPConfig\UWP\Game.ini";
-        private const string c_gusIniPath = @"\UWPConfig\UWP\GameUserSettings.ini";
+        private const string c_gusIniPath  = @"\UWPConfig\UWP\GameUserSettings.ini";
 
         private const string c_modHeader = "[MessageOfTheDay]";
 
         private const string c_unstableMessage = "Unstable";
-        private const string c_stableMessage = "Stable";
+        private const string c_stableMessage   = "Stable";
 
         private static readonly string r_saveLocation = Settings.Default.saveLocation;
-        private static readonly string r_modTemplate = Settings.Default.modTemplate;
+        private static readonly string r_modTemplate  = Settings.Default.modTemplate;
 
-        private static readonly decimal r_mapSaveInterval = Settings.Default.autoSaveInterval;
+        private static readonly decimal r_mapSaveInterval      = Settings.Default.autoSaveInterval;
         private static readonly decimal r_transferSaveInterval = Settings.Default.transferDataSaveInterval;
 
 
