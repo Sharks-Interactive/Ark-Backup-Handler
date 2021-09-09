@@ -14,25 +14,21 @@ namespace ABH.UI
 {
     public partial class UIProcess : Form
     {
-        #region Variables
-
         private const string c_closeConfirmationTitle = "Are you sure?";
         private const string c_closeConfirmationDesc = "Do you really want to quit?";
 
         #region Data
-        public string backupLocation = "Init";
-        public string saveLocation = "Init";
-        public decimal autoSaveInterval = 0.1M;
-        public decimal transferDataSaveInterval = 0.1M;
+        private string _backupLocation = "Init";
+        private string _saveLocation = "Init";
+        private decimal _autoSaveInterval = 0.1M;
+        private decimal _transferDataSaveInterval = 0.1M;
         #endregion
 
         #region Cache
-        int saveNumber;
-        int maxSaves = 30;
-        int transferSaveNumber;
-        bool isDebug;
-        #endregion
-
+        private int _mapSaveNumber;
+        private int _maxMapSaves = 30;
+        private int _transferSaveNumber;
+        protected bool isDebug;
         #endregion
 
         #region Initialization Functions
@@ -56,52 +52,52 @@ namespace ABH.UI
 
         private void LoadSettings ()
         {
-            transferDataSaveInterval = Properties.Settings.Default.transferDataSaveInterval;
-            if (transferDataSaveInterval <= 0)
-                transferDataSaveInterval = 0.1M;
-            transferDataSaveIntervalChooser.Value = transferDataSaveInterval;
-            transferDataSaveTimer.Interval = (int)(transferDataSaveInterval * 60000);
+            _transferDataSaveInterval = Settings.Default.transferDataSaveInterval;
+            if (_transferDataSaveInterval <= 0)
+                _transferDataSaveInterval = 0.1M;
+            transferDataSaveIntervalChooser.Value = _transferDataSaveInterval;
+            transferDataSaveTimer.Interval = (int)(_transferDataSaveInterval * 60000);
             transferDataSaveTimer.Start();
 
-            autoSaveInterval = Properties.Settings.Default.autoSaveInterval;
-            if (autoSaveInterval <= 0)
-                autoSaveInterval = 0.1M;
-            saveInterval.Value = autoSaveInterval;
-            numDisplay.Text = autoSaveInterval.ToString();
+            _autoSaveInterval = Settings.Default.autoSaveInterval;
+            _autoSaveInterval = _autoSaveInterval <= 0 ? 0.1M : _autoSaveInterval;
+            
+            saveInterval.Value = _autoSaveInterval;
+            numDisplay.Text = _autoSaveInterval.ToString();
 
-            maxSaves = Properties.Settings.Default.maxSaves;
-            maxSavesSetter.Value = maxSaves;
+            _maxMapSaves = Settings.Default.maxSaves;
+            g_MaxMapSaves.Value = _maxMapSaves;
 
-            saveNumber = Properties.Settings.Default.lastAutoSave;
-            transferSaveNumber = Properties.Settings.Default.lastTransferAuto;
+            _mapSaveNumber = Settings.Default.lastAutoSave;
+            _transferSaveNumber = Settings.Default.lastTransferAuto;
 
             //Setting saveTimer to autosave interval
-            SaveTimer.Interval = (int)(autoSaveInterval * 60000);
+            SaveTimer.Interval = (int)(_autoSaveInterval * 60000);
             SaveTimer.Start();
 
             arkSaveLocationDialog.SelectedPath = Properties.Settings.Default.saveLocation;
             arkSaveLocationFilePathDisplay.Text = arkSaveLocationDialog.SelectedPath;
-            saveLocation = arkSaveLocationFilePathDisplay.Text;
+            _saveLocation = arkSaveLocationFilePathDisplay.Text;
 
             saveLocationDialog.SelectedPath = Properties.Settings.Default.backupLocation;
             backupFileLocation.Text = saveLocationDialog.SelectedPath;
-            backupLocation = backupFileLocation.Text;
+            _backupLocation = backupFileLocation.Text;
 
             LoadFiles();
         }
 
         public void LoadFiles ()
         {
-            Directory.CreateDirectory(backupLocation + @"\Automatic Saves\[TRANSFERDATA]\");
-            string[] saves = Directory.GetDirectories(backupLocation + @"\Automatic Saves\[TRANSFERDATA]\");
-            transferSaveNumber = saves.Count();
+            Directory.CreateDirectory(_backupLocation + @"\Automatic Saves\[TRANSFERDATA]\");
+            string[] saves = Directory.GetDirectories(_backupLocation + @"\Automatic Saves\[TRANSFERDATA]\");
+            _transferSaveNumber = saves.Count();
 
             //Find out how many autosave files their already are
-            Directory.CreateDirectory(backupLocation + @"\Automatic Saves\");
-            string[] autoSaves = Directory.GetDirectories(backupLocation + @"\Automatic Saves\");
-            saveNumber = autoSaves.Count() - 1;
+            Directory.CreateDirectory(_backupLocation + @"\Automatic Saves\");
+            string[] autoSaves = Directory.GetDirectories(_backupLocation + @"\Automatic Saves\");
+            _mapSaveNumber = autoSaves.Count() - 1;
 
-            Debug.WriteLine(transferSaveNumber + " " + saveNumber);
+            Debug.WriteLine(_transferSaveNumber + " " + _mapSaveNumber);
         }
 
         #endregion
@@ -111,15 +107,15 @@ namespace ABH.UI
         //When the autoSaveTimer ticks
         private void SaveTimer_Tick(object sender, EventArgs e)
         {
-            if (BackupManager.BackupMapAndConfigFiles(true, false, saveNumber.ToString()))
-                saveNumber++;
+            if (BackupManager.BackupMapAndConfigFiles(true, false, _mapSaveNumber.ToString()))
+                _mapSaveNumber++;
 
-            Properties.Settings.Default.lastAutoSave = saveNumber;
-            Properties.Settings.Default.lastTransferAuto = transferSaveNumber;
+            Properties.Settings.Default.lastAutoSave = _mapSaveNumber;
+            Properties.Settings.Default.lastTransferAuto = _transferSaveNumber;
 
             
-            if (saveNumber >= maxSaves)
-                saveNumber = 0;
+            if (_mapSaveNumber >= _maxMapSaves)
+                _mapSaveNumber = 0;
         }
 
         //GC
@@ -131,27 +127,27 @@ namespace ABH.UI
         //When the logic or main loop timer ticks
         private void mainTimerLoopRun(object sender, EventArgs e)
         {
-            if (saveLocationDialog.SelectedPath != backupLocation)
+            if (saveLocationDialog.SelectedPath != _backupLocation)
             {
-                backupLocation = saveLocationDialog.SelectedPath;
-                Properties.Settings.Default.backupLocation = backupLocation;
-                backupFileLocation.Text = backupLocation;
+                _backupLocation = saveLocationDialog.SelectedPath;
+                Properties.Settings.Default.backupLocation = _backupLocation;
+                backupFileLocation.Text = _backupLocation;
                 Properties.Settings.Default.Save();
             }
             //Else give warning and set a bool to not give error again
 
-            if (arkSaveLocationDialog.SelectedPath != saveLocation)
+            if (arkSaveLocationDialog.SelectedPath != _saveLocation)
             {
-                saveLocation = arkSaveLocationDialog.SelectedPath;
-                Properties.Settings.Default.saveLocation = saveLocation;
-                arkSaveLocationFilePathDisplay.Text = saveLocation;
+                _saveLocation = arkSaveLocationDialog.SelectedPath;
+                Properties.Settings.Default.saveLocation = _saveLocation;
+                arkSaveLocationFilePathDisplay.Text = _saveLocation;
                 Properties.Settings.Default.Save();
             }
         }
 
         private void transferDataSaveTimer_Tick(object sender, EventArgs e)
         {
-            BackupManager.BackupTransferData(transferSaveNumber);
+            BackupManager.BackupTransferData(_transferSaveNumber);
         }
 
         #endregion
@@ -179,8 +175,8 @@ namespace ABH.UI
 
         private void UIProcess_FormClosing(object Sender, FormClosingEventArgs Event)
         {
-            Settings.Default.lastAutoSave = saveNumber;
-            Settings.Default.lastTransferAuto = transferSaveNumber;
+            Settings.Default.lastAutoSave = _mapSaveNumber;
+            Settings.Default.lastTransferAuto = _transferSaveNumber;
 
             if (isDebug) return;
 

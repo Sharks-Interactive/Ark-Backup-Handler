@@ -24,8 +24,8 @@ namespace ABH.UI
         {
             transferDataSaveTimer.Stop();
             transferDataSaveTimer.Interval = (int)(transferDataSaveIntervalChooser.Value * 60000);
-            transferDataSaveInterval = transferDataSaveIntervalChooser.Value;
-            Properties.Settings.Default.transferDataSaveInterval = transferDataSaveInterval;
+            _transferDataSaveInterval = transferDataSaveIntervalChooser.Value;
+            Properties.Settings.Default.transferDataSaveInterval = _transferDataSaveInterval;
             transferDataSaveTimer.Start();
         }
 
@@ -35,8 +35,8 @@ namespace ABH.UI
             SaveTimer.Stop();
             SaveTimer.Interval = (int)(saveInterval.Value * 60000);
             numDisplay.Text = saveInterval.Value.ToString();
-            autoSaveInterval = saveInterval.Value;
-            Properties.Settings.Default.autoSaveInterval = autoSaveInterval;
+            _autoSaveInterval = saveInterval.Value;
+            Properties.Settings.Default.autoSaveInterval = _autoSaveInterval;
             SaveTimer.Start();
         }
 
@@ -70,10 +70,10 @@ namespace ABH.UI
             backupName.ResetText();
         }
 
-        private void maxSavesSetter_ValueChanged(object sender, EventArgs e)
+        private void g_MaxMapSaves_ValueChanged(object Sender, EventArgs Event)
         {
-            maxSaves = (int)maxSavesSetter.Value;
-            Properties.Settings.Default.maxSaves = maxSaves;
+            _maxMapSaves = (int)g_MaxMapSaves.Value;
+            Properties.Settings.Default.maxSaves = _maxMapSaves;
             Properties.Settings.Default.Save();
         }
     }

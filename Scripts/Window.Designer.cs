@@ -63,7 +63,7 @@
             this.backupName = new System.Windows.Forms.TextBox();
             this.manualBackupPanelLabel = new System.Windows.Forms.Label();
             this.maxSavesLabel = new System.Windows.Forms.Label();
-            this.maxSavesSetter = new System.Windows.Forms.NumericUpDown();
+            this.g_MaxMapSaves = new System.Windows.Forms.NumericUpDown();
             this.updateMoDButton = new System.Windows.Forms.Button();
             this.transferDataSaveIntervalChooser = new System.Windows.Forms.NumericUpDown();
             this.transferDataSaveIntLabel = new System.Windows.Forms.Label();
@@ -71,7 +71,7 @@
             this.TabBackgroundPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.saveInterval)).BeginInit();
             this.manualSaveBox.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.maxSavesSetter)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.g_MaxMapSaves)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.transferDataSaveIntervalChooser)).BeginInit();
             this.SuspendLayout();
             // 
@@ -417,26 +417,26 @@
             this.maxSavesLabel.TabIndex = 15;
             this.maxSavesLabel.Text = "Max Auto Saves";
             // 
-            // maxSavesSetter
+            // g_MaxMapSaves
             // 
-            this.maxSavesSetter.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.maxSavesSetter.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.maxSavesSetter.ForeColor = System.Drawing.Color.White;
-            this.maxSavesSetter.Location = new System.Drawing.Point(823, 274);
-            this.maxSavesSetter.Minimum = new decimal(new int[] {
+            this.g_MaxMapSaves.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.g_MaxMapSaves.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.g_MaxMapSaves.ForeColor = System.Drawing.Color.White;
+            this.g_MaxMapSaves.Location = new System.Drawing.Point(823, 274);
+            this.g_MaxMapSaves.Minimum = new decimal(new int[] {
             1,
             0,
             0,
             0});
-            this.maxSavesSetter.Name = "maxSavesSetter";
-            this.maxSavesSetter.Size = new System.Drawing.Size(56, 31);
-            this.maxSavesSetter.TabIndex = 16;
-            this.maxSavesSetter.Value = new decimal(new int[] {
+            this.g_MaxMapSaves.Name = "g_MaxMapSaves";
+            this.g_MaxMapSaves.Size = new System.Drawing.Size(56, 31);
+            this.g_MaxMapSaves.TabIndex = 16;
+            this.g_MaxMapSaves.Value = new decimal(new int[] {
             1,
             0,
             0,
             0});
-            this.maxSavesSetter.ValueChanged += new System.EventHandler(this.maxSavesSetter_ValueChanged);
+            this.g_MaxMapSaves.ValueChanged += new System.EventHandler(this.g_MaxMapSaves_ValueChanged);
             // 
             // updateMoDButton
             // 
@@ -501,7 +501,7 @@
             this.Controls.Add(this.transferDataSaveIntLabel);
             this.Controls.Add(this.transferDataSaveIntervalChooser);
             this.Controls.Add(this.updateMoDButton);
-            this.Controls.Add(this.maxSavesSetter);
+            this.Controls.Add(this.g_MaxMapSaves);
             this.Controls.Add(this.maxSavesLabel);
             this.Controls.Add(this.manualSaveBox);
             this.Controls.Add(this.errorDisplay);
@@ -529,7 +529,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.saveInterval)).EndInit();
             this.manualSaveBox.ResumeLayout(false);
             this.manualSaveBox.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.maxSavesSetter)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.g_MaxMapSaves)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.transferDataSaveIntervalChooser)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -568,7 +568,7 @@
         private System.Windows.Forms.Button submitButton;
         private System.Windows.Forms.CheckBox milestoneCheckbox;
         private System.Windows.Forms.Label maxSavesLabel;
-        private System.Windows.Forms.NumericUpDown maxSavesSetter;
+        private System.Windows.Forms.NumericUpDown g_MaxMapSaves;
         private System.Windows.Forms.Button updateMoDButton;
         private System.Windows.Forms.NumericUpDown transferDataSaveIntervalChooser;
         private System.Windows.Forms.Label transferDataSaveIntLabel;
