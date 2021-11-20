@@ -5,8 +5,8 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <RootNamespace>ABH</RootNamespace>
     <UseWindowsForms>true</UseWindowsForms>
-    <SignAssembly>false</SignAssembly>
-    <AssemblyOriginatorKeyFile>BackupHandlerKey.pfx</AssemblyOriginatorKeyFile>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>Sharks-Interactive.pfx</AssemblyOriginatorKeyFile>
     <DelaySign>false</DelaySign>
     <Version>0.3.0</Version>
     <Authors>Sharks Interactive</Authors>
