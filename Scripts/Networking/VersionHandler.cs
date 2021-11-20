@@ -4,7 +4,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace ABH.Properties
+namespace ABH
 {
     static class VersionHandler
     {
@@ -51,7 +51,7 @@ namespace ABH.Properties
             if (!CheckUpToDate())
             {
                 DialogResult _result = MessageBox.Show(
-                    "Update Availible",
+                    "Update Available",
                     $"Your Backup Handler is out of date. The current version is v{CurrentVersion} and the latest is v{LatestVersion}. You can download it at https://github.com/Sharks-Interactive/Ark-Backup-Handler/releases/tag/v{LatestVersion}.",
                     MessageBoxButtons.AbortRetryIgnore,
                     MessageBoxIcon.Exclamation

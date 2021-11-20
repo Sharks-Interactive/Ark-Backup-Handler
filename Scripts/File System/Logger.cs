@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Drawing;
 using System.Windows.Forms;
 using ABH.Files;
 using ABH.Utility;
@@ -41,24 +42,25 @@ namespace ABH.Logging
                 + ": " + Message;
 
             FileHandler.AddToFile(r_logDirectory, c_logFileName, Message);
+            Program.UIProcess.SetErrorText(Message);
             Debug.WriteLine(Message);
 
             switch (LogLevel)
             {
                 case ErrorLevel.Info:
-                    //errorDisplay.ForeColor = Color.White;
-                    //errorDisplay.Text = "Info: " + Messege;
-                    // Update in app error display
+                    Program.UIProcess.SetErrorColor(Color.White);
                     break;
 
                 case ErrorLevel.Warning:
-                    //errorDisplay.ForeColor = Color.Yellow;
-                    //errorDisplay.Text = "Warning: " + Messege;
+                    Program.UIProcess.SetErrorColor(Color.Yellow);
                     break;
 
                 case ErrorLevel.Error:
-                    //errorDisplay.ForeColor = Color.Red;
-                    //errorDisplay.Text = "Error: " + Messege;
+                    Program.UIProcess.SetErrorColor(Color.Red);
+                    break;
+
+                default:
+                    Program.UIProcess.ForeColor = Color.White;
                     break;
             }
         }

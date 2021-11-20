@@ -19,6 +19,7 @@ namespace ABH.Files
         /// <returns> Was the operation a success </returns>
         public static bool ReadFromFile(ref string[] Data, string Path, int ExpectedLength)
         {
+            if (!Directory.Exists(Path)) return false;
             try
             {
                 Data = File.ReadAllLines(Path);
@@ -101,6 +102,7 @@ namespace ABH.Files
         /// <returns> Was the operation successfull? </returns>
         public static bool AddToFile(string Path, string FileName, string Data)
         {
+            if (!Directory.Exists(Path + FileName)) return false;
             List<string> _file;
             try
             {
@@ -151,7 +153,7 @@ namespace ABH.Files
         /// <returns> Whether the operation was a success </returns>
         public static bool Copy(string SourceDirectory, string TargetDirectory)
         {
-            if (!Directory.Exists(SourceDirectory) && Directory.Exists(TargetDirectory))
+            if (!(Directory.Exists(SourceDirectory) && Directory.Exists(TargetDirectory)))
             {
                 Logger.Log($"Failed to copy files, one or more directories does not exist!" +
                     $" Please validate the following directories: Source (What we're trying to copy from)" +

@@ -1,73 +1,65 @@
 ﻿using ABH.Files.Backup;
 using ABH.Files.MoD;
 using System;
-using System.Drawing;
+using ABH.Logging;
 using System.Windows.Forms;
 
 namespace ABH.UI
 {
+    /// <summary>
+    /// Contains defenitions for all button hooks
+    /// </summary>
     public partial class UIProcess
     {
-        #region FileLocationChangeButtons
-        private void changeBackupLocationButton_MouseClick(object sender, MouseEventArgs e)
-        {
-            saveLocationDialog.ShowDialog();
-        }
+        private void g_changeBackupLocationButton_MouseClick(object sender, MouseEventArgs e) => g_backupLocationDialog.ShowDialog();
 
-        private void changeArkSaveLocationButton_MouseClick(object sender, MouseEventArgs e)
-        {
-            arkSaveLocationDialog.ShowDialog();
-        }
-        #endregion
+        private void g_changeArkSaveLocationButton_MouseClick(object sender, MouseEventArgs e) => g_arkSaveLocationDialog.ShowDialog();
 
-        private void transferDataSaveIntervalChooser_ValueChanged(object sender, EventArgs e)
+        private void g_transferDataSaveIntervalChooser_ValueChanged(object sender, EventArgs e)
         {
-            transferDataSaveTimer.Stop();
-            transferDataSaveTimer.Interval = (int)(transferDataSaveIntervalChooser.Value * 60000);
-            _transferDataSaveInterval = transferDataSaveIntervalChooser.Value;
+            g_transferDataSaveTimer.Stop();
+            g_transferDataSaveTimer.Interval = (int)(g_transferDataSaveIntervalChooser.Value * 60000);
+            g_transferDataSaveTimer.Start();
+
+            _transferDataSaveInterval = g_transferDataSaveIntervalChooser.Value;
             Properties.Settings.Default.transferDataSaveInterval = _transferDataSaveInterval;
-            transferDataSaveTimer.Start();
         }
 
-        //When the autosaveinterval chooser is changed
-        private void numericUpDown1_ValueChanged(object sender, EventArgs e)
+        private void g_saveIntervalChooser_ValueChanged(object sender, EventArgs e)
         {
-            SaveTimer.Stop();
-            SaveTimer.Interval = (int)(saveInterval.Value * 60000);
-            numDisplay.Text = saveInterval.Value.ToString();
-            _autoSaveInterval = saveInterval.Value;
-            Properties.Settings.Default.autoSaveInterval = _autoSaveInterval;
-            SaveTimer.Start();
+            g_saveTimer.Stop();
+            g_saveTimer.Interval = (int)(_autoSaveInterval * 60000);
+            g_saveTimer.Start();
+
+            _autoSaveInterval = g_saveIntervalChooser.Value;
+            Properties.Settings.Default.autoSaveInterval = _autoSaveInterval; 
         }
 
-        private void updateMoDButton_MouseClick(object sender, MouseEventArgs e)
+        private void g_updateMoDButton_MouseClick(object sender, MouseEventArgs e)
         {
-            errorDisplay.ForeColor = Color.White;
-            errorDisplay.Text = "Info: Beginning MoD update.";
+            Logger.Log("Beginning MoD update.", Logger.ErrorLevel.Info);
             ModManager.UpdateMessegeOfTheDay();
         }
 
-        private void errorDisplay_Click(object sender, EventArgs e)
+        private void g_errorDisplay_Click(object sender, EventArgs e)
         {
-            Clipboard.SetData(DataFormats.StringFormat, errorDisplay.Text);
-            errorDisplay.Text = "No errors to display.";
+            Clipboard.SetData(DataFormats.StringFormat, g_errorDisplay.Text);
+            Logger.Log("No errors to display.", Logger.ErrorLevel.Info);
         }
 
-        private void manualBackupLocationButton_MouseClick(object sender, MouseEventArgs e)
-        {
-            manualSaveBox.Visible = !manualSaveBox.Visible;
-        }
+        private void g_manualBackupLocationButton_MouseClick(object sender, MouseEventArgs e) => g_manualSaveBox.Visible = !g_manualSaveBox.Visible;
 
         private void g_MinimizeButton_MouseClick(object sender, MouseEventArgs e) => MinimizeToTray();
 
         private void g_TrayIcon_MouseClick(object Sender, MouseEventArgs Event) => OpenFromTray();
 
-        private void submitButton_MouseClick(object sender, MouseEventArgs e)
+        private void g_submitButton_MouseClick(object sender, MouseEventArgs e)
         {
-            BackupManager.BackupMapAndConfigFiles(false, milestoneCheckbox.Checked, backupName.Text);
-            manualSaveBox.Visible = false;
-            milestoneCheckbox.Checked = false;
-            backupName.ResetText();
+            BackupManager.BackupMapAndConfigFiles(false, g_milestoneCheckbox.Checked, g_backupName.Text);
+            
+            g_manualSaveBox.Visible = false;
+            g_milestoneCheckbox.Checked = false;
+            g_backupName.ResetText();
         }
 
         private void g_MaxMapSaves_ValueChanged(object Sender, EventArgs Event)

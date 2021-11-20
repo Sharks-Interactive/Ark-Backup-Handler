@@ -40,7 +40,7 @@ namespace ABH.Files.Backup
         /// <param name="Data"> Additional information, if this is automatic supply
         /// the save number here, if it's manual supply the backup name here. </param>
         /// <returns> Whether or not the operation concluded successfully </returns>
-        public static bool BackupMapAndConfigFiles(bool Automatic, bool Milestone, string Data)
+        public static bool BackupMapAndConfigFiles(bool Automatic, bool Milestone, string Data = "")
         {
             string _parentFolder = Automatic ? c_automaticBackupFolder : c_manualBackupFolder;
             _parentFolder = Milestone ? _parentFolder + c_milestoneBackupFolder : _parentFolder;

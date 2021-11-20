@@ -1,161 +1,128 @@
-﻿#region Imports
-using System;
-using System.Diagnostics;
+﻿using System;
 using System.Drawing;
-using System.IO;
-using System.Linq;
 using System.Windows.Forms;
 using ABH.Files.Backup;
 using ABH.Files.MoD;
 using ABH.Properties;
-#endregion
 
 namespace ABH.UI
 {
     public partial class UIProcess : Form
     {
         private const string c_closeConfirmationTitle = "Are you sure?";
-        private const string c_closeConfirmationDesc = "Do you really want to quit?";
+        private const string c_closeConfirmationDesc  = "Do you really want to quit?";
 
-        #region Data
         private string _backupLocation = "Init";
-        private string _saveLocation = "Init";
-        private decimal _autoSaveInterval = 0.1M;
+        private string _saveLocation   = "Init";
+        private decimal _autoSaveInterval         = 0.1M;
         private decimal _transferDataSaveInterval = 0.1M;
-        #endregion
 
-        #region Cache
         private int _mapSaveNumber;
         private int _maxMapSaves = 30;
         private int _transferSaveNumber;
-        protected bool isDebug;
-        #endregion
-
-        #region Initialization Functions
 
         public UIProcess()
         {
-            //Win Forms init
             InitializeComponent();
-
-#if DEBUG
-            isDebug = true;
-#endif
-
-            saveInterval.BringToFront();
-            manualSaveBox.BringToFront();
-
             LoadSettings();
-            mainTimerLoop.Start();
+
+            g_manualSaveBox.BringToFront();
+            g_mainTimerLoop.Start();
+            
             ModManager.UpdateMessegeOfTheDay();
         }
 
+        /// <summary>
+        /// Loads Settings from properties but also updates form controls to match the loaded values
+        /// </summary>
         private void LoadSettings ()
         {
-            _transferDataSaveInterval = Settings.Default.transferDataSaveInterval;
-            if (_transferDataSaveInterval <= 0)
-                _transferDataSaveInterval = 0.1M;
-            transferDataSaveIntervalChooser.Value = _transferDataSaveInterval;
-            transferDataSaveTimer.Interval = (int)(_transferDataSaveInterval * 60000);
-            transferDataSaveTimer.Start();
+            // Transfer Data Save Updates
+            _transferDataSaveInterval = Settings.Default.transferDataSaveInterval <= 0 ? 0.1M : Settings.Default.transferDataSaveInterval;
+            g_transferDataSaveIntervalChooser.Value = _transferDataSaveInterval;
+            g_transferDataSaveTimer.Interval = (int)(_transferDataSaveInterval * 60000);
+            g_transferDataSaveTimer.Start();
 
+            // Auto Save Relevant Updates
             _autoSaveInterval = Settings.Default.autoSaveInterval;
             _autoSaveInterval = _autoSaveInterval <= 0 ? 0.1M : _autoSaveInterval;
-            
-            saveInterval.Value = _autoSaveInterval;
-            numDisplay.Text = _autoSaveInterval.ToString();
+            g_saveIntervalChooser.Value = _autoSaveInterval;
+            g_saveTimer.Interval = (int)(_autoSaveInterval * 60000);
+            g_saveTimer.Start();
 
+            // Max Map Save Relevant Updates
             _maxMapSaves = Settings.Default.maxSaves;
             g_MaxMapSaves.Value = _maxMapSaves;
 
+            // Save Numbers
             _mapSaveNumber = Settings.Default.lastAutoSave;
             _transferSaveNumber = Settings.Default.lastTransferAuto;
 
-            //Setting saveTimer to autosave interval
-            SaveTimer.Interval = (int)(_autoSaveInterval * 60000);
-            SaveTimer.Start();
+            // Save Location Relevant Updates
+            g_arkSaveLocationDialog.SelectedPath = Properties.Settings.Default.saveLocation;
+            g_arkSaveLocationFilePathDisplay.Text = g_arkSaveLocationDialog.SelectedPath;
+            _saveLocation = g_arkSaveLocationFilePathDisplay.Text;
 
-            arkSaveLocationDialog.SelectedPath = Properties.Settings.Default.saveLocation;
-            arkSaveLocationFilePathDisplay.Text = arkSaveLocationDialog.SelectedPath;
-            _saveLocation = arkSaveLocationFilePathDisplay.Text;
-
-            saveLocationDialog.SelectedPath = Properties.Settings.Default.backupLocation;
-            backupFileLocation.Text = saveLocationDialog.SelectedPath;
-            _backupLocation = backupFileLocation.Text;
-
-            LoadFiles();
+            // Backup Location Relevant Updates
+            g_backupLocationDialog.SelectedPath = Properties.Settings.Default.backupLocation;
+            g_backupFileLocation.Text = g_backupLocationDialog.SelectedPath;
+            _backupLocation = g_backupFileLocation.Text;
         }
 
-        public void LoadFiles ()
+        /// <summary>
+        /// Sets the text of the error text
+        /// </summary>
+        /// <param name="text"> The text to set the error text to </param>
+        public void SetErrorText(string text) => g_errorDisplay.Text = text;
+
+        /// <summary>
+        /// Sets the color of the error text
+        /// </summary>
+        /// <param name="color"> The color to set the error text to </param>
+        public void SetErrorColor(Color color) => g_errorDisplay.ForeColor = color;
+
+        /// <summary>
+        /// Ensures GC while minimized
+        /// </summary>
+        private void g_garbageCollectionTimer_Tick(object sender, EventArgs e) => GC.Collect();
+
+        /// <summary>
+        /// Runs every few seconds for misc. operations
+        /// </summary>
+        private void g_mainTimerLoopRun(object sender, EventArgs e)
         {
-            Directory.CreateDirectory(_backupLocation + @"\Automatic Saves\[TRANSFERDATA]\");
-            string[] saves = Directory.GetDirectories(_backupLocation + @"\Automatic Saves\[TRANSFERDATA]\");
-            _transferSaveNumber = saves.Count();
-
-            //Find out how many autosave files their already are
-            Directory.CreateDirectory(_backupLocation + @"\Automatic Saves\");
-            string[] autoSaves = Directory.GetDirectories(_backupLocation + @"\Automatic Saves\");
-            _mapSaveNumber = autoSaves.Count() - 1;
-
-            Debug.WriteLine(_transferSaveNumber + " " + _mapSaveNumber);
+            // Check if the user has selected a new backup/save path and change accordingly
+            if (g_backupLocationDialog.SelectedPath != _backupLocation)
+            {
+                _backupLocation = g_backupLocationDialog.SelectedPath;
+                Properties.Settings.Default.backupLocation = _backupLocation;
+                g_backupFileLocation.Text = _backupLocation;
+                Properties.Settings.Default.Save();
+            }
+            if (g_arkSaveLocationDialog.SelectedPath != _saveLocation)
+            {
+                _saveLocation = g_arkSaveLocationDialog.SelectedPath;
+                Properties.Settings.Default.saveLocation = _saveLocation;
+                g_arkSaveLocationFilePathDisplay.Text = _saveLocation;
+                Properties.Settings.Default.Save();
+            }
         }
 
-        #endregion
+        private void g_transferDataSaveTimer_Tick(object sender, EventArgs e) => BackupManager.BackupTransferData(_transferSaveNumber);
 
-        #region Main Loops
-
-        //When the autoSaveTimer ticks
-        private void SaveTimer_Tick(object sender, EventArgs e)
+        private void g_saveTimer_Tick(object sender, EventArgs e)
         {
-            if (BackupManager.BackupMapAndConfigFiles(true, false, _mapSaveNumber.ToString()))
-                _mapSaveNumber++;
+            if (BackupManager.BackupMapAndConfigFiles(true, false, _mapSaveNumber.ToString())) _mapSaveNumber++;
 
             Properties.Settings.Default.lastAutoSave = _mapSaveNumber;
             Properties.Settings.Default.lastTransferAuto = _transferSaveNumber;
 
-            
-            if (_mapSaveNumber >= _maxMapSaves)
-                _mapSaveNumber = 0;
+            if (_mapSaveNumber >= _maxMapSaves) _mapSaveNumber = 0;
         }
 
-        //GC
-        private void garbageCollectionTimer_Tick(object sender, EventArgs e)
-        {
-            GC.Collect();
-        }
-
-        //When the logic or main loop timer ticks
-        private void mainTimerLoopRun(object sender, EventArgs e)
-        {
-            if (saveLocationDialog.SelectedPath != _backupLocation)
-            {
-                _backupLocation = saveLocationDialog.SelectedPath;
-                Properties.Settings.Default.backupLocation = _backupLocation;
-                backupFileLocation.Text = _backupLocation;
-                Properties.Settings.Default.Save();
-            }
-            //Else give warning and set a bool to not give error again
-
-            if (arkSaveLocationDialog.SelectedPath != _saveLocation)
-            {
-                _saveLocation = arkSaveLocationDialog.SelectedPath;
-                Properties.Settings.Default.saveLocation = _saveLocation;
-                arkSaveLocationFilePathDisplay.Text = _saveLocation;
-                Properties.Settings.Default.Save();
-            }
-        }
-
-        private void transferDataSaveTimer_Tick(object sender, EventArgs e)
-        {
-            BackupManager.BackupTransferData(_transferSaveNumber);
-        }
-
-        #endregion
-
-        #region Functions
-
-        #region Form Visibility Control
-
+        /// <summary>
+        /// Re-opens the window from the system tray
+        /// </summary>
         private void OpenFromTray()
         {
             Show();
@@ -163,22 +130,30 @@ namespace ABH.UI
             g_TrayIcon.Visible = false;
         }
 
+        /// <summary>
+        /// Minimizes the window to the system tray
+        /// </summary>
         private void MinimizeToTray()
         {
-            WindowState = FormWindowState.Minimized;
             Hide();
+            WindowState = FormWindowState.Minimized;
             g_TrayIcon.Visible = true;
+
             GC.Collect();
         }
 
-        #endregion
-
-        private void UIProcess_FormClosing(object Sender, FormClosingEventArgs Event)
+        /// <summary>
+        /// Prompt the user if they really want to exit to prevent accidental shutdowns of the backup manager
+        /// </summary>
+        private void UIProcess_Closing(object Sender, FormClosingEventArgs Event)
         {
-            Settings.Default.lastAutoSave = _mapSaveNumber;
+            // Store what save we are on so we can pickup where we've left off
+            Settings.Default.lastAutoSave     = _mapSaveNumber;
             Settings.Default.lastTransferAuto = _transferSaveNumber;
 
-            if (isDebug) return;
+#if DEBUG
+            return; // Debugging quality of life
+#endif
 
             DialogResult _result = MessageBox.Show(c_closeConfirmationDesc, 
                 c_closeConfirmationTitle, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
@@ -186,23 +161,16 @@ namespace ABH.UI
             if (_result == DialogResult.Yes)
             {
                 Settings.Default.Save();
-                mainTimerLoop.Dispose();
-                SaveTimer.Dispose();
+                g_mainTimerLoop.Dispose();
+                g_saveTimer.Dispose();
                 GC.Collect();
             }
-            else
-                Event.Cancel = true;
+            else Event.Cancel = true;
         }
 
-        #region Updating UI on events
-
-        private void errorDisplay_TextChanged(object sender, EventArgs e)
-        {
-            mainToolTip.SetToolTip(errorDisplay, errorDisplay.Text);
-        }
-
-        #endregion
-
-        #endregion
+        /// <summary>
+        /// Update tooltip so it's accurate when the error display is hovered over
+        /// </summary>
+        private void g_errorDisplay_TextChanged(object sender, EventArgs e) => g_mainToolTip.SetToolTip(g_errorDisplay, g_errorDisplay.Text);
     }
 }

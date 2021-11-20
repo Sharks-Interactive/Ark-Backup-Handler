@@ -1,5 +1,4 @@
 using System;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using ABH.UI;
 
@@ -7,11 +6,13 @@ namespace ABH
 {
     static class Program
     {
-        public static readonly string Owner   = "Sharks-Interactive";
+        public static readonly string Owner = "Sharks-Interactive";
         public static readonly string AppName = "Ark-Backup-Handler";
 
+        public static UIProcess UIProcess;
+
         /// <summary>
-        ///  The main entry point for the application.
+        /// The entry point for ABH.
         /// </summary>
         [STAThread]
         static void Main()
@@ -20,19 +21,8 @@ namespace ABH
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            FixStuff();
-        }
-
-        private static /*temporary*/ async void FixStuff ()
-        {
-#if DEBUG
-            Application.Run(new UIProcess());
-#else
-            if (await VersionHandler.InformAboutUpdate())
-                Application.Run(new UIProcess());
-            else
-                Application.Exit();
-#endif
+            VersionHandler.InformAboutUpdate();
+            Application.Run(UIProcess = new UIProcess()); 
         }
     }
 }
