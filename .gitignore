@@ -370,6 +370,8 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
+.pfx
+
 # Ignore "InteropTests/NativeTests/out"
 InteropTests/NativeTests/out
 /src/System.Windows.Forms/src/comctl32.dll
