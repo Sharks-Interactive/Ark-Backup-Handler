@@ -68,5 +68,7 @@ namespace ABH.UI
             Properties.Settings.Default.maxSaves = _maxMapSaves;
             Properties.Settings.Default.Save();
         }
+
+        private void g_reportProblemButton_Click(object sender, EventArgs e) => System.Diagnostics.Process.Start("explorer", "https://github.com/Sharks-Interactive/Ark-Backup-Handler/issues");
     }
 }

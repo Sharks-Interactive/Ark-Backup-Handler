@@ -36,7 +36,6 @@
             this.g_tabsBackgroundPanel = new System.Windows.Forms.FlowLayoutPanel();
             this.g_backupsButton = new System.Windows.Forms.Button();
             this.g_revertButton = new System.Windows.Forms.Button();
-            this.ReportError = new System.Windows.Forms.Button();
             this.g_backupLabel = new System.Windows.Forms.Label();
             this.g_backupFileLocation = new System.Windows.Forms.TextBox();
             this.g_changeBackupLocationButton = new System.Windows.Forms.Button();
@@ -65,6 +64,7 @@
             this.g_transferDataSaveIntLabel = new System.Windows.Forms.Label();
             this.g_transferDataSaveTimer = new System.Windows.Forms.Timer(this.components);
             this.g_saveIntervalChooser = new System.Windows.Forms.NumericUpDown();
+            this.g_reportProblemButton = new System.Windows.Forms.Button();
             this.g_tabsBackgroundPanel.SuspendLayout();
             this.g_manualSaveBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.g_MaxMapSaves)).BeginInit();
@@ -105,7 +105,6 @@
             this.g_tabsBackgroundPanel.Controls.Add(this.g_LogoBlock);
             this.g_tabsBackgroundPanel.Controls.Add(this.g_backupsButton);
             this.g_tabsBackgroundPanel.Controls.Add(this.g_revertButton);
-            this.g_tabsBackgroundPanel.Controls.Add(this.ReportError);
             this.g_tabsBackgroundPanel.Dock = System.Windows.Forms.DockStyle.Top;
             this.g_tabsBackgroundPanel.Location = new System.Drawing.Point(0, 0);
             this.g_tabsBackgroundPanel.Margin = new System.Windows.Forms.Padding(3, 3, 0, 3);
@@ -149,16 +148,7 @@
             this.g_revertButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.g_revertButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.g_revertButton.UseVisualStyleBackColor = false;
-            // 
-            // ReportError
-            // 
-            this.ReportError.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.ReportError.Location = new System.Drawing.Point(384, 3);
-            this.ReportError.Name = "ReportError";
-            this.ReportError.Size = new System.Drawing.Size(75, 23);
-            this.ReportError.TabIndex = 3;
-            this.ReportError.Text = "button1";
-            this.ReportError.UseVisualStyleBackColor = true;
+            this.g_revertButton.Visible = false;
             // 
             // g_backupLabel
             // 
@@ -182,6 +172,7 @@
             this.g_backupFileLocation.ReadOnly = true;
             this.g_backupFileLocation.Size = new System.Drawing.Size(409, 27);
             this.g_backupFileLocation.TabIndex = 9;
+            this.g_mainToolTip.SetToolTip(this.g_backupFileLocation, "The directory to put our backups in.");
             // 
             // g_changeBackupLocationButton
             // 
@@ -207,6 +198,7 @@
             this.g_backupSaveLocationLabel.Size = new System.Drawing.Size(230, 23);
             this.g_backupSaveLocationLabel.TabIndex = 11;
             this.g_backupSaveLocationLabel.Text = "Backup Save Location";
+            this.g_mainToolTip.SetToolTip(this.g_backupSaveLocationLabel, "The directory to put our backups in.");
             // 
             // g_mainTimerLoop
             // 
@@ -221,6 +213,7 @@
             this.g_arkSaveLocationLabel.Size = new System.Drawing.Size(197, 23);
             this.g_arkSaveLocationLabel.TabIndex = 11;
             this.g_arkSaveLocationLabel.Text = "Ark Save Location";
+            this.g_mainToolTip.SetToolTip(this.g_arkSaveLocationLabel, "The location of your Ark saves.");
             // 
             // g_arkSaveLocationFilePathDisplay
             // 
@@ -233,6 +226,7 @@
             this.g_arkSaveLocationFilePathDisplay.ReadOnly = true;
             this.g_arkSaveLocationFilePathDisplay.Size = new System.Drawing.Size(409, 27);
             this.g_arkSaveLocationFilePathDisplay.TabIndex = 9;
+            this.g_mainToolTip.SetToolTip(this.g_arkSaveLocationFilePathDisplay, "The location of your Ark saves.");
             // 
             // g_changeArkSaveLocationButton
             // 
@@ -262,6 +256,7 @@
             this.g_saveIntervalLabel.Size = new System.Drawing.Size(274, 23);
             this.g_saveIntervalLabel.TabIndex = 11;
             this.g_saveIntervalLabel.Text = "AutoSave interval (mins)";
+            this.g_mainToolTip.SetToolTip(this.g_saveIntervalLabel, "How often a backup will be carried out");
             // 
             // g_manualBackupButton
             // 
@@ -275,6 +270,7 @@
             this.g_manualBackupButton.Size = new System.Drawing.Size(336, 29);
             this.g_manualBackupButton.TabIndex = 10;
             this.g_manualBackupButton.Text = "Manual Backup";
+            this.g_mainToolTip.SetToolTip(this.g_manualBackupButton, "Click to open the dialog to make a manual backup");
             this.g_manualBackupButton.UseVisualStyleBackColor = false;
             this.g_manualBackupButton.MouseClick += new System.Windows.Forms.MouseEventHandler(this.g_manualBackupLocationButton_MouseClick);
             // 
@@ -295,6 +291,7 @@
             this.g_MinimizeButton.TabIndex = 1;
             this.g_MinimizeButton.Text = "-";
             this.g_MinimizeButton.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.g_mainToolTip.SetToolTip(this.g_MinimizeButton, "Minimizes the window to the system tray.");
             this.g_MinimizeButton.UseVisualStyleBackColor = false;
             this.g_MinimizeButton.MouseClick += new System.Windows.Forms.MouseEventHandler(this.g_MinimizeButton_MouseClick);
             // 
@@ -331,6 +328,7 @@
             this.g_submitButton.Size = new System.Drawing.Size(94, 29);
             this.g_submitButton.TabIndex = 3;
             this.g_submitButton.Text = "Backup";
+            this.g_mainToolTip.SetToolTip(this.g_submitButton, "Creates the manual backup.");
             this.g_submitButton.UseVisualStyleBackColor = false;
             this.g_submitButton.MouseClick += new System.Windows.Forms.MouseEventHandler(this.g_submitButton_MouseClick);
             // 
@@ -342,6 +340,8 @@
             this.g_milestoneCheckbox.Size = new System.Drawing.Size(142, 27);
             this.g_milestoneCheckbox.TabIndex = 2;
             this.g_milestoneCheckbox.Text = "Milestone?";
+            this.g_mainToolTip.SetToolTip(this.g_milestoneCheckbox, "Milestones are saved in a seperate folder for easier acess and show up seperately" +
+        " in the revert tab.");
             this.g_milestoneCheckbox.UseVisualStyleBackColor = true;
             // 
             // g_backupName
@@ -353,6 +353,8 @@
             this.g_backupName.PlaceholderText = "Indy Forge built";
             this.g_backupName.Size = new System.Drawing.Size(227, 31);
             this.g_backupName.TabIndex = 1;
+            this.g_mainToolTip.SetToolTip(this.g_backupName, "What should the folder be named. Give it a descriptive title of what was accompli" +
+        "shed. Date/Time is appended automatically.");
             // 
             // g_manualBackupPanelLabel
             // 
@@ -371,6 +373,8 @@
             this.g_maxSavesLabel.Size = new System.Drawing.Size(164, 23);
             this.g_maxSavesLabel.TabIndex = 15;
             this.g_maxSavesLabel.Text = "Max Auto Saves";
+            this.g_mainToolTip.SetToolTip(this.g_maxSavesLabel, "The maximum number of saves to keep on the hard drive at any given time. After th" +
+        "is we will start overwriting previous saves.");
             // 
             // g_MaxMapSaves
             // 
@@ -386,6 +390,8 @@
             this.g_MaxMapSaves.Name = "g_MaxMapSaves";
             this.g_MaxMapSaves.Size = new System.Drawing.Size(56, 31);
             this.g_MaxMapSaves.TabIndex = 16;
+            this.g_mainToolTip.SetToolTip(this.g_MaxMapSaves, "The maximum number of saves to keep on the hard drive at any given time. After th" +
+        "is we will start overwriting previous saves.");
             this.g_MaxMapSaves.Value = new decimal(new int[] {
             1,
             0,
@@ -405,6 +411,7 @@
             this.g_updateMoDButton.Size = new System.Drawing.Size(184, 29);
             this.g_updateMoDButton.TabIndex = 17;
             this.g_updateMoDButton.Text = "Update MoD";
+            this.g_mainToolTip.SetToolTip(this.g_updateMoDButton, "Updates the message of the day with the latest information.");
             this.g_updateMoDButton.UseVisualStyleBackColor = false;
             this.g_updateMoDButton.MouseClick += new System.Windows.Forms.MouseEventHandler(this.g_updateMoDButton_MouseClick);
             // 
@@ -428,6 +435,7 @@
             this.g_transferDataSaveIntervalChooser.Name = "g_transferDataSaveIntervalChooser";
             this.g_transferDataSaveIntervalChooser.Size = new System.Drawing.Size(56, 31);
             this.g_transferDataSaveIntervalChooser.TabIndex = 18;
+            this.g_mainToolTip.SetToolTip(this.g_transferDataSaveIntervalChooser, "How often we backup transfer (cluster) data.");
             this.g_transferDataSaveIntervalChooser.Value = new decimal(new int[] {
             1,
             0,
@@ -443,6 +451,7 @@
             this.g_transferDataSaveIntLabel.Size = new System.Drawing.Size(307, 23);
             this.g_transferDataSaveIntLabel.TabIndex = 19;
             this.g_transferDataSaveIntLabel.Text = "Transfer Data Save Interval";
+            this.g_mainToolTip.SetToolTip(this.g_transferDataSaveIntLabel, "How often we backup transfer (cluster) data.");
             // 
             // g_transferDataSaveTimer
             // 
@@ -468,11 +477,29 @@
             this.g_saveIntervalChooser.Name = "g_saveIntervalChooser";
             this.g_saveIntervalChooser.Size = new System.Drawing.Size(56, 31);
             this.g_saveIntervalChooser.TabIndex = 20;
+            this.g_mainToolTip.SetToolTip(this.g_saveIntervalChooser, "How often a backup will be carried out");
             this.g_saveIntervalChooser.Value = new decimal(new int[] {
             1,
             0,
             0,
             0});
+            // 
+            // g_reportProblemButton
+            // 
+            this.g_reportProblemButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.g_reportProblemButton.BackColor = System.Drawing.Color.Red;
+            this.g_reportProblemButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.g_reportProblemButton.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.g_reportProblemButton.Location = new System.Drawing.Point(653, 0);
+            this.g_reportProblemButton.Name = "g_reportProblemButton";
+            this.g_reportProblemButton.Size = new System.Drawing.Size(201, 33);
+            this.g_reportProblemButton.TabIndex = 21;
+            this.g_reportProblemButton.Text = "Report Problem";
+            this.g_reportProblemButton.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.g_mainToolTip.SetToolTip(this.g_reportProblemButton, "Opens the GitHub issues page in your browser where you can report problems, reque" +
+        "st features and more.");
+            this.g_reportProblemButton.UseVisualStyleBackColor = false;
+            this.g_reportProblemButton.Click += new System.EventHandler(this.g_reportProblemButton_Click);
             // 
             // UIProcess
             // 
@@ -488,6 +515,7 @@
             this.Controls.Add(this.g_manualSaveBox);
             this.Controls.Add(this.g_errorDisplay);
             this.Controls.Add(this.g_MinimizeButton);
+            this.Controls.Add(this.g_reportProblemButton);
             this.Controls.Add(this.g_manualBackupButton);
             this.Controls.Add(this.g_saveIntervalLabel);
             this.Controls.Add(this.g_changeArkSaveLocationButton);
@@ -551,8 +579,8 @@
         private System.Windows.Forms.Timer g_transferDataSaveTimer;
         private System.Windows.Forms.Button g_backupsButton;
         private System.Windows.Forms.Button g_revertButton;
-        private System.Windows.Forms.Button ReportError;
         private System.Windows.Forms.NumericUpDown g_saveIntervalChooser;
+        private System.Windows.Forms.Button g_reportProblemButton;
     }
 }
 
