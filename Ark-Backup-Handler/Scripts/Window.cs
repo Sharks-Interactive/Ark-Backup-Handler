@@ -12,8 +12,8 @@ namespace ABH.UI
         private const string c_closeConfirmationTitle = "Are you sure?";
         private const string c_closeConfirmationDesc  = "Do you really want to quit?";
 
-        private string _backupLocation = "Init";
-        private string _saveLocation   = "Init";
+        public string _backupLocation = "Init";
+        public string _saveLocation   = "Init";
         private decimal _autoSaveInterval         = 0.1M;
         private decimal _transferDataSaveInterval = 0.1M;
 
@@ -70,6 +70,17 @@ namespace ABH.UI
         }
 
         /// <summary>
+        /// Manually set settings, used for unit tests
+        /// </summary>
+        /// <param name="backupLocation"> Path to desired backup location </param>
+        /// <param name="saveLocation"> Path to Ark: Survival Evolved server save location </param>
+        public void SetSettings(string backupLocation, string saveLocation)
+        {
+            Settings.Default.backupLocation = backupLocation;
+            Settings.Default.saveLocation   = saveLocation;
+        }
+
+        /// <summary>
         /// Sets the text of the error text
         /// </summary>
         /// <param name="text"> The text to set the error text to </param>
@@ -108,9 +119,9 @@ namespace ABH.UI
             }
         }
 
-        private void g_transferDataSaveTimer_Tick(object sender, EventArgs e) => BackupManager.BackupTransferData(_transferSaveNumber);
+        public void g_transferDataSaveTimer_Tick(object sender, EventArgs e) => BackupManager.BackupTransferData(_transferSaveNumber);
 
-        private void g_saveTimer_Tick(object sender, EventArgs e)
+        public void g_saveTimer_Tick(object sender, EventArgs e)
         {
             if (BackupManager.BackupMapAndConfigFiles(true, false, _mapSaveNumber.ToString())) _mapSaveNumber++;
 
