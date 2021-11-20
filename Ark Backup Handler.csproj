@@ -8,13 +8,13 @@
     <SignAssembly>false</SignAssembly>
     <AssemblyOriginatorKeyFile>BackupHandlerKey.pfx</AssemblyOriginatorKeyFile>
     <DelaySign>false</DelaySign>
-    <Version>0.3.0</Version>
+    <Version>0.6.0</Version>
     <Authors>Sharks Interactive</Authors>
     <Company>Sharks Interactive</Company>
     <Description>Automatically backs up dedicated server info for Ark Survival Evolved Windows 10 and Steam editions.</Description>
     <Copyright>2021</Copyright>
     <PackageProjectUrl>sharksinteractive.net</PackageProjectUrl>
-    <PackageReleaseNotes>Adds in the initial release with backup functionality as a stable build. Implements pretty much any and all backup functionality you could want. 'Revert' tab coming soon.</PackageReleaseNotes>
+    <PackageReleaseNotes>Update checker bugfix. 'Revert' tab coming soon.</PackageReleaseNotes>
     <PackageTags>App,Ark-Survival-Evolved,Backup,Server-Tools</PackageTags>
     <RepositoryType>GitHub</RepositoryType>
     <RepositoryUrl>https://github.com/Sharks-Interactive</RepositoryUrl>
