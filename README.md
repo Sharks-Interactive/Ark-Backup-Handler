@@ -1,6 +1,8 @@
 # Ark Backup Handler
 This repository contains everything relevant to the Ark Backup Handler windows app for backing up server files for Ark: Survival Evolved.
 
+![This is an image](https://raw.githubusercontent.com/Sharks-Interactive/Ark-Backup-Handler/bfee4b55c9e36a806b61f339c67057bb1c4dffe0/.branding/Ark%20Backup%20Handler%20Social%20Card.png)
+
 ## Resources/
   - Contains the source for images
   
