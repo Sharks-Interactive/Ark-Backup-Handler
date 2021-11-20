@@ -1,10 +1,10 @@
 name: Ark Backup Handler Build And Release
  
-on:
-  push:
-    tags:
-      - '*'
+on: [push]
  
+env:
+ Actions_Allow_Unsecure_Commands: true # Allows AddPAth and SetEnv commands
+      
 jobs:
   build:
     runs-on: windows-latest
