@@ -120,7 +120,7 @@
             this.g_backupsButton.FlatAppearance.BorderSize = 0;
             this.g_backupsButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.g_backupsButton.ForeColor = System.Drawing.Color.White;
-            this.g_backupsButton.Image = ((System.Drawing.Image)(resources.GetObject("g_backupsButton.Image")));
+            this.g_backupsButton.Image = global::ABH.Properties.Resources.Settings;
             this.g_backupsButton.Location = new System.Drawing.Point(173, 0);
             this.g_backupsButton.Margin = new System.Windows.Forms.Padding(0);
             this.g_backupsButton.Name = "g_backupsButton";

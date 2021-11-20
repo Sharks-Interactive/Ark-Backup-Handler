@@ -20,7 +20,7 @@
     <RepositoryUrl>https://github.com/Sharks-Interactive</RepositoryUrl>
     <PackageIcon></PackageIcon>
     <StartupObject>ABH.Program</StartupObject>
-    <ApplicationIcon>Resources\network_storage_icon_14_1qA_icon.ico</ApplicationIcon>
+    <ApplicationIcon>Resources\Logo.ico</ApplicationIcon>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <PackageId>ArkBackupHandler</PackageId>
     <Platforms>AnyCPU;x64</Platforms>
@@ -58,10 +58,6 @@
     <None Update="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
-    <None Include="Resources\network_storage_icon_14_1qA_icon.ico">
-      <Pack>True</Pack>
-      <PackagePath></PackagePath>
     </None>
   </ItemGroup>
 
