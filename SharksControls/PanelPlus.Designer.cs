@@ -1,5 +1,5 @@
 ﻿
-namespace ABH.Controls
+namespace SharksControls
 {
     partial class PanelPlus
     {
@@ -29,7 +29,7 @@ namespace ABH.Controls
         /// </summary>
         private void InitializeComponent()
         {
-            components = new System.ComponentModel.Container();
+
         }
 
         #endregion

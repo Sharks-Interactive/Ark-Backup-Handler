@@ -25,6 +25,8 @@ namespace ABH
                 $"The latest release is tagged at {latest.TagName} and is named {latest.Name}"
                 );
 
+            ReleaseNotes = latest.Body;
+
             LatestVersion = latest.TagName;
 
             return latest;
@@ -78,6 +80,8 @@ namespace ABH
 
         public static string LatestVersion = "";
 
+        public static string ReleaseNotes  = "";
+
         /// <summary>
         /// Checks whether the application is up to date. Please run GetLatestVersion first.
         /// </summary>
@@ -96,7 +100,7 @@ namespace ABH
             if (!CheckUpToDate())
             {
                 DialogResult _result = MessageBox.Show(
-                    $"Your Backup Handler is out of date. Would you like to automatically update? The current version is v{CurrentVersion} and the latest is {LatestVersion}. You can download it manually at https://github.com/Sharks-Interactive/Ark-Backup-Handler/releases/tag/{LatestVersion}.",
+                    $"Your Backup Handler is out of date. Would you like to automatically update? \n\nThe current version is v{CurrentVersion} and the latest is {LatestVersion}. \n\nYou can download it manually at https://github.com/Sharks-Interactive/Ark-Backup-Handler/releases/tag/{LatestVersion}. \n\n\nWhat's new? This update includes: {ReleaseNotes} \n\n Hit \'Yes\' to restart and update.",
                     "Update Available",
                     MessageBoxButtons.YesNoCancel,
                     MessageBoxIcon.Exclamation
