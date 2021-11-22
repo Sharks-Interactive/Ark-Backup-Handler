@@ -29,10 +29,10 @@ jobs:
       uses: actions/upload-artifact@v1.0.0
       with:
         name: published_webapp
-        path: bin\Release\Publish
+        path: D:\a\Ark-Backup-Handler\Ark-Backup-Handler\Ark-Backup-Handler\obj\Release\netcoreapp3.1\
       
     - name: Create archive
-      run: Compress-Archive -Path bin\Release\Publish -DestinationPath bin\Release\ABH\Ark.Backup.Handler.zip
+      run: Compress-Archive -Path D:\a\Ark-Backup-Handler\Ark-Backup-Handler\Ark-Backup-Handler\obj\Release\netcoreapp3.1\ -DestinationPath bin\Release\ABH\Ark.Backup.Handler.zip
 
     - name: Create release
       id: create_release
