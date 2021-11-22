@@ -52,6 +52,6 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}  
-        asset_path: bin\Release\ABH\bin\Release\Ark.Backup.Handler.zip
+        asset_path: D:\a\Ark-Backup-Handler\Ark-Backup-Handler\Ark-Backup-Handler\obj\Release\netcoreapp3.1\Ark.Backup.Handler.zip
         asset_name: Ark.Backup.Handler.Stable.zip
         asset_content_type: application/zip
