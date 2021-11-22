@@ -32,7 +32,7 @@ jobs:
         path: D:\a\Ark-Backup-Handler\Ark-Backup-Handler\Ark-Backup-Handler\obj\Release\netcoreapp3.1\
       
     - name: Create archive
-      run: Compress-Archive -Path D:\a\Ark-Backup-Handler\Ark-Backup-Handler\Ark-Backup-Handler\obj\Release\netcoreapp3.1\ -DestinationPath bin\Release\ABH\Ark.Backup.Handler.zip
+      run: Compress-Archive -Path D:\a\Ark-Backup-Handler\Ark-Backup-Handler\Ark-Backup-Handler\obj\Release\netcoreapp3.1\ -DestinationPath D:\a\Ark-Backup-Handler\Ark-Backup-Handler\Ark-Backup-Handler\obj\Release\netcoreapp3.1\Ark.Backup.Handler.zip
 
     - name: Create release
       id: create_release
