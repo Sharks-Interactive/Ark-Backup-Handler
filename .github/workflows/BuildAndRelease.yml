@@ -43,14 +43,14 @@ jobs:
       id: getxmlversion
       uses: mavrosxristoforos/get-xml-info@1.0
       with:
-        xml-file: 'Ark Backup Handler/Ark Backup Handler.csproj'
+        xml-file: 'Ark Backup Handler\Ark Backup Handler.csproj'
         xpath: '//PropertyGroup//Version'
         
     - name: Read release notes from XML file
       id: getxmlchangenotes
       uses: mavrosxristoforos/get-xml-info@1.0
       with:
-       xml-file: 'Ark Backup Handler/Ark Backup Handler.csproj'
+       xml-file: 'Ark Backup Handler\Ark Backup Handler.csproj'
        xpath: '//PropertyGroup//PackageReleaseNotes'
 
     - name: Create release
