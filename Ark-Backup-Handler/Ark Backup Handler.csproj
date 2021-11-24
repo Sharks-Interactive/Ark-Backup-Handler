@@ -12,7 +12,7 @@
     <Description>Automatically backs up dedicated server info for Ark Survival Evolved Windows 10 and Steam editions.</Description>
     <Copyright>2021</Copyright>
     <PackageProjectUrl>sharksinteractive.net</PackageProjectUrl>
-    <PackageReleaseNotes>Update checker bugfix. 'Revert' tab coming soon.</PackageReleaseNotes>
+    <PackageReleaseNotes>Complete overhaul of background systems. The Backup Handler now runs more efficiently and uses less resources while minimized, is easier to maintain, contains fewer bugs and has better ease of use with improved tooltips and an automatic updater.</PackageReleaseNotes>
     <PackageTags>App,Ark-Survival-Evolved,Backup,Server-Tools</PackageTags>
     <RepositoryType>GitHub</RepositoryType>
     <RepositoryUrl>https://github.com/Sharks-Interactive</RepositoryUrl>
@@ -25,11 +25,11 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <OutputPath>D:\Apps\Ark Backup Handler Release v0.3.0 Stable\</OutputPath>
+    <OutputPath>bin\Release\</OutputPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <OutputPath>D:\Apps\Ark Backup Handler Release v0.3.0 Stable\</OutputPath>
+    <OutputPath>bin\Release\</OutputPath>
   </PropertyGroup>
 
   <ItemGroup>
