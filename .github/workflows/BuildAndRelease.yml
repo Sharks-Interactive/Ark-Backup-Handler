@@ -1,6 +1,9 @@
 name: Ark Backup Handler Build And Release
  
-on: [push]
+on:
+  push:
+    branches:
+      - prod
  
 env:
  Actions_Allow_Unsecure_Commands: true # Allows AddPAth and SetEnv commands
