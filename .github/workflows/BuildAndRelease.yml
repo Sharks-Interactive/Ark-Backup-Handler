@@ -34,7 +34,7 @@ jobs:
     - name: Rename Folder
       run: |
        cd D:\a\Ark-Backup-Handler\Ark-Backup-Handler\Ark-Backup-Handler\obj\Release\
-       ren netcoreapp3.1 Ark Backup Handler Stable
+       ren netcoreapp3.1 "Ark Backup Handler Stable"
       
     - name: Create archive
       run: Compress-Archive -Path D:\a\Ark-Backup-Handler\Ark-Backup-Handler\Ark-Backup-Handler\obj\Release\Ark Backup Handler Stable\ -DestinationPath bin\Release\ABH\Ark.Backup.Handler.zip
