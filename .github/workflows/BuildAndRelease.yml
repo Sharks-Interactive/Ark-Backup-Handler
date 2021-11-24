@@ -37,7 +37,7 @@ jobs:
        ren netcoreapp3.1 "Ark Backup Handler Stable"
       
     - name: Create archive
-      run: Compress-Archive -Path D:\a\Ark-Backup-Handler\Ark-Backup-Handler\Ark-Backup-Handler\obj\Release\Ark Backup Handler Stable\ -DestinationPath bin\Release\ABH\Ark.Backup.Handler.zip
+      run: Compress-Archive -Path "D:\a\Ark-Backup-Handler\Ark-Backup-Handler\Ark-Backup-Handler\obj\Release\Ark Backup Handler Stable\" -DestinationPath bin\Release\ABH\Ark.Backup.Handler.zip
  
     - name: Read version from XML file
       id: getxmlversion
