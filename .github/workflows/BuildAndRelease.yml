@@ -37,7 +37,7 @@ jobs:
        ren netcoreapp3.1 "Ark Backup Handler Stable"
       
     - name: Create archive
-      run: Compress-Archive -Path "D:\a\Ark-Backup-Handler\Ark-Backup-Handler\Ark-Backup-Handler\obj\Release\Ark Backup Handler Stable\" -DestinationPath D:\a\Ark-Backup-Handler\Ark-Backup-Handler\Ark-Backup-Handler\bin\Release\ABH\Ark.Backup.Handler.zip
+      run: Compress-Archive -Path "D:\a\Ark-Backup-Handler\Ark-Backup-Handler\Ark-Backup-Handler\obj\Release\Ark Backup Handler Stable\" -DestinationPath D:\a\Ark-Backup-Handler\Ark-Backup-Handler\Ark-Backup-Handler\bin\Release\Ark.Backup.Handler.zip
  
     - name: Read version from XML file
       id: getxmlversion
@@ -72,6 +72,6 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}  
-        asset_path: bin\Release\ABH\Ark.Backup.Handler.zip
+        asset_path: D:\a\Ark-Backup-Handler\Ark-Backup-Handler\Ark-Backup-Handler\bin\Release\ABH\Ark.Backup.Handler.zip
         asset_name: Ark.Backup.Handler.Stable.zip
         asset_content_type: application/zip
