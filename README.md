@@ -76,9 +76,9 @@ Project: Ark Backup Handler.Tests
 - All unit tests are located here
 
 Project SharksControls
-	- Custom components
+- Custom components
 
-- Commit to ``staging`` and pr to ``prod`` for changes
+#### Commit to ``staging`` and pr to ``prod`` for changes
 
 ###  Code Style:
 
