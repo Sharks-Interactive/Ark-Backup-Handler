@@ -31,8 +31,25 @@ jobs:
         name: published_webapp
         path: D:\a\Ark-Backup-Handler\Ark-Backup-Handler\Ark-Backup-Handler\obj\Release\netcoreapp3.1\
       
+    - name: Rename Folder
+      run: ren D:\a\Ark-Backup-Handler\Ark-Backup-Handler\Ark-Backup-Handler\obj\Release\netcoreapp3.1\ D:\a\Ark-Backup-Handler\Ark-Backup-Handler\Ark-Backup-Handler\obj\Release\Ark Backup Handler Stable\
+      
     - name: Create archive
-      run: Compress-Archive -Path D:\a\Ark-Backup-Handler\Ark-Backup-Handler\Ark-Backup-Handler\obj\Release\netcoreapp3.1\ -DestinationPath D:\a\Ark-Backup-Handler\Ark-Backup-Handler\Ark-Backup-Handler\obj\Release\netcoreapp3.1\Ark.Backup.Handler.zip
+      run: Compress-Archive -Path D:\a\Ark-Backup-Handler\Ark-Backup-Handler\Ark-Backup-Handler\obj\Release\Ark Backup Handler Stable\ -DestinationPath bin\Release\ABH\Ark.Backup.Handler.zip
+ 
+    - name: Read version from XML file
+      id: getxmlversion
+      uses: mavrosxristoforos/get-xml-info@1.0
+      with:
+        xml-file: 'Ark Backup Handler/Ark Backup Handler.csproj'
+        xpath: '//PropertyGroup//Version'
+        
+    - name: Read release notes from XML file
+      id: getxmlchangenotes
+      uses: mavrosxristoforos/get-xml-info@1.0
+      with:
+       xml-file: 'Ark Backup Handler/Ark Backup Handler.csproj'
+       xpath: '//PropertyGroup//PackageReleaseNotes'
 
     - name: Create release
       id: create_release
@@ -40,8 +57,9 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        tag_name: ${{ github.ref}}
-        release_name:  Ark Backup Handler ${{ github.ref }}
+        tag_name: v${{ steps.getxmlversion.outputs.info }}
+        release_name:  Ark Backup Handler v${{ steps.getxmlversion.outputs.info }}
+        body: ${{ steps.getxmlchangenotes.outputs.info }}
         draft: false
         prerelease: true
 
@@ -52,6 +70,6 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}  
-        asset_path: D:\a\Ark-Backup-Handler\Ark-Backup-Handler\Ark-Backup-Handler\obj\Release\netcoreapp3.1\Ark.Backup.Handler.zip
+        asset_path: bin\Release\ABH\Ark.Backup.Handler.zip
         asset_name: Ark.Backup.Handler.Stable.zip
         asset_content_type: application/zip
