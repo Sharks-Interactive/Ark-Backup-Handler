@@ -23,5 +23,8 @@
     <Setting Name="lastTransferAuto" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
+    <Setting Name="modTemplate" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Hello, welcome to this server network. Today is {Date}. Server network: {UnstableOrStable}. Thank you.</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

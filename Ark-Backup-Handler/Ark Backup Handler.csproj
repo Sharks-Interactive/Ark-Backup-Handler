@@ -4,23 +4,21 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <RootNamespace>ABH</RootNamespace>
-    <UseWindowsForms>true</UseWindowsForms>
-    <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>Sharks-Interactive.pfx</AssemblyOriginatorKeyFile>
     <DelaySign>false</DelaySign>
-    <Version>0.3.0</Version>
+    <Version>0.6.0</Version>
     <Authors>Sharks Interactive</Authors>
     <Company>Sharks Interactive</Company>
     <Description>Automatically backs up dedicated server info for Ark Survival Evolved Windows 10 and Steam editions.</Description>
-    <Copyright></Copyright>
+    <Copyright>2021</Copyright>
     <PackageProjectUrl>sharksinteractive.net</PackageProjectUrl>
-    <PackageReleaseNotes>Adds in the initial release with backup functionality as a stable build. Implements pretty much any and all backup functionality you could want. 'Revert' tab coming soon.</PackageReleaseNotes>
-    <PackageTags></PackageTags>
-    <RepositoryType></RepositoryType>
+    <PackageReleaseNotes>Update checker bugfix. 'Revert' tab coming soon.</PackageReleaseNotes>
+    <PackageTags>App,Ark-Survival-Evolved,Backup,Server-Tools</PackageTags>
+    <RepositoryType>GitHub</RepositoryType>
     <RepositoryUrl>https://github.com/Sharks-Interactive</RepositoryUrl>
     <PackageIcon></PackageIcon>
     <StartupObject>ABH.Program</StartupObject>
-    <ApplicationIcon>Resources\network_storage_icon_14_1qA_icon.ico</ApplicationIcon>
+    <ApplicationIcon>Resources\Logo.ico</ApplicationIcon>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <PackageId>ArkBackupHandler</PackageId>
     <Platforms>AnyCPU;x64</Platforms>
@@ -59,14 +57,14 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <None Include="Resources\network_storage_icon_14_1qA_icon.ico">
-      <Pack>True</Pack>
-      <PackagePath></PackagePath>
-    </None>
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Octokit" Version="0.50.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SharksControls\SharksControls.csproj" />
   </ItemGroup>
 
 </Project>

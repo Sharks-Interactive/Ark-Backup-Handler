@@ -106,5 +106,18 @@ namespace ABH.Properties {
                 this["lastTransferAuto"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Hello, welcome to this server network. Today is {Date}. Server network: {Unstable" +
+            "OrStable}. Thank you.")]
+        public string modTemplate {
+            get {
+                return ((string)(this["modTemplate"]));
+            }
+            set {
+                this["modTemplate"] = value;
+            }
+        }
     }
 }
