@@ -73,6 +73,11 @@ namespace ABH.UI
 
         private void g_backupsButton_Click(object sender, EventArgs e) => g_tabs.SelectTab(g_backup);
 
-        private void g_revertButton_Click(object sender, EventArgs e) => g_tabs.SelectTab(g_revert);
+        private void g_revertButton_Click(object sender, EventArgs e)
+        {
+            g_tabs.SelectTab(g_revert);
+
+            //_revert.InitPage(g_backupsList.Nodes["Manual"].Nodes;
+        }
     }
 }

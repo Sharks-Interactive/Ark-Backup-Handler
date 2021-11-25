@@ -30,6 +30,10 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UIProcess));
+            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("MILESTONES");
+            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("MANUAL", new System.Windows.Forms.TreeNode[] {
+            treeNode4});
+            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("AUTOMATIC");
             this.g_mainToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.g_LogoBlock = new System.Windows.Forms.Panel();
             this.g_errorDisplay = new System.Windows.Forms.Label();
@@ -69,7 +73,7 @@
             this.g_backup = new System.Windows.Forms.TabPage();
             this.g_revert = new System.Windows.Forms.TabPage();
             this.g_container = new System.Windows.Forms.SplitContainer();
-            this.treeView1 = new System.Windows.Forms.TreeView();
+            this.g_backupsList = new System.Windows.Forms.TreeView();
             ((System.ComponentModel.ISupportInitialize)(this.g_MaxMapSaves)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.g_transferDataSaveIntervalChooser)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.g_saveIntervalChooser)).BeginInit();
@@ -494,7 +498,7 @@
             this.g_manualSaveBox.Controls.Add(this.g_milestoneCheckbox);
             this.g_manualSaveBox.Controls.Add(this.g_backupName);
             this.g_manualSaveBox.Controls.Add(this.g_manualBackupPanelLabel);
-            this.g_manualSaveBox.Location = new System.Drawing.Point(338, 208);
+            this.g_manualSaveBox.Location = new System.Drawing.Point(338, 206);
             this.g_manualSaveBox.Name = "g_manualSaveBox";
             this.g_manualSaveBox.Size = new System.Drawing.Size(250, 125);
             this.g_manualSaveBox.TabIndex = 14;
@@ -572,27 +576,53 @@
             // 
             this.g_container.Cursor = System.Windows.Forms.Cursors.VSplit;
             this.g_container.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.g_container.IsSplitterFixed = true;
             this.g_container.Location = new System.Drawing.Point(3, 3);
             this.g_container.Name = "g_container";
             // 
             // g_container.Panel2
             // 
             this.g_container.Panel2.AutoScroll = true;
-            this.g_container.Panel2.Controls.Add(this.treeView1);
+            this.g_container.Panel2.Controls.Add(this.g_backupsList);
             this.g_container.Size = new System.Drawing.Size(892, 488);
             this.g_container.SplitterDistance = 218;
             this.g_container.SplitterWidth = 1;
             this.g_container.TabIndex = 0;
+            this.g_container.TabStop = false;
             // 
-            // treeView1
+            // g_backupsList
             // 
-            this.treeView1.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.treeView1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(44)))), ((int)(((byte)(51)))));
-            this.treeView1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.treeView1.Location = new System.Drawing.Point(74, 86);
-            this.treeView1.Name = "treeView1";
-            this.treeView1.Size = new System.Drawing.Size(405, 256);
-            this.treeView1.TabIndex = 0;
+            this.g_backupsList.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(44)))), ((int)(((byte)(51)))));
+            this.g_backupsList.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.g_backupsList.Cursor = System.Windows.Forms.Cursors.Default;
+            this.g_backupsList.FullRowSelect = true;
+            this.g_backupsList.HotTracking = true;
+            this.g_backupsList.Indent = 10;
+            this.g_backupsList.ItemHeight = 35;
+            this.g_backupsList.Location = new System.Drawing.Point(29, 65);
+            this.g_backupsList.Name = "g_backupsList";
+            treeNode4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(90)))), ((int)(((byte)(90)))), ((int)(((byte)(90)))));
+            treeNode4.Checked = true;
+            treeNode4.Name = "Milestones";
+            treeNode4.NodeFont = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            treeNode4.Text = "MILESTONES";
+            treeNode5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            treeNode5.Checked = true;
+            treeNode5.Name = "ManualNode";
+            treeNode5.NodeFont = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            treeNode5.Text = "MANUAL";
+            treeNode6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            treeNode6.Name = "AutomaticNode";
+            treeNode6.NodeFont = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            treeNode6.Text = "AUTOMATIC";
+            this.g_backupsList.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
+            treeNode5,
+            treeNode6});
+            this.g_backupsList.ShowLines = false;
+            this.g_backupsList.ShowPlusMinus = false;
+            this.g_backupsList.ShowRootLines = false;
+            this.g_backupsList.Size = new System.Drawing.Size(608, 418);
+            this.g_backupsList.TabIndex = 0;
             // 
             // UIProcess
             // 
@@ -671,7 +701,7 @@
         private System.Windows.Forms.TabPage g_backup;
         private System.Windows.Forms.TabPage g_revert;
         private System.Windows.Forms.SplitContainer g_container;
-        private System.Windows.Forms.TreeView treeView1;
+        private System.Windows.Forms.TreeView g_backupsList;
     }
 }
 

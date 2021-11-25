@@ -2,22 +2,35 @@
 using System.IO;
 using ABH.Utility;
 using ABH.Properties;
+using static ABH.Files.Backup.Directories;
 
 namespace ABH.Files.Backup
 {
+    public static class FolderNames
+    {
+        public const string Milestones = "[MILESTONES]";
+        public const string TransferData = "[TRANSFERDATA]";
+        public const string Clusters = "clusters";
+        public const string Maps = "Maps";
+        public const string Configs = "UWPConfig";
+    }
+
+    public static class Directories
+    {
+        public const string c_transferBackupFolder  = @"[TRANSFERDATA]\";
+        public const string c_milestoneBackupFolder = @"[MILESTONES]\";
+
+        public const string c_clusterDataFolder = @"\clusters";
+
+        public const string c_manualBackupFolder    = @"\Manual Saves\";
+        public const string c_automaticBackupFolder = @"\Automatic Saves\";
+
+        public static readonly string r_backupLocation = Settings.Default.backupLocation;
+        public static readonly string r_saveLocation   = Settings.Default.saveLocation;
+    }
+
     public static class BackupManager
     {
-        private const string c_transferBackupFolder  = @"[TRANSFERDATA]\";
-        private const string c_milestoneBackupFolder = @"[MILESTONES]\";
-
-        private const string c_clusterDataFolder = @"\clusters";
-
-        private const string c_manualBackupFolder    = @"\Manual Saves\";
-        private const string c_automaticBackupFolder = @"\Automatic Saves\";
-
-        private static readonly string r_backupLocation = Settings.Default.backupLocation;
-        private static readonly string r_saveLocation   = Settings.Default.saveLocation;
-
         /// <summary>
         /// Backs up transfer data
         /// </summary>

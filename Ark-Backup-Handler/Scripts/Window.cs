@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using ABH.Files.Backup;
 using ABH.Files.MoD;
 using ABH.Properties;
+using ABH.Files;
 
 namespace ABH.UI
 {
@@ -21,6 +22,8 @@ namespace ABH.UI
         private int _maxMapSaves = 30;
         private int _transferSaveNumber;
 
+        private RevertController _revert;
+
         public UIProcess()
         {
             InitializeComponent();
@@ -30,6 +33,7 @@ namespace ABH.UI
             g_mainTimerLoop.Start();
             
             ModManager.UpdateMessegeOfTheDay();
+            _revert = new RevertController();
         }
 
         /// <summary>
