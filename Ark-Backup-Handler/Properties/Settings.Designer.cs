@@ -25,7 +25,7 @@ namespace ABH.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute("\"cr\"")]
         public string backupLocation {
             get {
                 return ((string)(this["backupLocation"]));
@@ -37,7 +37,7 @@ namespace ABH.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute("\"cr\"")]
         public string saveLocation {
             get {
                 return ((string)(this["saveLocation"]));
@@ -61,7 +61,7 @@ namespace ABH.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        [global::System.Configuration.DefaultSettingValueAttribute("30")]
         public int maxSaves {
             get {
                 return ((int)(this["maxSaves"]));

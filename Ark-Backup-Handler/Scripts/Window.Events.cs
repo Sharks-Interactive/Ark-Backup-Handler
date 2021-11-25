@@ -70,5 +70,9 @@ namespace ABH.UI
         }
 
         private void g_reportProblemButton_Click(object sender, EventArgs e) => System.Diagnostics.Process.Start("explorer", "https://github.com/Sharks-Interactive/Ark-Backup-Handler/issues");
+
+        private void g_backupsButton_Click(object sender, EventArgs e) => g_tabs.SelectTab(g_backup);
+
+        private void g_revertButton_Click(object sender, EventArgs e) => g_tabs.SelectTab(g_revert);
     }
 }
