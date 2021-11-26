@@ -30,10 +30,10 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UIProcess));
-            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("MILESTONES");
-            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("MANUAL", new System.Windows.Forms.TreeNode[] {
-            treeNode4});
-            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("AUTOMATIC");
+            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("MILESTONES");
+            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("MANUAL", new System.Windows.Forms.TreeNode[] {
+            treeNode1});
+            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("AUTOMATIC");
             this.g_mainToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.g_LogoBlock = new System.Windows.Forms.Panel();
             this.g_errorDisplay = new System.Windows.Forms.Label();
@@ -498,7 +498,7 @@
             this.g_manualSaveBox.Controls.Add(this.g_milestoneCheckbox);
             this.g_manualSaveBox.Controls.Add(this.g_backupName);
             this.g_manualSaveBox.Controls.Add(this.g_manualBackupPanelLabel);
-            this.g_manualSaveBox.Location = new System.Drawing.Point(338, 206);
+            this.g_manualSaveBox.Location = new System.Drawing.Point(338, 193);
             this.g_manualSaveBox.Name = "g_manualSaveBox";
             this.g_manualSaveBox.Size = new System.Drawing.Size(250, 125);
             this.g_manualSaveBox.TabIndex = 14;
@@ -601,23 +601,26 @@
             this.g_backupsList.ItemHeight = 35;
             this.g_backupsList.Location = new System.Drawing.Point(29, 65);
             this.g_backupsList.Name = "g_backupsList";
-            treeNode4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(90)))), ((int)(((byte)(90)))), ((int)(((byte)(90)))));
-            treeNode4.Checked = true;
-            treeNode4.Name = "Milestones";
-            treeNode4.NodeFont = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            treeNode4.Text = "MILESTONES";
-            treeNode5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            treeNode5.Checked = true;
-            treeNode5.Name = "ManualNode";
-            treeNode5.NodeFont = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            treeNode5.Text = "MANUAL";
-            treeNode6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            treeNode6.Name = "AutomaticNode";
-            treeNode6.NodeFont = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            treeNode6.Text = "AUTOMATIC";
+            treeNode1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(90)))), ((int)(((byte)(90)))), ((int)(((byte)(90)))));
+            treeNode1.Checked = true;
+            treeNode1.Name = "Milestones";
+            treeNode1.NodeFont = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            treeNode1.Tag = "Milestone";
+            treeNode1.Text = "MILESTONES";
+            treeNode2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            treeNode2.Checked = true;
+            treeNode2.Name = "ManualNode";
+            treeNode2.NodeFont = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            treeNode2.Tag = "Manual";
+            treeNode2.Text = "MANUAL";
+            treeNode3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            treeNode3.Name = "AutomaticNode";
+            treeNode3.NodeFont = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            treeNode3.Tag = "Automatic";
+            treeNode3.Text = "AUTOMATIC";
             this.g_backupsList.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode5,
-            treeNode6});
+            treeNode2,
+            treeNode3});
             this.g_backupsList.ShowLines = false;
             this.g_backupsList.ShowPlusMinus = false;
             this.g_backupsList.ShowRootLines = false;
