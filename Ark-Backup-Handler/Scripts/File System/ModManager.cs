@@ -32,7 +32,11 @@ namespace ABH.Files.MoD
         public static void UpdateMessegeOfTheDay()
         {
             string[] _ini = new string[1];
-            if (!FileHandler.ReadFromFile(ref _ini, r_saveLocation + c_gusIniPath, 3)) return;
+            if (!FileHandler.ReadFromFile(ref _ini, r_saveLocation + c_gusIniPath, 3))
+            {
+                Logger.Log($"Unable to read GameUserSettings.ini at: {r_saveLocation + c_gusIniPath}", Logger.ErrorLevel.Error);
+                return;
+            }
 
             int _line;
             for (_line = 0; _line < _ini.Count(); ++_line)
@@ -55,6 +59,8 @@ namespace ABH.Files.MoD
 
             if (FileHandler.WriteFile(_ini, r_saveLocation + c_gusIniPath))
                 Logger.Log("MoD update complete.", Logger.ErrorLevel.Info);
+            else
+                Logger.Log("Unable to update MoD", Logger.ErrorLevel.Error);
         }
     }
 }

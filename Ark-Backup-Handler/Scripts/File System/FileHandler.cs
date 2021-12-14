@@ -52,7 +52,11 @@ namespace ABH.Files
         /// <returns> Was the operation a success </returns>
         public static bool ReadFromFile(ref string[] Data, string Path, int ExpectedLength)
         {
-            if (!Directory.Exists(Path)) return false;
+            if (!File.Exists(Path))
+            {
+                Logger.Log($"Problem while reading file at {Path}. Path does not exist!", Logger.ErrorLevel.Error);
+                return false;
+            }
             try
             {
                 Data = File.ReadAllLines(Path);
@@ -135,7 +139,11 @@ namespace ABH.Files
         /// <returns> Was the operation successfull? </returns>
         public static bool AddToFile(string Path, string FileName, string Data)
         {
-            if (!Directory.Exists(Path + FileName)) return false;
+            if (!File.Exists(Path + FileName))
+            {
+                Logger.Log($"Problem adding to file {Path + FileName}. File does not exist!", Logger.ErrorLevel.Error);
+                return false;
+            }
             List<string> _file;
             try
             {
@@ -214,7 +222,7 @@ namespace ABH.Files
             Directory.CreateDirectory(TargetDirectory.FullName);
 
             // Copy each file into the new directory.
-            foreach (FileInfo t_file in TargetDirectory.GetFiles())
+            foreach (FileInfo t_file in SourceDirectory.GetFiles())
             {
                 try
                 {

@@ -6,13 +6,13 @@
     <RootNamespace>ABH</RootNamespace>
     <AssemblyOriginatorKeyFile>Sharks-Interactive.pfx</AssemblyOriginatorKeyFile>
     <DelaySign>false</DelaySign>
-    <Version>0.6.0</Version>
+    <Version>0.8.0</Version>
     <Authors>Sharks Interactive</Authors>
     <Company>Sharks Interactive</Company>
     <Description>Automatically backs up dedicated server info for Ark Survival Evolved Windows 10 and Steam editions.</Description>
     <Copyright>2021</Copyright>
     <PackageProjectUrl>sharksinteractive.net</PackageProjectUrl>
-    <PackageReleaseNotes>Complete overhaul of background systems. The Backup Handler now runs more efficiently and uses less resources while minimized, is easier to maintain, contains fewer bugs and has better ease of use with improved tooltips and an automatic updater.</PackageReleaseNotes>
+    <PackageReleaseNotes>Thank you for checking out Ark Backup Handler! This release includes: Updates for the release of Lost Island as well as major bugfixing for backup functionality. Enjoy the new map!</PackageReleaseNotes>
     <PackageTags>App,Ark-Survival-Evolved,Backup,Server-Tools</PackageTags>
     <RepositoryType>GitHub</RepositoryType>
     <RepositoryUrl>https://github.com/Sharks-Interactive</RepositoryUrl>

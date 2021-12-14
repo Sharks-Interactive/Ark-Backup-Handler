@@ -28,6 +28,7 @@ namespace ABH.Files
             public const string GenesisOne = "Genesis";
             public const string Crystal = "CrystalIsles";
             public const string GenesisTwo = "Gen2";
+            public const string LostIsland = "LostIsland";
         }
 
         public enum MapType
@@ -41,10 +42,11 @@ namespace ABH.Files
             Valguero   = 6,
             GenesisOne = 7,
             Crystal    = 8,
-            GenesisTwo = 9
+            GenesisTwo = 9,
+            LostIsland = 10,
         }
 
-        public string[] MapFolders = new string[10] { "TheIsland", "TheCenter", "ScorchedEarth_P", "Ragnarok", "Aberration_P", "Extinction", "Valguero_P", "Genesis", "CrystalIsles", "Gen2" };
+        public string[] MapFolders = new string[11] { "TheIsland", "TheCenter", "ScorchedEarth_P", "Ragnarok", "Aberration_P", "Extinction", "Valguero_P", "Genesis", "CrystalIsles", "Gen2", "LostIsland" };
 
         /// <summary>
         /// Defention for a Backup in memory

@@ -33,7 +33,8 @@ namespace ABH.UI
             g_saveTimer.Start();
 
             _autoSaveInterval = g_saveIntervalChooser.Value;
-            Properties.Settings.Default.autoSaveInterval = _autoSaveInterval; 
+            Properties.Settings.Default.autoSaveInterval = _autoSaveInterval;
+            Properties.Settings.Default.Save();
         }
 
         private void g_updateMoDButton_MouseClick(object sender, MouseEventArgs e)
@@ -56,11 +57,13 @@ namespace ABH.UI
 
         private void g_submitButton_MouseClick(object sender, MouseEventArgs e)
         {
-            BackupManager.BackupMapAndConfigFiles(false, g_milestoneCheckbox.Checked, g_backupName.Text);
+            if (!BackupManager.BackupMapAndConfigFiles(false, g_milestoneCheckbox.Checked, g_backupName.Text)) return;
             
             g_manualSaveBox.Visible = false;
             g_milestoneCheckbox.Checked = false;
             g_backupName.ResetText();
+
+            Logger.Log("Manual Backup Complete!", Logger.ErrorLevel.Info);
         }
 
         private void g_MaxMapSaves_ValueChanged(object Sender, EventArgs Event)

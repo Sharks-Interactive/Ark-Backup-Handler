@@ -19,7 +19,7 @@ namespace ABH
         public static async Task<Release> GetLatestVersion()
         {
             GitHubClient _client = new GitHubClient(new ProductHeaderValue(Program.AppName));
-            var releases = await _client.Repository.Release.GetAll(Program.Owner, Program.AppName);
+            IReadOnlyList<Release> releases = await _client.Repository.Release.GetAll(Program.Owner, Program.AppName);
             Release latest = releases[0];
             Debug.WriteLine(
                 $"The latest release is tagged at {latest.TagName} and is named {latest.Name}"
@@ -58,10 +58,10 @@ namespace ABH
             Directory.CreateDirectory(_latestPath); // Verify the path to our new download
 
             // Get a list of release assets
-            var latestAsset = await _client.Repository.Release.GetAllAssets(Program.Owner, Program.AppName, latest.Id);
+            IReadOnlyList<ReleaseAsset> latestAsset = await _client.Repository.Release.GetAllAssets(Program.Owner, Program.AppName, latest.Id);
 
             // Download Release.zip to ram here
-            var response = await _client.Connection.Get<object>(new Uri(latestAsset[0].BrowserDownloadUrl), new Dictionary<string, string>(), "application/octet-stream");
+            IApiResponse<object> response = await _client.Connection.Get<object>(new Uri(latestAsset[0].BrowserDownloadUrl), new Dictionary<string, string>(), "application/octet-stream");
 
             // Save the download to disk
             byte[] bytes = (byte[])response.HttpResponse.Body;

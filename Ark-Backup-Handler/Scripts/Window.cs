@@ -32,7 +32,6 @@ namespace ABH.UI
             g_manualSaveBox.BringToFront();
             g_mainTimerLoop.Start();
             
-            ModManager.UpdateMessegeOfTheDay();
             _revert = new RevertController();
         }
 
