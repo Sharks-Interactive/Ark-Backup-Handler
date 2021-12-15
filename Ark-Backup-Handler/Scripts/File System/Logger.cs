@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Windows.Forms;
 using ABH.Files;
 using ABH.Utility;
@@ -41,7 +42,12 @@ namespace ABH.Logging
             Message = TimeHelper.ExactTimeString + " - " + LogLevel.ToString()
                 + ": " + Message;
 
-            FileHandler.AddToFile(r_logDirectory, c_logFileName, Message);
+            // Create the log file if it does not exist
+            if (File.Exists(r_logDirectory + c_logFileName))
+                FileHandler.AddToFile(r_logDirectory, c_logFileName, Message);
+            else
+                FileHandler.WriteToFileSingle(r_logDirectory, c_logFileName, Message);
+
             Program.UIProcess.SetErrorText(Message);
             Debug.WriteLine(Message);
 

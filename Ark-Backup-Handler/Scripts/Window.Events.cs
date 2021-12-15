@@ -3,6 +3,7 @@ using ABH.Files.MoD;
 using System;
 using ABH.Logging;
 using System.Windows.Forms;
+using System.Collections.Generic;
 
 namespace ABH.UI
 {
@@ -32,7 +33,8 @@ namespace ABH.UI
             g_saveTimer.Start();
 
             _autoSaveInterval = g_saveIntervalChooser.Value;
-            Properties.Settings.Default.autoSaveInterval = _autoSaveInterval; 
+            Properties.Settings.Default.autoSaveInterval = _autoSaveInterval;
+            Properties.Settings.Default.Save();
         }
 
         private void g_updateMoDButton_MouseClick(object sender, MouseEventArgs e)
@@ -55,11 +57,13 @@ namespace ABH.UI
 
         private void g_submitButton_MouseClick(object sender, MouseEventArgs e)
         {
-            BackupManager.BackupMapAndConfigFiles(false, g_milestoneCheckbox.Checked, g_backupName.Text);
+            if (!BackupManager.BackupMapAndConfigFiles(false, g_milestoneCheckbox.Checked, g_backupName.Text)) return;
             
             g_manualSaveBox.Visible = false;
             g_milestoneCheckbox.Checked = false;
             g_backupName.ResetText();
+
+            Logger.Log("Manual Backup Complete!", Logger.ErrorLevel.Info);
         }
 
         private void g_MaxMapSaves_ValueChanged(object Sender, EventArgs Event)
@@ -70,5 +74,37 @@ namespace ABH.UI
         }
 
         private void g_reportProblemButton_Click(object sender, EventArgs e) => System.Diagnostics.Process.Start("explorer", "https://github.com/Sharks-Interactive/Ark-Backup-Handler/issues");
+
+        private void g_backupsButton_Click(object sender, EventArgs e) => g_tabs.SelectTab(g_backup);
+
+        private void g_revertButton_Click(object sender, EventArgs e)
+        {
+            g_tabs.SelectTab(g_revert);
+            GetTreeNode("ManualNode", g_backupsList.Nodes).Nodes.Clear();
+            GetTreeNode("AutomaticNode", g_backupsList.Nodes).Nodes.Clear();
+            GetTreeNode("MilestoneNode", g_backupsList.Nodes).Nodes.Clear();
+
+            _revert.InitPage();
+            List<TreeNode> manualBackups = _revert.GetManualBackups();
+            List<TreeNode> automaticBackups = _revert.GetAutomaticBackups();
+            List<TreeNode> milestoneBackups = _revert.GetMilestoneBackups();
+
+            foreach (TreeNode node in manualBackups)
+                GetTreeNode("ManualNode", g_backupsList.Nodes).Nodes.Add(node);
+
+            foreach (TreeNode node in automaticBackups)
+                GetTreeNode("AutomaticNode", g_backupsList.Nodes).Nodes.Add(node);
+
+            foreach (TreeNode node in milestoneBackups)
+                GetTreeNode("MilestoneNode", g_backupsList.Nodes).Nodes.Add(node);
+        }
+
+        private TreeNode GetTreeNode(string name, TreeNodeCollection nodes)
+        {
+            foreach (TreeNode node in nodes)
+                if (node.Name == name) return node;
+
+            return new TreeNode("Null");
+        }
     }
 }

@@ -10,6 +10,39 @@ namespace ABH.Files
     public static class FileHandler
     {
         /// <summary>
+        /// Returns a list of directoryinfo for the subdirectories in a folder
+        /// </summary>
+        /// <param name="Path"></param>
+        /// <returns></returns>
+        public static List<DirectoryInfo> GetAllDirectories(string Path)
+        {
+            if (!Directory.Exists(Path)) { Logger.Log("Unable to GetDirectories, directory does not exist!", Logger.ErrorLevel.Error); return null; }
+
+            List<DirectoryInfo> folders = new List<DirectoryInfo>();
+            string[] directoryNames = Directory.GetDirectories(Path);
+
+            for (int i = 0; i < directoryNames.Length; i++)
+                folders.Add(new DirectoryInfo(directoryNames[i]));
+
+            return folders;
+        }
+
+        /// <summary>
+        /// Gets the directoryinfo for the sub folder matching the passed in name in the directory
+        /// </summary>
+        /// <param name="folder"> The folder whose sub folder you want to get </param>
+        /// <param name="folderName"> The name of the sub folder you want to get </param>
+        /// <returns> The directory info of the specified folder </returns>
+        public static DirectoryInfo GetSubFolder(DirectoryInfo folder, string folderName)
+        {
+            DirectoryInfo[] directories = folder.GetDirectories();
+            for (int i = 0; i < directories.Length; i++)
+                if (directories[i].Name == folderName) return directories[i];
+
+            return null; // Folder does not exist
+        }
+
+        /// <summary>
         /// Reads a file to an array
         /// </summary>
         /// <param name="Data"> The array to store the read file in </param>
@@ -19,7 +52,11 @@ namespace ABH.Files
         /// <returns> Was the operation a success </returns>
         public static bool ReadFromFile(ref string[] Data, string Path, int ExpectedLength)
         {
-            if (!Directory.Exists(Path)) return false;
+            if (!File.Exists(Path))
+            {
+                Logger.Log($"Problem while reading file at {Path}. Path does not exist!", Logger.ErrorLevel.Error);
+                return false;
+            }
             try
             {
                 Data = File.ReadAllLines(Path);
@@ -102,7 +139,11 @@ namespace ABH.Files
         /// <returns> Was the operation successfull? </returns>
         public static bool AddToFile(string Path, string FileName, string Data)
         {
-            if (!Directory.Exists(Path + FileName)) return false;
+            if (!File.Exists(Path + FileName))
+            {
+                Logger.Log($"Problem adding to file {Path + FileName}. File does not exist!", Logger.ErrorLevel.Error);
+                return false;
+            }
             List<string> _file;
             try
             {
@@ -181,7 +222,7 @@ namespace ABH.Files
             Directory.CreateDirectory(TargetDirectory.FullName);
 
             // Copy each file into the new directory.
-            foreach (FileInfo t_file in TargetDirectory.GetFiles())
+            foreach (FileInfo t_file in SourceDirectory.GetFiles())
             {
                 try
                 {
