@@ -23,15 +23,21 @@ namespace ABH.UI
         private int _transferSaveNumber;
 
         private RevertController _revert;
-
+        
         public UIProcess()
         {
             InitializeComponent();
             LoadSettings();
-
+            
             g_manualSaveBox.BringToFront();
             g_mainTimerLoop.Start();
-            
+
+#if DEBUG
+            Text = $"Ark Backup Handler v{VersionHandler.CurrentVersion} (Dev)";
+#else
+            Text = $"Ark Backup Handler v{VersionHandler.CurrentVersion} (Stable)";
+#endif
+
             _revert = new RevertController();
         }
 
