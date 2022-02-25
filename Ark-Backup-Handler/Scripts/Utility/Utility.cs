@@ -2,9 +2,24 @@
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using System.Windows.Forms;
 
 namespace ABH.Utility
 {
+    public static class ExtraFunctions
+    {
+        /// <summary>
+        /// Clears all nodes in a TreeNode collection except for ones with the exclusion name
+        /// </summary>
+        /// <param name="collection"> (Extension Method) </param>
+        /// <param name="exclusion"> What node to exclude </param>
+        public static void ClearAllBut(this TreeNodeCollection collection, string exclusion)
+        {
+            foreach (TreeNode node in collection)
+                if (node.Name != exclusion) collection.Remove(node);
+        }
+    }
+
     /// <summary>
     /// Used for dynamic string interpolation in MoD, Sharks Interactive styled version of
     /// class by Amit, see source here: https://stackoverflow.com/a/64461141/

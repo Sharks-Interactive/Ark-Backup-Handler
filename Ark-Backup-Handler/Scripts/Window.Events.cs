@@ -4,6 +4,7 @@ using System;
 using ABH.Logging;
 using System.Windows.Forms;
 using System.Collections.Generic;
+using ABH.Utility;
 
 namespace ABH.UI
 {
@@ -80,7 +81,7 @@ namespace ABH.UI
         private void g_revertButton_Click(object sender, EventArgs e)
         {
             g_tabs.SelectTab(g_revert);
-            GetTreeNode("ManualNode", g_backupsList.Nodes).Nodes.Clear();
+            GetTreeNode("ManualNode", g_backupsList.Nodes).Nodes.ClearAllBut("Milestones");
             GetTreeNode("AutomaticNode", g_backupsList.Nodes).Nodes.Clear();
             GetTreeNode("MilestoneNode", g_backupsList.Nodes).Nodes.Clear();
 
@@ -95,8 +96,9 @@ namespace ABH.UI
             foreach (TreeNode node in automaticBackups)
                 GetTreeNode("AutomaticNode", g_backupsList.Nodes).Nodes.Add(node);
 
+            // Milestone node is a child of ManualNode
             foreach (TreeNode node in milestoneBackups)
-                GetTreeNode("MilestoneNode", g_backupsList.Nodes).Nodes.Add(node);
+                GetTreeNode("Milestones", GetTreeNode("ManualNode", g_backupsList.Nodes).Nodes).Nodes.Add(node);
         }
 
         private TreeNode GetTreeNode(string name, TreeNodeCollection nodes)
@@ -105,6 +107,14 @@ namespace ABH.UI
                 if (node.Name == name) return node;
 
             return new TreeNode("Null");
+        }
+
+        private void g_backupsList_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            // Get backup data
+            _revert.GetBackup((Guid)e.Node.Tag);
+            
+            // Display backup data in sidebar
         }
     }
 }

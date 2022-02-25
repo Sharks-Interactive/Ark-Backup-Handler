@@ -4,6 +4,7 @@ using System.IO;
 using static ABH.Files.Backup.Directories;
 using ABH.Files.Backup;
 using System.Windows.Forms;
+using ABH.Utility;
 
 namespace ABH.Files
 {
@@ -282,6 +283,18 @@ namespace ABH.Files
 
         }
 
+        /// <summary>
+        /// Returns a Backup with the specified GUID
+        /// </summary>
+        /// <param name="backupId"> GUID of backup to retrieve </param>
+        /// <returns> Retrieved backup </returns>
+        public Backup GetBackup(Guid backupId)
+        {
+            foreach (Backup backup in _allBackups)
+                if (backup.Id == backupId) return backup;
+
+            return new Backup();
+        }
         
         public List<TreeNode> GetManualBackups()
         {
@@ -307,7 +320,7 @@ namespace ABH.Files
         {
             List<TreeNode> nodes = new List<TreeNode>();
 
-            foreach (Backup backup in _automaticBackups)
+            foreach (Backup backup in _milestoneBackups)
                 nodes.Add(new TreeNode(backup.Name) { Tag = backup.Id });
 
             return nodes;

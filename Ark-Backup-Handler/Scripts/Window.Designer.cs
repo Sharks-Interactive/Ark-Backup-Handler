@@ -422,7 +422,6 @@
             this.g_revertButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.g_revertButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.g_revertButton.UseVisualStyleBackColor = false;
-            this.g_revertButton.Visible = false;
             this.g_revertButton.Click += new System.EventHandler(this.g_revertButton_Click);
             // 
             // g_backupLabel
@@ -500,7 +499,7 @@
             this.g_manualSaveBox.Controls.Add(this.g_milestoneCheckbox);
             this.g_manualSaveBox.Controls.Add(this.g_backupName);
             this.g_manualSaveBox.Controls.Add(this.g_manualBackupPanelLabel);
-            this.g_manualSaveBox.Location = new System.Drawing.Point(338, 191);
+            this.g_manualSaveBox.Location = new System.Drawing.Point(338, 184);
             this.g_manualSaveBox.Name = "g_manualSaveBox";
             this.g_manualSaveBox.Size = new System.Drawing.Size(250, 125);
             this.g_manualSaveBox.TabIndex = 14;
@@ -567,10 +566,10 @@
             // 
             this.g_revert.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(44)))), ((int)(((byte)(51)))));
             this.g_revert.Controls.Add(this.g_container);
-            this.g_revert.Location = new System.Drawing.Point(4, 32);
+            this.g_revert.Location = new System.Drawing.Point(4, 35);
             this.g_revert.Name = "g_revert";
             this.g_revert.Padding = new System.Windows.Forms.Padding(3);
-            this.g_revert.Size = new System.Drawing.Size(898, 497);
+            this.g_revert.Size = new System.Drawing.Size(898, 494);
             this.g_revert.TabIndex = 1;
             this.g_revert.Text = "tabPage2";
             // 
@@ -586,7 +585,7 @@
             // 
             this.g_container.Panel2.AutoScroll = true;
             this.g_container.Panel2.Controls.Add(this.g_backupsList);
-            this.g_container.Size = new System.Drawing.Size(892, 491);
+            this.g_container.Size = new System.Drawing.Size(892, 488);
             this.g_container.SplitterDistance = 218;
             this.g_container.SplitterWidth = 1;
             this.g_container.TabIndex = 0;
@@ -596,7 +595,6 @@
             // 
             this.g_backupsList.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(44)))), ((int)(((byte)(51)))));
             this.g_backupsList.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.g_backupsList.Cursor = System.Windows.Forms.Cursors.Default;
             this.g_backupsList.FullRowSelect = true;
             this.g_backupsList.HotTracking = true;
             this.g_backupsList.Indent = 10;
@@ -628,6 +626,7 @@
             this.g_backupsList.ShowRootLines = false;
             this.g_backupsList.Size = new System.Drawing.Size(608, 418);
             this.g_backupsList.TabIndex = 0;
+            this.g_backupsList.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.g_backupsList_NodeMouseClick);
             // 
             // UIProcess
             // 
